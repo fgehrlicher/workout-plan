@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -12,7 +13,7 @@ import (
 
 func main() {
 	dirname := "plans" + string(filepath.Separator)
-	var plans []models.Plan
+	plans := models.Plans{}
 
 	d, err := os.Open(dirname)
 	if err != nil {
@@ -44,7 +45,22 @@ func main() {
 					os.Exit(1)
 				}
 
-				plans = append(plans, plan)
+				plans.Add(plan)
+			case ".json":
+				data, err := ioutil.ReadFile(dirname + string(filepath.Separator) + fileInfo.Name())
+				if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+				}
+
+				plan := models.Plan{}
+				err = json.Unmarshal([]byte(data), &plan)
+				if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+				}
+
+				plans.Add(plan)
 			}
 		}
 	}

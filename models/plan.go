@@ -5,10 +5,10 @@ import (
 )
 
 type Plan struct {
-	ID      string `yaml:"id"`
-	Name    string `yaml:"name"`
-	Version string `yaml:"version"`
-	Units   []Unit `yaml:"units"`
+	ID      string `yaml:"id" json:"id"`
+	Name    string `yaml:"name" json:"name"`
+	Version string `yaml:"version" json:"version"`
+	Units   []Unit `yaml:"units" json:"units"`
 }
 
 type Plans struct {
