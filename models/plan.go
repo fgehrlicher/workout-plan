@@ -15,7 +15,7 @@ type Plans struct {
 	underlyingSlice []*Plan
 }
 
-func (plans *Plans) Add(plan Plan) {
+func (plans *Plans) Add(plan *Plan) {
 	logEntry := log.WithFields(log.Fields{
 		"Id":      plan.ID,
 		"Version": plan.Version,
@@ -28,6 +28,6 @@ func (plans *Plans) Add(plan Plan) {
 		}
 	}
 
-	plans.underlyingSlice = append(plans.underlyingSlice, &plan)
+	plans.underlyingSlice = append(plans.underlyingSlice, plan)
 	logEntry.Info("Plan added")
 }

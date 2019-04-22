@@ -32,39 +32,39 @@ func main() {
 		if fileInfo.Mode().IsRegular() {
 			switch filepath.Ext(fileInfo.Name()) {
 			case ".yml":
-				data, err := ioutil.ReadFile(dirname + string(filepath.Separator) + fileInfo.Name())
+				plan, err := loadYamlPlan(dirname + string(filepath.Separator) + fileInfo.Name())
 				if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
+					panic(err)
 				}
-
-				plan := models.Plan{}
-				err = yaml.Unmarshal([]byte(data), &plan)
-				if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
-				}
-
 				plans.Add(plan)
 			case ".json":
-				data, err := ioutil.ReadFile(dirname + string(filepath.Separator) + fileInfo.Name())
+				plan, err := loadJsonPlan(dirname + string(filepath.Separator) + fileInfo.Name())
 				if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
+					panic(err)
 				}
-
-				plan := models.Plan{}
-				err = json.Unmarshal([]byte(data), &plan)
-				if err != nil {
-					fmt.Println(err)
-					os.Exit(1)
-				}
-
 				plans.Add(plan)
 			}
 		}
 	}
-
 	fmt.Printf("%+v\n", plans)
+}
 
+func loadYamlPlan(path string) (*models.Plan, error) {
+	return loadPlan(path, yaml.Unmarshal)
+}
+
+func loadJsonPlan(path string) (*models.Plan, error) {
+	return loadPlan(path, json.Unmarshal)
+}
+
+func loadPlan(path string, unmarshalMethod func([]byte, interface{}) error) (*models.Plan, error) {
+	var plan *models.Plan
+
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	err = unmarshalMethod([]byte(data), plan)
+	return plan, err
 }
