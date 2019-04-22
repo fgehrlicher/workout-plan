@@ -6,15 +6,41 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"workout-plan/models"
 
+	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
+type Plans struct {
+	underlyingSlice []*models.Plan
+}
+
+func (plans *Plans) Add(plan *models.Plan) {
+	logEntry := log.WithFields(log.Fields{
+		"Id":      plan.ID,
+		"Version": plan.Version,
+	})
+
+	for _, existingPlan := range plans.underlyingSlice {
+		if existingPlan.ID == plan.ID && existingPlan.Version == plan.Version {
+			logEntry.Error("Plan id - version combination already exists")
+			return
+		}
+	}
+
+	plans.underlyingSlice = append(plans.underlyingSlice, plan)
+	logEntry.Info("Plan added")
+}
+
+var instance *Plans
+var once sync.Once
+
 func InitializePlans() {
 	dirname := "plans" + string(filepath.Separator)
-	plans := models.Plans{}
+	plans := GetInstance()
 
 	d, err := os.Open(dirname)
 	if err != nil {
@@ -48,6 +74,13 @@ func InitializePlans() {
 			}
 		}
 	}
+}
+
+func GetInstance() *Plans {
+	once.Do(func() {
+		instance = &Plans{}
+	})
+	return instance
 }
 
 func loadYamlPlan(path string) (*models.Plan, error) {
