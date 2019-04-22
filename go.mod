@@ -1,1 +1,5 @@
-module "workout-plan"
+module workout-plan
+
+go 1.12
+
+require gopkg.in/yaml.v2 v2.2.2 // indirect
