@@ -1,0 +1,88 @@
+{
+  "id": "strengthplan1",
+  "name": "Kraft Plan",
+  "units": [
+    {
+      "name": "Einheit 1",
+      "exercises": [
+        {
+          "type": "main-exercise",
+          "exercise": "front-squat",
+          "iterations": [
+            {
+              "type": "sets-reps",
+              "percent": "45",
+              "sets": "2",
+              "reps": "12"
+            },
+            {
+              "type": "sets-reps",
+              "percent": "50",
+              "sets": "2",
+              "reps": "10"
+            },
+            {
+              "type": "sets-reps",
+              "percent": "55",
+              "sets": "2",
+              "reps": "8"
+            },
+            {
+              "type": "sets-reps",
+              "percent": "60",
+              "sets": "3",
+              "reps": "6"
+            }
+          ]
+        },
+        {
+          "type": "main-exercise",
+          "exercise": "deadlift",
+          "iterations": [
+            {
+              "type": "sets-reps",
+              "percent": "30",
+              "sets": "1",
+              "reps": "20"
+            },
+            {
+              "type": "sets-reps",
+              "percent": "40",
+              "sets": "2",
+              "reps": "18"
+            },
+            {
+              "type": "sets-reps",
+              "percent": "45",
+              "sets": "2",
+              "reps": "14"
+            }
+          ]
+        },
+        {
+          "type": "special-exercise",
+          "exercise": "lunges",
+          "iterations": [
+            {
+              "type": "sets-reps-weight-range",
+              "min-weight": "15",
+              "max-weight": "30",
+              "sets": "2",
+              "reps": "16"
+            }
+          ]
+        },
+        {
+          "type": "additional-exercise",
+          "exercise": "sit-ups",
+          "iterations": [
+            {
+              "type": "reps",
+              "reps": "100"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
