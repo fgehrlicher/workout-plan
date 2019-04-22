@@ -39,7 +39,7 @@ var instance *Plans
 var once sync.Once
 
 func InitializePlans() {
-	dirname := "plans" + string(filepath.Separator)
+	dirname := "config" + string(filepath.Separator) + "plans" + string(filepath.Separator)
 	plans := GetInstance()
 
 	d, err := os.Open(dirname)
@@ -92,7 +92,7 @@ func loadJsonPlan(path string) (*models.Plan, error) {
 }
 
 func loadPlan(path string, unmarshalMethod func([]byte, interface{}) error) (*models.Plan, error) {
-	var plan *models.Plan
+	plan := &models.Plan{}
 
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
