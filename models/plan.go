@@ -23,7 +23,7 @@ func (plans *Plans) Add(plan Plan) {
 
 	for _, existingPlan := range plans.underlyingSlice {
 		if existingPlan.ID == plan.ID && existingPlan.Version == plan.Version {
-			logEntry.Error("Plan already exists. skipping...")
+			logEntry.Error("Plan id - version combination already exists")
 			return
 		}
 	}
