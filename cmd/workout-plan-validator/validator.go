@@ -1,4 +1,4 @@
-package workout_plan_validator
+package main
 
 import (
 	"fmt"
