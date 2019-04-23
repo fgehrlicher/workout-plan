@@ -60,17 +60,40 @@ func InitializePlans(planDirectory string) error {
 				if err != nil {
 					return err
 				}
+
+				err = validatePlan(plan)
+				if err != nil {
+					return err
+				}
+
 				plans.Add(plan)
 			case ".json":
 				plan, err := loadJsonPlan(filePath)
 				if err != nil {
 					return err
 				}
+
+				err = validatePlan(plan)
+				if err != nil {
+					return err
+				}
+
 				plans.Add(plan)
 			}
 		}
 	}
 
+	return nil
+}
+
+func validatePlan(plan *models.Plan) error {
+	err := plan.Validate()
+	if err != nil {
+		log.WithFields(log.Fields{
+			"Plan Id": plan.ID,
+		}).Error("plan validation error")
+		return err
+	}
 	return nil
 }
 
