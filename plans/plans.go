@@ -42,14 +42,7 @@ func InitializePlans() {
 	dirname := "config" + string(filepath.Separator) + "plans" + string(filepath.Separator)
 	plans := GetInstance()
 
-	d, err := os.Open(dirname)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	defer d.Close()
-
-	fileInfos, err := d.Readdir(-1)
+	fileInfos, err := ioutil.ReadDir(dirname)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
