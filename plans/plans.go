@@ -38,6 +38,13 @@ func (plans *Plans) Add(plan *models.Plan) {
 var instance *Plans
 var once sync.Once
 
+func GetInstance() *Plans {
+	once.Do(func() {
+		instance = &Plans{}
+	})
+	return instance
+}
+
 func InitializePlans() {
 	dirname := "config" + string(filepath.Separator) + "plans" + string(filepath.Separator)
 	plans := GetInstance()
@@ -67,13 +74,6 @@ func InitializePlans() {
 			}
 		}
 	}
-}
-
-func GetInstance() *Plans {
-	once.Do(func() {
-		instance = &Plans{}
-	})
-	return instance
 }
 
 func loadYamlPlan(path string) (*models.Plan, error) {
