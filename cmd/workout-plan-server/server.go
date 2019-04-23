@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+
 	"workout-plan/config"
 	"workout-plan/plans"
 )
