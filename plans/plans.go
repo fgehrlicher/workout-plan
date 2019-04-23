@@ -70,6 +70,8 @@ func InitializePlans(planDirectory string) error {
 			}
 		}
 	}
+
+	return nil
 }
 
 func loadYamlPlan(path string) (*models.Plan, error) {
