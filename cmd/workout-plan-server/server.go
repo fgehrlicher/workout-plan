@@ -12,13 +12,19 @@ const ConfigFilePath = "./config.yml"
 func main() {
 
 	conf, err := config.LoadConfig(ConfigFilePath)
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-	plans.InitializePlans(conf.Plans.Directory)
+	handleError(err)
+
+	err = plans.InitializePlans(conf.Plans.Directory)
+	handleError(err)
 
 	plan := plans.GetInstance()
 
 	fmt.Printf("%v", plan)
+}
+
+func handleError(err error) {
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
 }

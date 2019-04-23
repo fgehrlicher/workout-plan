@@ -2,9 +2,7 @@ package plans
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"sync"
 
@@ -45,13 +43,12 @@ func GetInstance() *Plans {
 	return instance
 }
 
-func InitializePlans(planDirectory string) {
+func InitializePlans(planDirectory string) error {
 	plans := GetInstance()
 
 	fileInfos, err := ioutil.ReadDir(planDirectory)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return err
 	}
 
 	for _, fileInfo := range fileInfos {
@@ -61,13 +58,13 @@ func InitializePlans(planDirectory string) {
 			case ".yml":
 				plan, err := loadYamlPlan(filePath)
 				if err != nil {
-					panic(err)
+					return err
 				}
 				plans.Add(plan)
 			case ".json":
 				plan, err := loadJsonPlan(filePath)
 				if err != nil {
-					panic(err)
+					return err
 				}
 				plans.Add(plan)
 			}
