@@ -78,7 +78,8 @@
           "exercise": "sit-ups",
           "sequence": [
             {
-              "type": "reps",
+              "type": "sets-reps",
+              "sets": "1",
               "reps": "100"
             }
           ]

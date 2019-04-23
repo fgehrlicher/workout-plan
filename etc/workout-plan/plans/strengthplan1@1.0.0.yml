@@ -54,5 +54,6 @@ units:
         exercise: sit-ups
         sequence:
           # Name
-          - type: reps
+          - type: sets-reps
+            sets: '1'
             reps: '100'
