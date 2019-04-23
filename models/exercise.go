@@ -8,8 +8,8 @@ import (
 type ExerciseValidator func(*Exercise) error
 
 var possibleExerciseTypes = map[string]ExerciseValidator{
-	"main-exercise": nil,
-	"special-exercise": nil,
+	"main-exercise":       nil,
+	"special-exercise":    nil,
 	"additional-exercise": nil,
 }
 
@@ -29,6 +29,15 @@ func (exercise *Exercise) Validate() error {
 		return errors.New(
 			fmt.Sprintf(
 				"the exercise definition musn´t be empty for exercise elements.\nFull element: %+v",
+				exercise,
+			),
+		)
+	}
+
+	if len(exercise.Sequence) == 0 {
+		return errors.New(
+			fmt.Sprintf(
+				"exercises must have an sequence with at least one item.\nFull element: %+v",
 				exercise,
 			),
 		)

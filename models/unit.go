@@ -20,6 +20,15 @@ func (unit *Unit) Validate() error {
 		)
 	}
 
+	if len(unit.Exercises) == 0 {
+		return errors.New(
+			fmt.Sprintf(
+				"the unit with name %v does not have any exercises",
+				unit.Name,
+			),
+		)
+	}
+
 	for _, exercise := range unit.Exercises {
 		err := exercise.Validate()
 		if err != nil {
