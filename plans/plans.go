@@ -45,11 +45,10 @@ func GetInstance() *Plans {
 	return instance
 }
 
-func InitializePlans() {
-	dirname := "config" + string(filepath.Separator) + "plans" + string(filepath.Separator)
+func InitializePlans(planDirectory string) {
 	plans := GetInstance()
 
-	fileInfos, err := ioutil.ReadDir(dirname)
+	fileInfos, err := ioutil.ReadDir(planDirectory)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -57,7 +56,7 @@ func InitializePlans() {
 
 	for _, fileInfo := range fileInfos {
 		if fileInfo.Mode().IsRegular() {
-			filePath := dirname + string(filepath.Separator) + fileInfo.Name()
+			filePath := planDirectory + string(filepath.Separator) + fileInfo.Name()
 			switch filepath.Ext(fileInfo.Name()) {
 			case ".yml":
 				plan, err := loadYamlPlan(filePath)
