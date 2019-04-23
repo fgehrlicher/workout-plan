@@ -9,6 +9,8 @@ type ExerciseValidator func(*Exercise) error
 
 var possibleExerciseTypes = map[string]ExerciseValidator{
 	"main-exercise": nil,
+	"special-exercise": nil,
+	"additional-exercise": nil,
 }
 
 type Exercise struct {
