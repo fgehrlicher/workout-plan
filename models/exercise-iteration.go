@@ -27,8 +27,8 @@ func (exerciseIteration *ExerciseIteration) Validate() error {
 		return err
 	}
 
-	for possibleExerciseIteration, validator := range possibleExerciseIterationsTypes {
-		if possibleExerciseIteration == exerciseIteration.Type {
+	for possibleExerciseIterationType, validator := range possibleExerciseIterationsTypes {
+		if possibleExerciseIterationType == exerciseIteration.Type {
 			return validator(exerciseIteration)
 		}
 	}
