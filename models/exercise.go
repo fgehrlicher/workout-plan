@@ -3,7 +3,7 @@ package models
 type ExerciseValidator func(*Exercise) error
 
 var possibleExerciseTypes = map[string]ExerciseValidator{
-	"main-exercise": MainExerciseExerciseValidator,
+	"main-exercise": nil,
 }
 
 type Exercise struct {
@@ -27,14 +27,11 @@ func (exercise *Exercise) Validate() error {
 
 	for possibleExerciseTypes, validator := range possibleExerciseTypes {
 		if possibleExerciseTypes == exercise.Type {
-			return validator(exercise)
+			if validator != nil {
+				return validator(exercise)
+			}
 		}
 	}
 
 	return TypeNotAllowedError(exercise)
-}
-
-func MainExerciseExerciseValidator(*Exercise) error {
-	// No main exercise definition has been defined yet
-	return nil
 }
