@@ -22,13 +22,9 @@ type ExerciseIteration struct {
 }
 
 func (exerciseIteration *ExerciseIteration) Validate() error {
-	if exerciseIteration.Type == "" {
-		return errors.New(
-			fmt.Sprintf(
-				"type field is required for sequence elements.\nFull element: %+v",
-				exerciseIteration,
-			),
-		)
+	err := TypeNotEmptyValidator(exerciseIteration)
+	if err != nil {
+		return err
 	}
 
 	for possibleExerciseIteration, validator := range possibleExerciseIterations {
