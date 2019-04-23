@@ -8,8 +8,8 @@ import (
 type ExerciseIterationValidator func(*ExerciseIteration) error
 
 var possibleExerciseIterationsTypes = map[string]ExerciseIterationValidator{
-	"sets-reps":              ExerciseIterationSetsRepsValidator,
-	"sets-reps-weight-range": ExerciseIterationSetsRepsWeightRangeValidator,
+	"sets-reps":              SetsRepsExerciseIterationValidator,
+	"sets-reps-weight-range": SetsRepsWeightRangeExerciseIterationValidator,
 }
 
 type ExerciseIteration struct {
@@ -36,7 +36,7 @@ func (exerciseIteration *ExerciseIteration) Validate() error {
 	return TypeNotAllowedError(exerciseIteration)
 }
 
-func ExerciseIterationSetsRepsValidator(exerciseIteration *ExerciseIteration) error {
+func SetsRepsExerciseIterationValidator(exerciseIteration *ExerciseIteration) error {
 	if exerciseIteration.Reps == "" || exerciseIteration.Sets == "" {
 		if exerciseIteration.Type == "" {
 			return errors.New(
@@ -51,7 +51,7 @@ func ExerciseIterationSetsRepsValidator(exerciseIteration *ExerciseIteration) er
 	return nil
 }
 
-func ExerciseIterationSetsRepsWeightRangeValidator(exerciseIteration *ExerciseIteration) error {
+func SetsRepsWeightRangeExerciseIterationValidator(exerciseIteration *ExerciseIteration) error {
 	if exerciseIteration.Reps == "" ||
 		exerciseIteration.Sets == "" ||
 		exerciseIteration.MaxWeight == "" ||
