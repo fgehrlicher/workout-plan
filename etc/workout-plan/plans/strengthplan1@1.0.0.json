@@ -8,7 +8,7 @@
       "exercises": [
         {
           "type": "main-exercise",
-          "exercise": "front-squat",
+          "exercise-definition": "front-squat",
           "sequence": [
             {
               "type": "sets-reps",
@@ -38,7 +38,7 @@
         },
         {
           "type": "main-exercise",
-          "exercise": "deadlift",
+          "exercise-definition": "deadlift",
           "sequence": [
             {
               "type": "sets-reps",
@@ -62,7 +62,7 @@
         },
         {
           "type": "special-exercise",
-          "exercise": "lunges",
+          "exercise-definition": "lunges",
           "sequence": [
             {
               "type": "sets-reps-weight-range",
@@ -75,7 +75,7 @@
         },
         {
           "type": "additional-exercise",
-          "exercise": "sit-ups",
+          "exercise-definition": "sit-ups",
           "sequence": [
             {
               "type": "sets-reps",

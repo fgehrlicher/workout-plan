@@ -1,5 +1,10 @@
 package models
 
+import (
+	"errors"
+	"fmt"
+)
+
 type ExerciseValidator func(*Exercise) error
 
 var possibleExerciseTypes = map[string]ExerciseValidator{
@@ -7,15 +12,24 @@ var possibleExerciseTypes = map[string]ExerciseValidator{
 }
 
 type Exercise struct {
-	Type     string              `yaml:"type" json:"type"`
-	Exercise string              `yaml:"exercise" json:"exercise"`
-	Sequence []ExerciseIteration `yaml:"sequence" json:"sequence"`
+	Type               string              `yaml:"type" json:"type"`
+	ExerciseDefinition string              `yaml:"exercise-definition" json:"exercise-definition"`
+	Sequence           []ExerciseIteration `yaml:"sequence" json:"sequence"`
 }
 
 func (exercise *Exercise) Validate() error {
 	err := TypeNotEmptyValidator(exercise)
 	if err != nil {
 		return err
+	}
+
+	if exercise.ExerciseDefinition == "" {
+		return errors.New(
+			fmt.Sprintf(
+				"the exercise definition musn´t be empty for exercise elements.\nFull element: %+v",
+				exercise,
+			),
+		)
 	}
 
 	for _, exerciseIteration := range exercise.Sequence {
@@ -30,6 +44,7 @@ func (exercise *Exercise) Validate() error {
 			if validator != nil {
 				return validator(exercise)
 			}
+			return nil
 		}
 	}
 

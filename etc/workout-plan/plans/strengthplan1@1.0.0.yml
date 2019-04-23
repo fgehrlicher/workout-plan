@@ -7,7 +7,7 @@ units:
     exercises:
         # Types: main-exercise, special-exercise, additional-exercise
       - type: main-exercise
-        exercise: front-squat
+        exercise-definition: front-squat
         sequence:
             # Types: sets-reps, reps, sets-reps-max-out, sets-reps-weight-range @TODO
           - type: sets-reps
@@ -27,7 +27,7 @@ units:
             sets: '3'
             reps: '6'
       - type: main-exercise
-        exercise: deadlift
+        exercise-definition: deadlift
         sequence:
           - type: sets-reps
             percent: '30'
@@ -42,7 +42,7 @@ units:
             sets: '2'
             reps: '14'
       - type: special-exercise
-        exercise: lunges
+        exercise-definition: lunges
         sequence:
             # @TODO naming
           - type: sets-reps-weight-range
@@ -51,7 +51,7 @@ units:
             sets: '2'
             reps: '16'
       - type: additional-exercise
-        exercise: sit-ups
+        exercise-definition: sit-ups
         sequence:
           # Name
           - type: sets-reps
