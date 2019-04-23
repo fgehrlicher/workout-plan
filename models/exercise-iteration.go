@@ -37,13 +37,7 @@ func (exerciseIteration *ExerciseIteration) Validate() error {
 		}
 	}
 
-	return errors.New(
-		fmt.Sprintf(
-			"type field `%v` is required for sequence elements.\nFull element: %+v",
-			exerciseIteration.Type,
-			exerciseIteration,
-		),
-	)
+	return TypeNotAllowedError(exerciseIteration)
 }
 
 func ValidateExerciseIterationSetsReps(exerciseIteration *ExerciseIteration) error {
@@ -57,6 +51,7 @@ func ValidateExerciseIterationSetsReps(exerciseIteration *ExerciseIteration) err
 			)
 		}
 	}
+
 	return nil
 }
 
@@ -75,5 +70,6 @@ func ValidateExerciseIterationSetsRepsWeightRange(exerciseIteration *ExerciseIte
 			)
 		}
 	}
+
 	return nil
 }
