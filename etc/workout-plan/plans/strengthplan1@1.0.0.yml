@@ -8,7 +8,7 @@ units:
         # Types: main-exercise, special-exercise, additional-exercise
       - type: main-exercise
         exercise: front-squat
-        iterations:
+        sequence:
             # Types: sets-reps, reps, sets-reps-max-out, sets-reps-weight-range @TODO
           - type: sets-reps
             percent: '45'
@@ -28,7 +28,7 @@ units:
             reps: '6'
       - type: main-exercise
         exercise: deadlift
-        iterations:
+        sequence:
           - type: sets-reps
             percent: '30'
             sets: '1'
@@ -43,7 +43,7 @@ units:
             reps: '14'
       - type: special-exercise
         exercise: lunges
-        iterations:
+        sequence:
             # @TODO naming
           - type: sets-reps-weight-range
             min-weight: '15'
@@ -52,7 +52,7 @@ units:
             reps: '16'
       - type: additional-exercise
         exercise: sit-ups
-        iterations:
+        sequence:
           # Name
           - type: reps
             reps: '100'

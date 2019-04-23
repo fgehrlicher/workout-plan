@@ -9,7 +9,7 @@
         {
           "type": "main-exercise",
           "exercise": "front-squat",
-          "iterations": [
+          "sequence": [
             {
               "type": "sets-reps",
               "percent": "45",
@@ -39,7 +39,7 @@
         {
           "type": "main-exercise",
           "exercise": "deadlift",
-          "iterations": [
+          "sequence": [
             {
               "type": "sets-reps",
               "percent": "30",
@@ -63,7 +63,7 @@
         {
           "type": "special-exercise",
           "exercise": "lunges",
-          "iterations": [
+          "sequence": [
             {
               "type": "sets-reps-weight-range",
               "min-weight": "15",
@@ -76,7 +76,7 @@
         {
           "type": "additional-exercise",
           "exercise": "sit-ups",
-          "iterations": [
+          "sequence": [
             {
               "type": "reps",
               "reps": "100"
