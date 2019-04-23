@@ -1,6 +1,6 @@
 package models
 
-type Sequence struct {
+type ExerciseIteration struct {
 	Type    string `yaml:"type" json:"type"`
 	Percent string `yaml:"percent" json:"percent"`
 	Sets    string `yaml:"sets" json:"sets"`
