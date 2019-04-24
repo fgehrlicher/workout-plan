@@ -14,9 +14,10 @@ var possibleExerciseTypes = map[string]ExerciseValidator{
 }
 
 type Exercise struct {
-	Type               string              `yaml:"type" json:"type"`
-	ExerciseDefinition string              `yaml:"exercise-definition" json:"exercise-definition"`
-	Sequence           []ExerciseIteration `yaml:"sequence" json:"sequence"`
+	Type                  string `yaml:"type" json:"type"`
+	ExerciseDefinition    *ExerciseDefinition
+	RawExerciseDefinition string              `yaml:"exercise-definition" json:"exercise-definition"`
+	Sequence              []ExerciseIteration `yaml:"sequence" json:"sequence"`
 }
 
 func (exercise *Exercise) Validate() error {
@@ -25,7 +26,7 @@ func (exercise *Exercise) Validate() error {
 		return err
 	}
 
-	if exercise.ExerciseDefinition == "" {
+	if exercise.ExerciseDefinition == nil {
 		return errors.New(
 			fmt.Sprintf(
 				"the exercise definition musn´t be empty for exercise elements.\nFull element: %+v",
