@@ -13,10 +13,10 @@ import (
 )
 
 type Plans struct {
-	underlyingSlice []*models.Plan
+	underlyingSlice []models.Plan
 }
 
-func (plans *Plans) Add(plan *models.Plan) {
+func (plans *Plans) Add(plan models.Plan) {
 	logEntry := log.WithFields(log.Fields{
 		"Id":      plan.ID,
 		"Version": plan.Version,
@@ -66,7 +66,7 @@ func InitializePlans(planDirectory string) error {
 					return err
 				}
 
-				plans.Add(plan)
+				plans.Add(*plan)
 			case ".json":
 				plan, err := loadJsonPlan(filePath)
 				if err != nil {
@@ -78,7 +78,7 @@ func InitializePlans(planDirectory string) error {
 					return err
 				}
 
-				plans.Add(plan)
+				plans.Add(*plan)
 			}
 		}
 	}
