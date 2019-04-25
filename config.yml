@@ -1,2 +1,3 @@
 plans:
   directory: etc/workout-plan/plans
+  exercise-definition: etc/workout-plan/exercise-definitions.yml

@@ -8,7 +8,8 @@ import (
 
 type Config struct {
 	Plans struct {
-		Directory string `yaml:"directory"`
+		Directory          string `yaml:"directory"`
+		ExerciseDefinition string `yaml:"exercise-definition"`
 	}
 }
 
