@@ -22,7 +22,7 @@ type ExerciseIteration struct {
 }
 
 func (exerciseIteration *ExerciseIteration) Validate() error {
-	err := TypeNotEmptyValidator(exerciseIteration)
+	err := TypeNotEmptyValidator(*exerciseIteration)
 	if err != nil {
 		return err
 	}
@@ -36,7 +36,7 @@ func (exerciseIteration *ExerciseIteration) Validate() error {
 		}
 	}
 
-	return TypeNotAllowedError(exerciseIteration)
+	return TypeNotAllowedError(*exerciseIteration)
 }
 
 func SetsRepsExerciseIterationValidator(exerciseIteration *ExerciseIteration) error {

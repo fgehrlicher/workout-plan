@@ -21,12 +21,12 @@ type Exercise struct {
 }
 
 func (exercise *Exercise) Validate() error {
-	err := TypeNotEmptyValidator(exercise)
+	err := TypeNotEmptyValidator(*exercise)
 	if err != nil {
 		return err
 	}
 
-	if exercise.ExerciseDefinition == nil {
+	if exercise.RawExerciseDefinition == "" {
 		return errors.New(
 			fmt.Sprintf(
 				"the exercise definition musn´t be empty for exercise elements.\nFull element: %+v",
@@ -60,5 +60,5 @@ func (exercise *Exercise) Validate() error {
 		}
 	}
 
-	return TypeNotAllowedError(exercise)
+	return TypeNotAllowedError(*exercise)
 }
