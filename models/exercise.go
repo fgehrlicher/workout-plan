@@ -71,15 +71,6 @@ func (exercise *Exercise) Validate() error {
 		return err
 	}
 
-	if exercise.RawExerciseDefinition == "" {
-		return errors.New(
-			fmt.Sprintf(
-				"the exercise definition musn´t be empty for exercise elements.\nFull element: %+v",
-				exercise,
-			),
-		)
-	}
-
 	if len(exercise.Sequence) == 0 {
 		return errors.New(
 			fmt.Sprintf(
