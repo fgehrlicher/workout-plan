@@ -34,6 +34,21 @@ func (exerciseDefinitions *ExerciseDefinitions) Add(exerciseDefinition models.Ex
 	logEntry.Info("Exercise definition added")
 }
 
+func (exerciseDefinitions *ExerciseDefinitions) Get(name string) (*models.ExerciseDefinition, error) {
+	for _, exerciseDefinition := range exerciseDefinitions.underlyingSlice {
+		if exerciseDefinition.Name == name {
+			return &exerciseDefinition, nil
+		}
+	}
+
+	return nil, errors.New(
+		fmt.Sprintf(
+			"exercise definition with name`%v` was not found.",
+			name,
+		),
+	)
+}
+
 var instance *ExerciseDefinitions
 var once sync.Once
 
