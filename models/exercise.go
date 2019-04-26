@@ -1,8 +1,11 @@
 package models
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+
+	"workout-plan/exercise-definitions"
 )
 
 type ExerciseValidator func(*Exercise) error
@@ -13,11 +16,53 @@ var possibleExerciseTypes = map[string]ExerciseValidator{
 	"additional-exercise": nil,
 }
 
+var exerciseDefinitions *exercise_definitions.ExerciseDefinitions
+
 type Exercise struct {
-	Type                  string `yaml:"type" json:"type"`
 	ExerciseDefinition    *ExerciseDefinition
+	Type                  string              `yaml:"type" json:"type"`
 	RawExerciseDefinition string              `yaml:"exercise-definition" json:"exercise-definition"`
 	Sequence              []ExerciseIteration `yaml:"sequence" json:"sequence"`
+}
+
+func (exercise *Exercise) UnmarshalJSON(data []byte) error {
+	var (
+		jsonData                 map[string]string
+		err                      error
+		exerciseDefinitionString = "exercise-definition"
+	)
+
+	err = json.Unmarshal(data, &jsonData)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(data, exercise)
+	if err != nil {
+		return err
+	}
+
+	exerciseDefinitionValue, isSet := jsonData[exerciseDefinitionString]
+	if !isSet {
+		return errors.New(
+			fmt.Sprintf(
+				"`%v` is not set, but required for Exercise definiton elements",
+				exerciseDefinitionString,
+			),
+		)
+	}
+
+	if exerciseDefinitions == nil {
+		exerciseDefinitions = exercise_definitions.GetInstance()
+	}
+
+	exerciseDefinition, err := exerciseDefinitions.Get(exerciseDefinitionValue)
+	if err != nil {
+		return err
+	}
+
+	exercise.ExerciseDefinition = exerciseDefinition
+	return nil
 }
 
 func (exercise *Exercise) Validate() error {
