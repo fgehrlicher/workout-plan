@@ -88,7 +88,7 @@ func validatePlan(plan *Plan) error {
 	err := plan.Validate()
 	if err != nil {
 		log.WithFields(log.Fields{
-			"Plan Id": plan.ID,
+			"Id": plan.ID,
 		}).Error("plan validation error")
 		return err
 	}
