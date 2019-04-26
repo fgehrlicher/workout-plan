@@ -15,17 +15,19 @@ var possibleExerciseTypes = map[string]ExerciseValidator{
 }
 
 type Exercise struct {
-	ExerciseDefinition    *ExerciseDefinition
-	Type                  string              `yaml:"type" json:"type"`
-	RawExerciseDefinition string              `yaml:"exercise-definition" json:"exercise-definition"`
-	Sequence              []ExerciseIteration `yaml:"sequence" json:"sequence"`
+	ExerciseDefinition *ExerciseDefinition
+	Type               string
+	Sequence           []ExerciseIteration
 }
 
 func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 	var (
-		jsonData                 map[string]string
-		err                      error
-		exerciseDefinitionString = "exercise-definition"
+		jsonData                       map[string]*json.RawMessage
+		err                            error
+		exerciseDefinitionResultString string
+		exerciseDefinitionString       = "exercise-definition"
+		sequenceString                 = "sequence"
+		typeString                     = "type"
 	)
 
 	err = json.Unmarshal(data, &jsonData)
@@ -33,7 +35,32 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	err = json.Unmarshal(data, exercise)
+	typeValue, isSet := jsonData[typeString]
+	if !isSet {
+		return errors.New(
+			fmt.Sprintf(
+				"`%v` is not set, but required for Exercise elements",
+				typeString,
+			),
+		)
+	}
+
+	err = json.Unmarshal(*typeValue, &exercise.Type)
+	if err != nil {
+		return err
+	}
+
+	sequenceValue, isSet := jsonData[sequenceString]
+	if !isSet {
+		return errors.New(
+			fmt.Sprintf(
+				"`%v` is not set, but required for Exercise elements",
+				sequenceString,
+			),
+		)
+	}
+
+	err = json.Unmarshal(*sequenceValue, &exercise.Sequence)
 	if err != nil {
 		return err
 	}
@@ -52,7 +79,12 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 		GetExerciseDefinitionsInstance()
 	}
 
-	exerciseDefinition, err := exerciseDefinitionsSingleton.Get(exerciseDefinitionValue)
+	err = json.Unmarshal(*exerciseDefinitionValue, &exerciseDefinitionResultString)
+	if err != nil {
+		return err
+	}
+
+	exerciseDefinition, err := exerciseDefinitionsSingleton.Get(exerciseDefinitionResultString)
 	if err != nil {
 		return err
 	}
