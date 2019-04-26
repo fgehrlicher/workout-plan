@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+
+	"gopkg.in/yaml.v2"
 )
 
 type ExerciseValidator func(*Exercise) error
@@ -67,6 +69,59 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 	err = json.Unmarshal(*exerciseDefinitionValue, &exerciseDefinitionResultString)
 	if err != nil {
 		return err
+	}
+
+	exerciseDefinition, err := exerciseDefinitionsSingleton.Get(exerciseDefinitionResultString)
+	if err != nil {
+		return err
+	}
+
+	exercise.ExerciseDefinition = exerciseDefinition
+	return nil
+}
+
+func (exercise *Exercise) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var (
+		yamlData                       map[string]interface{}
+		err                            error
+		exerciseDefinitionResultString string
+		exerciseDefinitionString       = "exercise-definition"
+
+		// That temp struct is needed because there is no way (to my knowledge)
+		// to unmarshal the whole Exercise to something like a slice of
+		// json RawMessages and then unmarshal the Sequence further.
+		// @TODO replace that hack
+		tempStruct = struct {
+			Type     string              `yaml:"type"`
+			Sequence []ExerciseIteration `yaml:"sequence"`
+		}{}
+	)
+
+	err = unmarshal(&tempStruct)
+	if err != nil {
+		return err
+	}
+
+	exercise.Sequence = tempStruct.Sequence
+	exercise.Type = tempStruct.Type
+
+	err = unmarshal(&yamlData)
+	if err != nil {
+		return err
+	}
+
+	exerciseDefinitionValue, isSet := yamlData[exerciseDefinitionString]
+	if !isSet {
+		return FieldRequiredForExerciseError(exerciseDefinitionString)
+	}
+
+	err = yaml.Unmarshal([]byte(exerciseDefinitionValue.(string)), &exerciseDefinitionResultString)
+	if err != nil {
+		return err
+	}
+
+	if exerciseDefinitionsSingleton == nil {
+		GetExerciseDefinitionsInstance()
 	}
 
 	exerciseDefinition, err := exerciseDefinitionsSingleton.Get(exerciseDefinitionResultString)
