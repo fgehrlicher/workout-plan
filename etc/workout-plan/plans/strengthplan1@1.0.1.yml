@@ -1,7 +1,7 @@
 ---
 id: strengthplan1
 name: Kraft Plan
-version: 1.0.0
+version: 1.0.1
 units:
   - name: Einheit 1
     exercises:
