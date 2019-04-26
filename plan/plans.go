@@ -1,4 +1,4 @@
-package plans
+package plan
 
 import (
 	"encoding/json"
@@ -6,17 +6,15 @@ import (
 	"path/filepath"
 	"sync"
 
-	"workout-plan/models"
-
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
 type Plans struct {
-	underlyingSlice []models.Plan
+	underlyingSlice []Plan
 }
 
-func (plans *Plans) Add(plan models.Plan) {
+func (plans *Plans) Add(plan Plan) {
 	logEntry := log.WithFields(log.Fields{
 		"Id":      plan.ID,
 		"Version": plan.Version,
@@ -33,18 +31,18 @@ func (plans *Plans) Add(plan models.Plan) {
 	logEntry.Info("Plan added")
 }
 
-var instance *Plans
-var once sync.Once
+var plansSingleton *Plans
+var plansOnce sync.Once
 
-func GetInstance() *Plans {
-	once.Do(func() {
-		instance = &Plans{}
+func GetPlansInstance() *Plans {
+	plansOnce.Do(func() {
+		plansSingleton = &Plans{}
 	})
-	return instance
+	return plansSingleton
 }
 
 func InitializePlans(planDirectory string) error {
-	plans := GetInstance()
+	plans := GetPlansInstance()
 
 	fileInfos, err := ioutil.ReadDir(planDirectory)
 	if err != nil {
@@ -86,7 +84,7 @@ func InitializePlans(planDirectory string) error {
 	return nil
 }
 
-func validatePlan(plan *models.Plan) error {
+func validatePlan(plan *Plan) error {
 	err := plan.Validate()
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -97,16 +95,16 @@ func validatePlan(plan *models.Plan) error {
 	return nil
 }
 
-func loadYamlPlan(path string) (*models.Plan, error) {
+func loadYamlPlan(path string) (*Plan, error) {
 	return loadPlan(path, yaml.Unmarshal)
 }
 
-func loadJsonPlan(path string) (*models.Plan, error) {
+func loadJsonPlan(path string) (*Plan, error) {
 	return loadPlan(path, json.Unmarshal)
 }
 
-func loadPlan(path string, unmarshalMethod func([]byte, interface{}) error) (*models.Plan, error) {
-	plan := &models.Plan{}
+func loadPlan(path string, unmarshalMethod func([]byte, interface{}) error) (*Plan, error) {
+	plan := &Plan{}
 
 	data, err := ioutil.ReadFile(path)
 	if err != nil {

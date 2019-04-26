@@ -5,8 +5,7 @@ import (
 	"os"
 
 	"workout-plan/config"
-	"workout-plan/exercise-definitions"
-	"workout-plan/plans"
+	"workout-plan/plan"
 )
 
 const ConfigFilePath = "./config.yml"
@@ -16,16 +15,16 @@ func main() {
 	conf, err := config.LoadConfig(ConfigFilePath)
 	handleError(err)
 
-	err = exercise_definitions.InitializeExerciseDefinitions(conf.Plans.ExerciseDefinition)
+	err = plan.InitializeExerciseDefinitions(conf.Plans.ExerciseDefinition)
 	handleError(err)
 
-	err = plans.InitializePlans(conf.Plans.Directory)
+	err = plan.InitializePlans(conf.Plans.Directory)
 	handleError(err)
 
-	plan := plans.GetInstance()
-	exerciseDefinition := exercise_definitions.GetInstance()
+	plans := plan.GetPlansInstance()
+	exerciseDefinitions := plan.GetExerciseDefinitionsInstance()
 
-	fmt.Printf("%v \n %v", plan, exerciseDefinition)
+	fmt.Printf("%v \n %v", plans, exerciseDefinitions)
 }
 
 func handleError(err error) {

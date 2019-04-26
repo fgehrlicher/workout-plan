@@ -1,4 +1,4 @@
-package models
+package plan
 
 import (
 	"errors"
@@ -62,7 +62,7 @@ func SetsRepsWeightRangeExerciseIterationValidator(exerciseIteration *ExerciseIt
 		if exerciseIteration.Type == "" {
 			return errors.New(
 				fmt.Sprintf(
-					"reps, sets, min-weight and max-weight must be set if the " +
+					"reps, sets, min-weight and max-weight must be set if the "+
 						"type is set to sets-reps-weight-range.\nFull element: %+v",
 					exerciseIteration,
 				),

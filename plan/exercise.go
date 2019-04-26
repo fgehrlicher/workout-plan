@@ -1,11 +1,9 @@
-package models
+package plan
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
-
-	"workout-plan/exercise-definitions"
 )
 
 type ExerciseValidator func(*Exercise) error
@@ -15,8 +13,6 @@ var possibleExerciseTypes = map[string]ExerciseValidator{
 	"special-exercise":    nil,
 	"additional-exercise": nil,
 }
-
-var exerciseDefinitions *exercise_definitions.ExerciseDefinitions
 
 type Exercise struct {
 	ExerciseDefinition    *ExerciseDefinition
@@ -52,11 +48,11 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 		)
 	}
 
-	if exerciseDefinitions == nil {
-		exerciseDefinitions = exercise_definitions.GetInstance()
+	if exerciseDefinitionsSingleton == nil {
+		GetExerciseDefinitionsInstance()
 	}
 
-	exerciseDefinition, err := exerciseDefinitions.Get(exerciseDefinitionValue)
+	exerciseDefinition, err := exerciseDefinitionsSingleton.Get(exerciseDefinitionValue)
 	if err != nil {
 		return err
 	}

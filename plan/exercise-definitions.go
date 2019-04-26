@@ -1,4 +1,4 @@
-package exercise_definitions
+package plan
 
 import (
 	"encoding/json"
@@ -8,17 +8,15 @@ import (
 	"path/filepath"
 	"sync"
 
-	"workout-plan/models"
-
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
 type ExerciseDefinitions struct {
-	underlyingSlice []models.ExerciseDefinition
+	underlyingSlice []ExerciseDefinition
 }
 
-func (exerciseDefinitions *ExerciseDefinitions) Add(exerciseDefinition models.ExerciseDefinition) {
+func (exerciseDefinitions *ExerciseDefinitions) Add(exerciseDefinition ExerciseDefinition) {
 	logEntry := log.WithFields(log.Fields{
 		"Name": exerciseDefinition.Name,
 	})
@@ -34,7 +32,7 @@ func (exerciseDefinitions *ExerciseDefinitions) Add(exerciseDefinition models.Ex
 	logEntry.Info("Exercise definition added")
 }
 
-func (exerciseDefinitions *ExerciseDefinitions) Get(name string) (*models.ExerciseDefinition, error) {
+func (exerciseDefinitions *ExerciseDefinitions) Get(name string) (*ExerciseDefinition, error) {
 	for _, exerciseDefinition := range exerciseDefinitions.underlyingSlice {
 		if exerciseDefinition.Name == name {
 			return &exerciseDefinition, nil
@@ -49,18 +47,18 @@ func (exerciseDefinitions *ExerciseDefinitions) Get(name string) (*models.Exerci
 	)
 }
 
-var instance *ExerciseDefinitions
-var once sync.Once
+var exerciseDefinitionsSingleton *ExerciseDefinitions
+var exerciseDefinitionsOnce sync.Once
 
-func GetInstance() *ExerciseDefinitions {
-	once.Do(func() {
-		instance = &ExerciseDefinitions{}
+func GetExerciseDefinitionsInstance() *ExerciseDefinitions {
+	exerciseDefinitionsOnce.Do(func() {
+		exerciseDefinitionsSingleton = &ExerciseDefinitions{}
 	})
-	return instance
+	return exerciseDefinitionsSingleton
 }
 
 func InitializeExerciseDefinitions(exerciseDefinitionFile string) error {
-	exerciseDefinitions := GetInstance()
+	exerciseDefinitions := GetExerciseDefinitionsInstance()
 
 	fileExtension := filepath.Ext(exerciseDefinitionFile)
 	fileData, err := ioutil.ReadFile(exerciseDefinitionFile)
@@ -68,7 +66,7 @@ func InitializeExerciseDefinitions(exerciseDefinitionFile string) error {
 		return err
 	}
 
-	var exerciseDefinitionsSlice []models.ExerciseDefinition
+	var exerciseDefinitionsSlice []ExerciseDefinition
 
 	switch fileExtension {
 	case ".yml":
