@@ -1,11 +1,8 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
 	"workout-plan/config"
-	"workout-plan/plans"
+	"workout-plan/plan"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -17,7 +14,10 @@ func main() {
 	conf, err := config.LoadConfig(ConfigFilePath)
 	handleError(err)
 
-	err = plans.InitializePlans(conf.Plans.Directory)
+	err = plan.InitializeExerciseDefinitions(conf.Plans.ExerciseDefinition)
+	handleError(err)
+
+	err = plan.InitializePlans(conf.Plans.Directory)
 	handleError(err)
 
 	log.Info("Configuration Valid!")
@@ -25,7 +25,7 @@ func main() {
 
 func handleError(err error) {
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		log.Error(err.Error())
+		log.Exit(1)
 	}
 }
