@@ -93,6 +93,10 @@ func (exercise *Exercise) Validate() error {
 		return err
 	}
 
+	if exercise.ExerciseDefinition == nil {
+		return FieldRequiredForExerciseError("ExerciseDefinition")
+	}
+
 	if len(exercise.Sequence) == 0 {
 		return errors.New(
 			fmt.Sprintf(
