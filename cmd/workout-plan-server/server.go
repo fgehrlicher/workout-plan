@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
-
 	"workout-plan/config"
 	"workout-plan/plan"
+
+	log "github.com/sirupsen/logrus"
 )
 
 const ConfigFilePath = "./config.yml"
@@ -29,7 +29,7 @@ func main() {
 
 func handleError(err error) {
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		log.Error(err.Error())
+		log.Exit(1)
 	}
 }
