@@ -37,12 +37,7 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 
 	typeValue, isSet := jsonData[typeString]
 	if !isSet {
-		return errors.New(
-			fmt.Sprintf(
-				"`%v` is not set, but required for Exercise elements",
-				typeString,
-			),
-		)
+		return FieldRequiredForExerciseError(typeString)
 	}
 
 	err = json.Unmarshal(*typeValue, &exercise.Type)
@@ -52,12 +47,7 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 
 	sequenceValue, isSet := jsonData[sequenceString]
 	if !isSet {
-		return errors.New(
-			fmt.Sprintf(
-				"`%v` is not set, but required for Exercise elements",
-				sequenceString,
-			),
-		)
+		return FieldRequiredForExerciseError(sequenceString)
 	}
 
 	err = json.Unmarshal(*sequenceValue, &exercise.Sequence)
@@ -67,12 +57,7 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 
 	exerciseDefinitionValue, isSet := jsonData[exerciseDefinitionString]
 	if !isSet {
-		return errors.New(
-			fmt.Sprintf(
-				"`%v` is not set, but required for Exercise definiton elements",
-				exerciseDefinitionString,
-			),
-		)
+		return FieldRequiredForExerciseError(exerciseDefinitionString)
 	}
 
 	if exerciseDefinitionsSingleton == nil {
@@ -91,6 +76,15 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 
 	exercise.ExerciseDefinition = exerciseDefinition
 	return nil
+}
+
+func FieldRequiredForExerciseError(fieldName string) error {
+	return errors.New(
+		fmt.Sprintf(
+			"`%v` is not set, but required for Exercise elements",
+			fieldName,
+		),
+	)
 }
 
 func (exercise *Exercise) Validate() error {
