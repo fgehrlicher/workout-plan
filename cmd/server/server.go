@@ -29,7 +29,6 @@ func main() {
 
 func handleError(err error) {
 	if err != nil {
-		log.Error(err.Error())
-		log.Exit(1)
+		log.Fatal(err.Error())
 	}
 }
