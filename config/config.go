@@ -10,7 +10,14 @@ type Config struct {
 	Plans struct {
 		Directory          string `yaml:"directory"`
 		ExerciseDefinition string `yaml:"exercise-definition"`
-	}
+	} `yaml:"plans"`
+	Database struct {
+		Host     string `yaml:"host"`
+		Port     string `yaml:"port"`
+		User     string `yaml:"user"`
+		Password string `yaml:"password"`
+		Database string `yaml:"database"`
+	} `yaml:"database"`
 }
 
 func LoadConfig(configFilePath string) (*Config, error) {

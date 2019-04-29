@@ -1,3 +1,10 @@
 plans:
-  directory: etc/workout-plan/plans
-  exercise-definition: etc/workout-plan/exercise-definitions.yml
+  directory: "etc/workout-plan/plans"
+  exercise-definition: "etc/workout-plan/exercise-definitions.yml"
+
+database:
+  host: "localhost"
+  port: "27017"
+  user: "mongoadmin"
+  password: "secret"
+  database: "admin"
