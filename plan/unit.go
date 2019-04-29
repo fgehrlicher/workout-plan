@@ -6,7 +6,7 @@ import (
 )
 
 type Unit struct {
-	Name      string `yaml:"name" json:"name"`
+	Name      string     `yaml:"name" json:"name"`
 	Exercises []Exercise `yaml:"exercises" json:"exercises"`
 }
 

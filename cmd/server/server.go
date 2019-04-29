@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"workout-plan/config"
 	"workout-plan/plan"
 
