@@ -50,34 +50,36 @@ func InitializePlans(planDirectory string) error {
 	}
 
 	for _, fileInfo := range fileInfos {
-		if fileInfo.Mode().IsRegular() {
-			filePath := planDirectory + string(filepath.Separator) + fileInfo.Name()
-			switch filepath.Ext(fileInfo.Name()) {
-			case ".yml":
-				plan, err := loadYamlPlan(filePath)
-				if err != nil {
-					return err
-				}
+		if !fileInfo.Mode().IsRegular() {
+			continue
+		}
 
-				err = validatePlan(plan)
-				if err != nil {
-					return err
-				}
-
-				plans.Add(*plan)
-			case ".json":
-				plan, err := loadJsonPlan(filePath)
-				if err != nil {
-					return err
-				}
-
-				err = validatePlan(plan)
-				if err != nil {
-					return err
-				}
-
-				plans.Add(*plan)
+		filePath := planDirectory + string(filepath.Separator) + fileInfo.Name()
+		switch filepath.Ext(fileInfo.Name()) {
+		case ".yml":
+			plan, err := loadYamlPlan(filePath)
+			if err != nil {
+				return err
 			}
+
+			err = validatePlan(plan)
+			if err != nil {
+				return err
+			}
+
+			plans.Add(*plan)
+		case ".json":
+			plan, err := loadJsonPlan(filePath)
+			if err != nil {
+				return err
+			}
+
+			err = validatePlan(plan)
+			if err != nil {
+				return err
+			}
+
+			plans.Add(*plan)
 		}
 	}
 
