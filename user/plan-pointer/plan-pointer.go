@@ -25,7 +25,7 @@ func CreatePlanPointer(planId string) (*PlanPointer, error) {
 	}
 
 	planPointer.Position.Unit = &retrievedPlan.Units[0]
-	planPointer.Position.ExercisesKey = 0
+	planPointer.Position.ExerciseKey = 0
 
 	return planPointer, nil
 }
@@ -33,7 +33,7 @@ func CreatePlanPointer(planId string) (*PlanPointer, error) {
 type PlanPointer struct {
 	PlanId   string
 	Position struct {
-		Unit         *plan.Unit
-		ExercisesKey int
+		Unit        *plan.Unit
+		ExerciseKey int
 	}
 }

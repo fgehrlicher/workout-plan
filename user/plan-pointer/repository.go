@@ -24,7 +24,7 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer *PlanPointer)
 		{"plan_id", pointer.PlanId},
 		{"position", bson.D{
 			{"unit_id",pointer.Position.Unit.Id},
-			{"exercise_key",pointer.Position.ExercisesKey},
+			{"exercise_key",pointer.Position.ExerciseKey},
 		}},
 	}
 
