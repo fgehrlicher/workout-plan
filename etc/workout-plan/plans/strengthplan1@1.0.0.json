@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "units": [
     {
-      "name": "Einheit 1",
+      "id": "Einheit 1",
       "exercises": [
         {
           "type": "main-exercise",

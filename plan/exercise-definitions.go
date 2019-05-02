@@ -18,7 +18,7 @@ type ExerciseDefinitions struct {
 
 func (exerciseDefinitions *ExerciseDefinitions) Add(exerciseDefinition ExerciseDefinition) {
 	logEntry := log.WithFields(log.Fields{
-		"Name": exerciseDefinition.Name,
+		"Id": exerciseDefinition.Name,
 	})
 
 	for _, existingExerciseDefinition := range exerciseDefinitions.underlyingSlice {

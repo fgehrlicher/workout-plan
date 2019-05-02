@@ -6,15 +6,15 @@ import (
 )
 
 type Unit struct {
-	Name      string     `yaml:"name" json:"name"`
+	Id        string     `yaml:"id" json:"id"`
 	Exercises []Exercise `yaml:"exercises" json:"exercises"`
 }
 
 func (unit *Unit) Validate() error {
-	if unit.Name == "" {
+	if unit.Id == "" {
 		return errors.New(
 			fmt.Sprintf(
-				"the name of units musn´t be empty.\nFull element: %+v",
+				"the id field of units musn´t be empty.\nFull element: %+v",
 				unit,
 			),
 		)
@@ -23,8 +23,8 @@ func (unit *Unit) Validate() error {
 	if len(unit.Exercises) == 0 {
 		return errors.New(
 			fmt.Sprintf(
-				"the unit with name %v does not have any exercises",
-				unit.Name,
+				"the unit with id %v does not have any exercises",
+				unit.Id,
 			),
 		)
 	}

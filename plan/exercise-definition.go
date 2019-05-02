@@ -14,7 +14,7 @@ func (exerciseDefinition *ExerciseDefinition) Validate() error {
 	if exerciseDefinition.Name == "" {
 		return errors.New(
 			fmt.Sprintf(
-				"Name is required for exercise definitions. \nFull element: %+v",
+				"Id is required for exercise definitions. \nFull element: %+v",
 				exerciseDefinition,
 			),
 		)
