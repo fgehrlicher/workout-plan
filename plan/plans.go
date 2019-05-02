@@ -2,6 +2,8 @@ package plan
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"sync"
@@ -29,6 +31,21 @@ func (plans *Plans) Add(plan Plan) {
 
 	plans.underlyingSlice = append(plans.underlyingSlice, plan)
 	logEntry.Info("Plan added")
+}
+
+func (plans *Plans) Get(planId string) (*Plan, error) {
+	for _, plan := range plans.underlyingSlice {
+		if plan.ID == planId {
+			return &plan, nil
+		}
+	}
+
+	return nil, errors.New(
+		fmt.Sprintf(
+			"no plan with id `%v` found.",
+			planId,
+		),
+	)
 }
 
 var plansSingleton *Plans
