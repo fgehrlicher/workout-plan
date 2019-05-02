@@ -1,7 +1,11 @@
 package user
 
+import (
+	"workout-plan/user/plan-pointer"
+)
+
 type User struct {
 	ID              string
 	AuthorizedPlans []string
-	ActivePlans []*PlanPointer
+	ActivePlans     []*plan_pointer.PlanPointer
 }
