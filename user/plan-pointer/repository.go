@@ -19,7 +19,7 @@ type PlanPointerRepository struct {
 	collection *mongo.Collection
 }
 
-func (planPointerRepository *PlanPointerRepository) Insert(pointer *PlanPointer) error {
+func (planPointerRepository *PlanPointerRepository) Insert(pointer *PlanPointer) (*mongo.InsertOneResult, error) {
 	planPointerBson := bson.D{
 		{"plan_id", pointer.PlanId},
 		{"position", bson.D{
@@ -28,6 +28,5 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer *PlanPointer)
 		}},
 	}
 
-	_, err := planPointerRepository.collection.InsertOne(context.Background(), planPointerBson)
-	return err
+	return planPointerRepository.collection.InsertOne(context.Background(), planPointerBson)
 }
