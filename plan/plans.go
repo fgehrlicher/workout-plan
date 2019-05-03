@@ -10,6 +10,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
+
+	"workout-plan/version"
 )
 
 type Plans struct {
@@ -31,6 +33,41 @@ func (plans *Plans) Add(plan Plan) {
 
 	plans.underlyingSlice = append(plans.underlyingSlice, plan)
 	logEntry.Info("Plan added")
+}
+
+func (plans *Plans) GetCurrent(planId string) (*Plan, error) {
+	var returnPlan *Plan
+
+	for _, plan := range plans.underlyingSlice {
+		if plan.ID != planId {
+			continue
+		}
+
+		if returnPlan == nil {
+			returnPlan = &plan
+			continue
+		}
+
+		isBigger, err := version.IsGreater(returnPlan.Version, plan.Version)
+		if err != nil {
+			return nil, err
+		}
+
+		if isBigger {
+			returnPlan = &plan
+		}
+	}
+
+	if returnPlan == nil {
+		return nil, errors.New(
+			fmt.Sprintf(
+				"no plan with id `%v` found.",
+				planId,
+			),
+		)
+	}
+
+	return returnPlan, nil
 }
 
 func (plans *Plans) Get(planId string, version string) (*Plan, error) {
