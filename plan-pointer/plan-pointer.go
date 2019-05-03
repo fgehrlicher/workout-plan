@@ -4,27 +4,14 @@ import (
 	"workout-plan/plan"
 )
 
-var plans *plan.Plans
-
-func initializePlans() {
-	if plans == nil {
-		plans = plan.GetPlansInstance()
-	}
-}
-
-func CreatePlanPointer(planId string) (PlanPointer, error) {
-	initializePlans()
-
+func CreatePlanPointer(plan *plan.Plan, userId string) (PlanPointer, error) {
 	planPointer := PlanPointer{
-		PlanId: planId,
+		PlanId: plan.ID,
+		PlanVersion: plan.Version,
+		UserId: userId,
 	}
 
-	retrievedPlan, err := plans.Get(planId)
-	if err != nil {
-		return planPointer, err
-	}
-
-	planPointer.Position.Unit = &retrievedPlan.Units[0]
+	planPointer.Position.Unit = &plan.Units[0]
 	planPointer.Position.ExerciseKey = 0
 
 	return planPointer, nil
