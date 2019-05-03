@@ -9,7 +9,12 @@ import (
 	"go.mongodb.org/mongo-driver/x/bsonx"
 )
 
-const collectionName = "planpointers"
+const (
+	collectionName = "planpointers"
+	planIdKey      = "plan_id"
+	planVersionKey = "plan_version"
+	userIdKey      = "user_id"
+)
 
 func NewPlanPointerRepository(database *mongo.Database) (*PlanPointerRepository, error) {
 	repository := &PlanPointerRepository{
@@ -28,9 +33,9 @@ func (planPointerRepository *PlanPointerRepository) init() error {
 
 	planPointersIndex := mongo.IndexModel{
 		Keys: bsonx.Doc{
-			{"plan_id", bsonx.Int32(1)},
-			{"plan_version", bsonx.Int32(1)},
-			{"user_id", bsonx.Int32(1)},
+			{planIdKey, bsonx.Int32(1)},
+			{planVersionKey, bsonx.Int32(1)},
+			{userIdKey, bsonx.Int32(1)},
 		},
 		Options: options.Index().SetName("plan-version-user"),
 	}
@@ -45,9 +50,9 @@ func (planPointerRepository *PlanPointerRepository) init() error {
 
 func (planPointerRepository *PlanPointerRepository) Insert(pointer *PlanPointer) (*mongo.InsertOneResult, error) {
 	planPointerBson := bson.D{
-		{"plan_id", pointer.PlanId},
-		{"plan_version", pointer.PlanVersion},
-		{"user_id", pointer.UserId},
+		{planIdKey, pointer.PlanId},
+		{planVersionKey, pointer.PlanVersion},
+		{userIdKey, pointer.UserId},
 		{"position", bson.D{
 			{"unit_id", pointer.Position.Unit.Id},
 			{"exercise_key", pointer.Position.ExerciseKey},
