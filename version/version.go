@@ -62,13 +62,13 @@ func NewVersion(rawVersion string) (Version, error) {
 	}
 	version.Major = major
 
-	minor, err := strconv.Atoi(versionSlice[0])
+	minor, err := strconv.Atoi(versionSlice[1])
 	if err != nil {
 		return version, err
 	}
 	version.Minor = minor
 
-	patch, err := strconv.Atoi(versionSlice[0])
+	patch, err := strconv.Atoi(versionSlice[2])
 	if err != nil {
 		return version, err
 	}
