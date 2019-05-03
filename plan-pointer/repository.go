@@ -48,7 +48,7 @@ func (planPointerRepository *PlanPointerRepository) init() error {
 	return err
 }
 
-func (planPointerRepository *PlanPointerRepository) Insert(pointer *PlanPointer) (*mongo.InsertOneResult, error) {
+func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) (*mongo.InsertOneResult, error) {
 	planPointerBson := bson.D{
 		{planIdKey, pointer.PlanId},
 		{planVersionKey, pointer.PlanVersion},
