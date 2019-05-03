@@ -31,8 +31,10 @@ func CreatePlanPointer(planId string) (*PlanPointer, error) {
 }
 
 type PlanPointer struct {
-	PlanId   string
-	Position struct {
+	PlanId      string
+	PlanVersion string
+	UserId      string
+	Position    struct {
 		Unit        *plan.Unit
 		ExerciseKey int
 	}

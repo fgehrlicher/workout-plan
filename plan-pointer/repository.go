@@ -22,9 +22,11 @@ type PlanPointerRepository struct {
 func (planPointerRepository *PlanPointerRepository) Insert(pointer *PlanPointer) (*mongo.InsertOneResult, error) {
 	planPointerBson := bson.D{
 		{"plan_id", pointer.PlanId},
+		{"plan_version", pointer.PlanVersion},
+		{"user_id", pointer.UserId},
 		{"position", bson.D{
-			{"unit_id",pointer.Position.Unit.Id},
-			{"exercise_key",pointer.Position.ExerciseKey},
+			{"unit_id", pointer.Position.Unit.Id},
+			{"exercise_key", pointer.Position.ExerciseKey},
 		}},
 	}
 
