@@ -38,13 +38,13 @@ func (plans *Plans) Add(plan Plan) {
 func (plans *Plans) GetLatest(planId string) (*Plan, error) {
 	var returnPlan *Plan
 
-	for _, plan := range plans.underlyingSlice {
+	for key, plan := range plans.underlyingSlice {
 		if plan.ID != planId {
 			continue
 		}
 
 		if returnPlan == nil {
-			returnPlan = &plan
+			returnPlan = &plans.underlyingSlice[key]
 			continue
 		}
 
