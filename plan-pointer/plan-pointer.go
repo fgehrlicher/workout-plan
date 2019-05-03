@@ -12,16 +12,16 @@ func initializePlans() {
 	}
 }
 
-func CreatePlanPointer(planId string) (*PlanPointer, error) {
+func CreatePlanPointer(planId string) (PlanPointer, error) {
 	initializePlans()
+
+	planPointer := PlanPointer{
+		PlanId: planId,
+	}
 
 	retrievedPlan, err := plans.Get(planId)
 	if err != nil {
-		return nil, err
-	}
-
-	planPointer := &PlanPointer{
-		PlanId: planId,
+		return planPointer, err
 	}
 
 	planPointer.Position.Unit = &retrievedPlan.Units[0]
