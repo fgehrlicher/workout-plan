@@ -3,7 +3,6 @@ package plan_pointer
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/x/bsonx"
@@ -49,14 +48,15 @@ func (planPointerRepository *PlanPointerRepository) init() error {
 }
 
 func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) (*mongo.InsertOneResult, error) {
-	planPointerBson := bson.D{
-		{planIdKey, pointer.PlanId},
-		{planVersionKey, pointer.PlanVersion},
-		{userIdKey, pointer.UserId},
-		{"position", bson.D{
-			{"unit_id", pointer.Position.Unit.Id},
-			{"exercise_key", pointer.Position.ExerciseKey},
-		}},
+	planPointerBson := bsonx.Doc{
+		{planIdKey, bsonx.String(pointer.PlanId)},
+		{planVersionKey, bsonx.String(pointer.PlanVersion)},
+		{userIdKey, bsonx.String(pointer.UserId)},
+		{"position", bsonx.Document(bsonx.Doc{
+			{"unit_id", bsonx.String(pointer.Position.Unit.Id)},
+			{"exercise_key", bsonx.Int32(int32(pointer.Position.ExerciseKey))},
+		}),
+		},
 	}
 
 	return planPointerRepository.collection.InsertOne(context.Background(), planPointerBson)
