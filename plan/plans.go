@@ -33,17 +33,18 @@ func (plans *Plans) Add(plan Plan) {
 	logEntry.Info("Plan added")
 }
 
-func (plans *Plans) Get(planId string) (*Plan, error) {
+func (plans *Plans) Get(planId string, version string) (*Plan, error) {
 	for _, plan := range plans.underlyingSlice {
-		if plan.ID == planId {
+		if plan.ID == planId && plan.Version == version {
 			return &plan, nil
 		}
 	}
 
 	return nil, errors.New(
 		fmt.Sprintf(
-			"no plan with id `%v` found.",
+			"no plan with id `%v` and version `%v` found.",
 			planId,
+			version,
 		),
 	)
 }
