@@ -2,7 +2,6 @@ package plan_pointer
 
 import (
 	"context"
-	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -36,12 +35,11 @@ func (planPointerRepository *PlanPointerRepository) init() error {
 		Options: options.Index().SetName("plan-version-user"),
 	}
 
-	name, err := indexView.CreateOne(
+	_, err := indexView.CreateOne(
 		context.Background(),
 		planPointersIndex,
 	)
 
-	fmt.Println(name)
 	return err
 }
 
