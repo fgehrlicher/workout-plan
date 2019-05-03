@@ -35,7 +35,7 @@ func (plans *Plans) Add(plan Plan) {
 	logEntry.Info("Plan added")
 }
 
-func (plans *Plans) GetCurrent(planId string) (*Plan, error) {
+func (plans *Plans) GetLatest(planId string) (*Plan, error) {
 	var returnPlan *Plan
 
 	for _, plan := range plans.underlyingSlice {
