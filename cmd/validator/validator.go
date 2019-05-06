@@ -8,11 +8,9 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const ConfigFilePath = "./config.yml"
-
 func main() {
 
-	conf, err := config.LoadConfig(ConfigFilePath)
+	conf, err := config.LoadConfig()
 	handleError(err)
 
 	err = plan.InitializeExerciseDefinitions(conf.Plans.ExerciseDefinition)

@@ -6,6 +6,8 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+const defaultConfigFilePath = "./config.yml"
+
 type Config struct {
 	Plans struct {
 		Directory          string `yaml:"directory"`
@@ -32,7 +34,13 @@ type Config struct {
 	} `yaml:"server"`
 }
 
-func LoadConfig(configFilePath string) (*Config, error) {
+func LoadConfig(configFile ...string) (*Config, error) {
+	var configFilePath string
+	if len(configFile) != 0 {
+		configFilePath = configFile[0]
+	} else {
+		configFilePath = defaultConfigFilePath
+	}
 	config := &Config{}
 
 	data, err := ioutil.ReadFile(configFilePath)
