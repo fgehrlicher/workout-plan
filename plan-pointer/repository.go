@@ -57,7 +57,7 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 		{userIdKey, bsonx.String(pointer.UserId)},
 		{positionKey, bsonx.Document(
 			bsonx.Doc{
-				{unitIdKey, bsonx.String(pointer.Position.Unit.Id)},
+				{unitIdKey, bsonx.String(pointer.Position.UnitId)},
 				{exerciseKeyKey, bsonx.Int32(int32(pointer.Position.ExerciseKey))},
 			}),
 		},
