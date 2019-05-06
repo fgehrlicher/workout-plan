@@ -1,12 +1,18 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"net/http"
+	"os"
+	"os/signal"
+	"time"
+
+	"github.com/gorilla/mux"
+	log "github.com/sirupsen/logrus"
 
 	"workout-plan/config"
 	"workout-plan/plan"
-
-	log "github.com/sirupsen/logrus"
 )
 
 const ConfigFilePath = "./config.yml"
@@ -22,10 +28,21 @@ func main() {
 	err = plan.InitializePlans(conf.Plans.Directory)
 	handleError(err)
 
-	plans := plan.GetPlansInstance()
-	exerciseDefinitions := plan.GetExerciseDefinitionsInstance()
+	router := mux.NewRouter()
+	server := &http.Server{
+		Addr:         "127.0.0.1:8080",
+		WriteTimeout: time.Second * 60,
+		ReadTimeout:  time.Second * 360,
+		IdleTimeout:  time.Second * 60,
+		Handler:      router,
+	}
 
-	fmt.Printf("%v \n %v", plans, exerciseDefinitions)
+	err = server.ListenAndServe()
+	if err == http.ErrServerClosed {
+		os.Exit(0)
+	} else {
+		log.Fatal(err.Error())
+	}
 }
 
 func handleError(err error) {
