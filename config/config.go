@@ -19,6 +19,15 @@ type Config struct {
 		Database       string `yaml:"database"`
 		RequestTimeout string `yaml:"request-timeout"`
 	} `yaml:"database"`
+	Server struct {
+		Ip      string `yaml:"ip"`
+		Port    string `yaml:"port"`
+		Timeout struct {
+			Write int `yaml:"write"`
+			Read  int `yaml:"read"`
+			Idle  int `yaml:"idle"`
+		} `yaml:"timeout"`
+	} `yaml:"server"`
 }
 
 func LoadConfig(configFilePath string) (*Config, error) {

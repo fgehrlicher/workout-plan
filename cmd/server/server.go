@@ -30,10 +30,10 @@ func main() {
 
 	router := mux.NewRouter()
 	server := &http.Server{
-		Addr:         "127.0.0.1:8080",
-		WriteTimeout: time.Second * 60,
-		ReadTimeout:  time.Second * 360,
-		IdleTimeout:  time.Second * 60,
+		Addr:         fmt.Sprintf("%v:%v", conf.Server.Ip, conf.Server.Port),
+		WriteTimeout: time.Second * time.Duration(conf.Server.Timeout.Write),
+		ReadTimeout:  time.Second * time.Duration(conf.Server.Timeout.Read),
+		IdleTimeout:  time.Second * time.Duration(conf.Server.Timeout.Idle),
 		Handler:      router,
 	}
 
