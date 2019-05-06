@@ -13,6 +13,9 @@ const (
 	planIdKey      = "plan_id"
 	planVersionKey = "plan_version"
 	userIdKey      = "user_id"
+	positionKey    = "position"
+	unitIdKey      = "unit_id"
+	exerciseKeyKey = "exercise_key"
 )
 
 func NewPlanPointerRepository(database *mongo.Database) (*PlanPointerRepository, error) {
@@ -52,10 +55,10 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 		{planIdKey, bsonx.String(pointer.PlanId)},
 		{planVersionKey, bsonx.String(pointer.PlanVersion)},
 		{userIdKey, bsonx.String(pointer.UserId)},
-		{"position", bsonx.Document(
+		{positionKey, bsonx.Document(
 			bsonx.Doc{
-				{"unit_id", bsonx.String(pointer.Position.Unit.Id)},
-				{"exercise_key", bsonx.Int32(int32(pointer.Position.ExerciseKey))},
+				{unitIdKey, bsonx.String(pointer.Position.Unit.Id)},
+				{exerciseKeyKey, bsonx.Int32(int32(pointer.Position.ExerciseKey))},
 			}),
 		},
 	}
