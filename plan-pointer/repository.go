@@ -65,3 +65,36 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 
 	return planPointerRepository.collection.InsertOne(context.Background(), planPointerBson)
 }
+
+func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]PlanPointer, error) {
+	var userPlanPointers []PlanPointer
+	ctx := context.Background()
+
+	cursor, err := planPointerRepository.collection.Find(
+		ctx, bsonx.Doc{
+			{userIdKey, bsonx.String(userId)},
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	defer cursor.Close(ctx)
+
+	for cursor.Next(ctx) {
+		planPointer := &PlanPointer{}
+		err = cursor.Decode(planPointer)
+		if err != nil {
+			return nil, err
+		}
+
+		userPlanPointers = append(userPlanPointers, *planPointer)
+	}
+
+	err = cursor.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return userPlanPointers, nil
+}
