@@ -2,6 +2,7 @@ package plan_pointer
 
 import (
 	"context"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -18,20 +19,23 @@ const (
 	exerciseKeyKey = "exercise_key"
 )
 
-func NewPlanPointerRepository(database *mongo.Database) (*PlanPointerRepository, error) {
+var requestContext context.Context
+
+func NewPlanPointerRepository(database *mongo.Database, requestTimeout time.Duration) (*PlanPointerRepository, error) {
 	repository := &PlanPointerRepository{
 		collection: database.Collection(collectionName),
 	}
 
-	return repository, repository.init()
+	return repository, repository.init(requestTimeout)
 }
 
 type PlanPointerRepository struct {
 	collection *mongo.Collection
 }
 
-func (planPointerRepository *PlanPointerRepository) init() error {
+func (planPointerRepository *PlanPointerRepository) init(requestTimeout time.Duration) error {
 	indexView := planPointerRepository.collection.Indexes()
+	requestContext, _ := context.WithTimeout(context.Background(), requestTimeout)
 
 	planPointersIndex := mongo.IndexModel{
 		Keys: bsonx.Doc{
@@ -43,7 +47,7 @@ func (planPointerRepository *PlanPointerRepository) init() error {
 	}
 
 	_, err := indexView.CreateOne(
-		context.Background(),
+		requestContext,
 		planPointersIndex,
 	)
 
@@ -63,15 +67,14 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 		},
 	}
 
-	return planPointerRepository.collection.InsertOne(context.Background(), planPointerBson)
+	return planPointerRepository.collection.InsertOne(requestContext, planPointerBson)
 }
 
 func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]PlanPointer, error) {
 	var userPlanPointers []PlanPointer
-	ctx := context.Background()
 
 	cursor, err := planPointerRepository.collection.Find(
-		ctx, bsonx.Doc{
+		requestContext, bsonx.Doc{
 			{userIdKey, bsonx.String(userId)},
 		},
 	)
@@ -79,9 +82,9 @@ func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]Pla
 		return nil, err
 	}
 
-	defer cursor.Close(ctx)
+	defer cursor.Close(context.Background())
 
-	for cursor.Next(ctx) {
+	for cursor.Next(context.Background()) {
 		planPointer := &PlanPointer{}
 		err = cursor.Decode(planPointer)
 		if err != nil {
