@@ -6,9 +6,9 @@ import (
 
 func CreatePlanPointer(plan *plan.Plan, userId string) (PlanPointer, error) {
 	planPointer := PlanPointer{
-		PlanId: plan.ID,
+		PlanId:      plan.ID,
 		PlanVersion: plan.Version,
-		UserId: userId,
+		UserId:      userId,
 	}
 
 	planPointer.Position.UnitId = plan.Units[0].Id
