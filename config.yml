@@ -8,3 +8,4 @@ database:
   user: "mongoadmin"
   password: "secret"
   database: "admin"
+  request-timeout: "5"
