@@ -12,12 +12,14 @@ type Config struct {
 		ExerciseDefinition string `yaml:"exercise-definition"`
 	} `yaml:"plans"`
 	Database struct {
-		Host           string `yaml:"host"`
-		Port           string `yaml:"port"`
-		User           string `yaml:"user"`
-		Password       string `yaml:"password"`
-		Database       string `yaml:"database"`
-		RequestTimeout string `yaml:"request-timeout"`
+		Host     string `yaml:"host"`
+		Port     string `yaml:"port"`
+		User     string `yaml:"user"`
+		Password string `yaml:"password"`
+		Database string `yaml:"database"`
+		Timeout  struct {
+			Request int `yaml:"request"`
+		} `yaml:"timeout"`
 	} `yaml:"database"`
 	Server struct {
 		Ip      string `yaml:"ip"`

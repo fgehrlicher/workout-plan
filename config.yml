@@ -8,12 +8,13 @@ database:
   user: "mongoadmin"
   password: "secret"
   database: "admin"
-  request-timeout: "5"
+  timeout:
+    request: 10
 
 server:
   ip: "0.0.0.0"
   port: "8080"
   timeout:
-    write: "60"
-    read: "360"
-    idle: "60"
+    write: 60
+    read: 360
+    idle: 60
