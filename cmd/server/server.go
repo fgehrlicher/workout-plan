@@ -37,6 +37,21 @@ func main() {
 		Handler:      router,
 	}
 
+	go func() {
+		osSignalChannel := make(chan os.Signal, 1)
+		signal.Notify(osSignalChannel, os.Interrupt)
+		signal.Notify(osSignalChannel, os.Kill)
+
+		<-osSignalChannel
+
+		fmt.Println("shutting down...")
+		ctx, _ := context.WithTimeout(context.Background(), time.Second*5)
+		err := server.Shutdown(ctx)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+	}()
+
 	err = server.ListenAndServe()
 	if err == http.ErrServerClosed {
 		os.Exit(0)
