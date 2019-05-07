@@ -54,7 +54,7 @@ func main() {
 	if err == http.ErrServerClosed {
 		os.Exit(0)
 	} else {
-		log.Fatal(err.Error())
+		handleError(err)
 	}
 }
 
