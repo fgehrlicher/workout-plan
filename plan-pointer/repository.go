@@ -21,19 +21,17 @@ const (
 
 var requestContext context.Context
 
-func NewPlanPointerRepository(database *mongo.Database, requestTimeout time.Duration) (*PlanPointerRepository, error) {
-	repository := &PlanPointerRepository{
+func NewPlanPointerRepository(database *mongo.Database, requestTimeout time.Duration) *PlanPointerRepository {
+	return &PlanPointerRepository{
 		collection: database.Collection(collectionName),
 	}
-
-	return repository, repository.init(requestTimeout)
 }
 
 type PlanPointerRepository struct {
 	collection *mongo.Collection
 }
 
-func (planPointerRepository *PlanPointerRepository) init(requestTimeout time.Duration) error {
+func (planPointerRepository *PlanPointerRepository) InitIndices(requestTimeout time.Duration) error {
 	indexView := planPointerRepository.collection.Indexes()
 	requestContext, _ := context.WithTimeout(context.Background(), requestTimeout)
 
