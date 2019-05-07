@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
+	"workout-plan/handler"
 
 	"workout-plan/plan-pointer"
 
@@ -40,7 +41,7 @@ func main() {
 
 	planPointerRepository := plan_pointer.NewPlanPointerRepository(
 		database,
-		time.Duration(conf.Database.Timeout.Request),
+		time.Duration(conf.Database.Timeout.Request) *time.Second,
 	)
 
 	err = planPointerRepository.InitIndices()
@@ -54,6 +55,8 @@ func main() {
 		IdleTimeout:  time.Second * time.Duration(conf.Server.Timeout.Idle),
 		Handler:      router,
 	}
+
+	router.HandleFunc("/plans/", handler.GetAllPlans).Methods("GET")
 
 	go func() {
 		osSignalChannel := make(chan os.Signal, 1)
