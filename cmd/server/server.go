@@ -54,6 +54,8 @@ func main() {
 		IdleTimeout:  time.Second * time.Duration(conf.Server.Timeout.Idle),
 		Handler:      router,
 	}
+	router.NotFoundHandler = http.HandlerFunc(handler.NotFound)
+	router.MethodNotAllowedHandler = http.HandlerFunc(handler.MethodNotAllowed)
 
 	router.HandleFunc("/plans/", handler.GetAllPlans).Methods("GET")
 	router.HandleFunc("/plans/{planId}/", handler.GetPlan).Methods("GET")

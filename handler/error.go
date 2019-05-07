@@ -2,10 +2,31 @@ package handler
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
 )
+
+func NotFound(responseWriter http.ResponseWriter, request *http.Request) {
+	NotFoundErrorHandler(
+		responseWriter,
+		request,
+		errors.New(
+			http.StatusText(http.StatusNotFound),
+		),
+	)
+}
+
+func MethodNotAllowed(responseWriter http.ResponseWriter, request *http.Request) {
+	MethodNotAllowedErrorHandler(
+		responseWriter,
+		request,
+		errors.New(
+			http.StatusText(http.StatusMethodNotAllowed),
+		),
+	)
+}
 
 func NotFoundErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
 	handleError(responseWriter, request, http.StatusNotFound, err, log.WarnLevel)
