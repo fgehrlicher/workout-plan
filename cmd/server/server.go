@@ -11,7 +11,10 @@ import (
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 
+	"workout-plan/plan-pointer"
+
 	"workout-plan/config"
+	"workout-plan/db"
 	"workout-plan/plan"
 )
 
@@ -24,6 +27,23 @@ func main() {
 	handleError(err)
 
 	err = plan.InitializePlans(conf.Plans.Directory)
+	handleError(err)
+
+	database, err := db.GetDatabase(
+		conf.Database.Host,
+		conf.Database.Port,
+		conf.Database.User,
+		conf.Database.Password,
+		conf.Database.Database,
+	)
+	handleError(err)
+
+	planPointerRepository := plan_pointer.NewPlanPointerRepository(
+		database,
+		time.Duration(conf.Database.Timeout.Request),
+	)
+
+	err = planPointerRepository.InitIndices()
 	handleError(err)
 
 	router := mux.NewRouter()
