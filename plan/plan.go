@@ -6,10 +6,11 @@ import (
 )
 
 type Plan struct {
-	ID      string `yaml:"id" json:"id"`
-	Name    string `yaml:"name" json:"name"`
-	Version string `yaml:"version" json:"version"`
-	Units   []Unit `yaml:"units" json:"units"`
+	ID          string `yaml:"id" json:"id"`
+	Name        string `yaml:"name" json:"name"`
+	Description string `yaml:"description" json:"description"`
+	Version     string `yaml:"version" json:"version"`
+	Units       []Unit `yaml:"units" json:"units"`
 }
 
 func (plan *Plan) Validate() error {
