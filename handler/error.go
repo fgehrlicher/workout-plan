@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"strconv"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -60,9 +61,11 @@ func handleError(response http.ResponseWriter, request *http.Request, errorCode 
 
 	response.WriteHeader(errorCode)
 	err = json.NewEncoder(response).Encode(struct {
-		error string
+		Error      string `json:"error"`
+		StatusCode string `json:"status_code"`
 	}{
-		error: err.Error(),
+		Error: err.Error(),
+		StatusCode: strconv.Itoa(errorCode),
 	})
 
 }
