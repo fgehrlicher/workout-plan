@@ -10,7 +10,7 @@ type Plan struct {
 	Name        string `yaml:"name" json:"name"`
 	Description string `yaml:"description" json:"description"`
 	Version     string `yaml:"version" json:"version"`
-	Units       []Unit `yaml:"units" json:"units"`
+	Units       []Unit `yaml:"units" json:"units,omitempty"`
 }
 
 func (plan *Plan) Validate() error {
