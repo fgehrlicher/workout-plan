@@ -22,7 +22,7 @@ const (
 func NewPlanPointerRepository(database *mongo.Database, requestTimeout time.Duration) *PlanPointerRepository {
 	requestContext, _ := context.WithTimeout(context.Background(), requestTimeout)
 	return &PlanPointerRepository{
-		collection: database.Collection(collectionName),
+		collection:     database.Collection(collectionName),
 		requestContext: requestContext,
 	}
 }

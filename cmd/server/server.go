@@ -10,13 +10,12 @@ import (
 
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
-	"workout-plan/handler"
-
-	"workout-plan/plan-pointer"
 
 	"workout-plan/config"
 	"workout-plan/db"
+	"workout-plan/handler"
 	"workout-plan/plan"
+	"workout-plan/plan-pointer"
 )
 
 func main() {
@@ -41,7 +40,7 @@ func main() {
 
 	planPointerRepository := plan_pointer.NewPlanPointerRepository(
 		database,
-		time.Duration(conf.Database.Timeout.Request) *time.Second,
+		time.Duration(conf.Database.Timeout.Request)*time.Second,
 	)
 
 	err = planPointerRepository.InitIndices()
