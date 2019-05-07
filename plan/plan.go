@@ -41,3 +41,9 @@ func (plan *Plan) Validate() error {
 
 	return nil
 }
+
+func (plan *Plan) GetSanitizedCopy() Plan {
+	sanitizedPlan := *plan
+	sanitizedPlan.Units = nil
+	return sanitizedPlan
+}
