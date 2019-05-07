@@ -22,6 +22,7 @@ const (
 var requestContext context.Context
 
 func NewPlanPointerRepository(database *mongo.Database, requestTimeout time.Duration) *PlanPointerRepository {
+	requestContext, _ = context.WithTimeout(context.Background(), requestTimeout)
 	return &PlanPointerRepository{
 		collection: database.Collection(collectionName),
 	}
@@ -31,10 +32,8 @@ type PlanPointerRepository struct {
 	collection *mongo.Collection
 }
 
-func (planPointerRepository *PlanPointerRepository) InitIndices(requestTimeout time.Duration) error {
+func (planPointerRepository *PlanPointerRepository) InitIndices() error {
 	indexView := planPointerRepository.collection.Indexes()
-	requestContext, _ := context.WithTimeout(context.Background(), requestTimeout)
-
 	planPointersIndex := mongo.IndexModel{
 		Keys: bsonx.Doc{
 			{planIdKey, bsonx.Int32(1)},
