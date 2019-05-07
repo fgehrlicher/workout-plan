@@ -70,6 +70,15 @@ func (plans *Plans) GetLatest(planId string) (*Plan, error) {
 	return returnPlan, nil
 }
 
+func (plans *Plans) GetAll() []*Plan {
+	var returnPlans []*Plan
+	for key := range plans.underlyingSlice {
+		returnPlans = append(returnPlans, &plans.underlyingSlice[key])
+	}
+
+	return returnPlans
+}
+
 func (plans *Plans) Get(planId string, version string) (*Plan, error) {
 	for _, plan := range plans.underlyingSlice {
 		if plan.ID == planId && plan.Version == version {
