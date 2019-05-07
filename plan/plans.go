@@ -79,6 +79,40 @@ func (plans *Plans) GetAll() []*Plan {
 	return returnPlans
 }
 
+func (plans *Plans) GetAllLatest() ([]*Plan, error) {
+	var (
+		returnPlans []*Plan
+		found       bool
+	)
+
+	for key, plan := range plans.underlyingSlice {
+
+		found = false
+		for addedPlansKey, addedPlan := range returnPlans {
+			if plan.ID != addedPlan.ID {
+				continue
+			}
+			found = true
+
+			isBigger, err := version.IsGreater(addedPlan.Version, plan.Version)
+			if err != nil {
+				return nil, err
+			}
+
+			if isBigger {
+				returnPlans[addedPlansKey] = &plans.underlyingSlice[key]
+			}
+			break
+		}
+
+		if !found {
+			returnPlans = append(returnPlans, &plans.underlyingSlice[key])
+		}
+	}
+
+	return returnPlans, nil
+}
+
 func (plans *Plans) Get(planId string, version string) (*Plan, error) {
 	for _, plan := range plans.underlyingSlice {
 		if plan.ID == planId && plan.Version == version {
