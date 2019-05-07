@@ -21,6 +21,7 @@ func GetAllPlans(response http.ResponseWriter, request *http.Request) {
 
 	err = json.NewEncoder(response).Encode(sanitizedPlans)
 	if err != nil {
+		InternalServerErrorHandler(response, request, err)
 	}
 }
 
