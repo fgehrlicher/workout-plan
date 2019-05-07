@@ -19,17 +19,17 @@ const (
 	exerciseKeyKey = "exercise_key"
 )
 
-var requestContext context.Context
-
 func NewPlanPointerRepository(database *mongo.Database, requestTimeout time.Duration) *PlanPointerRepository {
-	requestContext, _ = context.WithTimeout(context.Background(), requestTimeout)
+	requestContext, _ := context.WithTimeout(context.Background(), requestTimeout)
 	return &PlanPointerRepository{
 		collection: database.Collection(collectionName),
+		requestContext: requestContext,
 	}
 }
 
 type PlanPointerRepository struct {
-	collection *mongo.Collection
+	collection     *mongo.Collection
+	requestContext context.Context
 }
 
 func (planPointerRepository *PlanPointerRepository) InitIndices() error {
@@ -44,7 +44,7 @@ func (planPointerRepository *PlanPointerRepository) InitIndices() error {
 	}
 
 	_, err := indexView.CreateOne(
-		requestContext,
+		planPointerRepository.requestContext,
 		planPointersIndex,
 	)
 
@@ -64,14 +64,14 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 		},
 	}
 
-	return planPointerRepository.collection.InsertOne(requestContext, planPointerBson)
+	return planPointerRepository.collection.InsertOne(planPointerRepository.requestContext, planPointerBson)
 }
 
 func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]PlanPointer, error) {
 	var userPlanPointers []PlanPointer
 
 	cursor, err := planPointerRepository.collection.Find(
-		requestContext, bsonx.Doc{
+		planPointerRepository.requestContext, bsonx.Doc{
 			{userIdKey, bsonx.String(userId)},
 		},
 	)
