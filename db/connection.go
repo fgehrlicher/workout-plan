@@ -10,28 +10,23 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-func GetDatabase(host, port, user, password, databaseName string) (*mongo.Database, error) {
+func GetDatabase(host, port, user, password, databaseName string, timeout time.Duration) (*mongo.Database, error) {
 	connectionString := fmt.Sprintf(
 		"mongodb://%s:%s@%s:%s",
 		user, password, host, port,
 	)
 
-	ctx, _ := context.WithTimeout(
-		context.Background(),
-		10*time.Second,
-	)
-
 	client, err := mongo.Connect(
-		ctx,
+		context.Background(),
 		options.Client().ApplyURI(connectionString),
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	ctx, _ = context.WithTimeout(
+	ctx, _ := context.WithTimeout(
 		context.Background(),
-		2*time.Second,
+		timeout,
 	)
 
 	err = client.Ping(ctx, readpref.Primary())

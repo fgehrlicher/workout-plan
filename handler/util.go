@@ -22,6 +22,7 @@ func NewPlanPointerRepository() (*plan_pointer.PlanPointerRepository, error) {
 		conf.Database.User,
 		conf.Database.Password,
 		conf.Database.Database,
+		time.Duration(conf.Database.Timeout.Startup)*time.Second,
 	)
 
 	if err != nil {
