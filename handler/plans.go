@@ -23,7 +23,7 @@ func GetAllPlans(response http.ResponseWriter, request *http.Request) {
 
 	err = json.NewEncoder(response).Encode(sanitizedPlans)
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 	}
 }
 
@@ -33,13 +33,13 @@ func GetPlan(response http.ResponseWriter, request *http.Request) {
 
 	latestPlan, err := plans.GetLatest(planId)
 	if err != nil {
-		NotFoundErrorHandler(response, request, err)
+		notFoundErrorHandler(response, request, err)
 		return
 	}
 
 	err = json.NewEncoder(response).Encode(latestPlan.GetSanitizedCopy())
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 		return
 	}
 }
@@ -52,13 +52,13 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 	planPointerRepository, err := NewPlanPointerRepository()
 
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 		return
 	}
 
 	planPointers, err := planPointerRepository.GetAll(userId)
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 		return
 	}
 
@@ -67,7 +67,7 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 	for _, planPointer := range planPointers {
 		existingPlan, err := plans.Get(planPointer.PlanId, planPointer.PlanVersion)
 		if err != nil {
-			InternalServerErrorHandler(response, request, err)
+			internalServerErrorHandler(response, request, err)
 			return
 		}
 		returnPlans = append(returnPlans, existingPlan.GetSanitizedCopy())
@@ -75,7 +75,7 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 
 	err = json.NewEncoder(response).Encode(returnPlans)
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 	}
 }
 
@@ -86,26 +86,26 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 
 	requestedPlan, err := plans.GetLatest(planId)
 	if err != nil {
-		NotFoundErrorHandler(response, request, err)
+		notFoundErrorHandler(response, request, err)
 		return
 	}
 
 	planPointerRepository, err := NewPlanPointerRepository()
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 		return
 	}
 
 	planPointers, err := planPointerRepository.GetAll(userId)
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 		return
 	}
 
 	if len(planPointers) > 0 {
 		for _, planPointer := range planPointers {
 			if planPointer.PlanId == planId {
-				BadRequestErrorHandler(
+				badRequestErrorHandler(
 					response,
 					request,
 					errors.New("the plan has already been started by this user"),
@@ -118,13 +118,13 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 	userPlanPointer := plan_pointer.CreatePlanPointer(requestedPlan, userId)
 	_, err = planPointerRepository.Insert(userPlanPointer)
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 		return
 	}
 
 	err = WriteMessage(response, "plan started")
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 	}
 }
 
@@ -133,19 +133,19 @@ func StopPlan(response http.ResponseWriter, request *http.Request) {
 	planId := mux.Vars(request)["planId"]
 
 	if userId == "" {
-		BadRequestErrorHandler(response, request, errors.New("`user` parameter is required for this endpoint"))
+		badRequestErrorHandler(response, request, errors.New("`user` parameter is required for this endpoint"))
 		return
 	}
 
 	planPointerRepository, err := NewPlanPointerRepository()
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 		return
 	}
 
 	planPointers, err := planPointerRepository.GetAll(userId)
 	if err != nil {
-		InternalServerErrorHandler(response, request, err)
+		internalServerErrorHandler(response, request, err)
 		return
 	}
 
@@ -153,16 +153,16 @@ func StopPlan(response http.ResponseWriter, request *http.Request) {
 		if planPointer.PlanId == planId {
 			err = planPointerRepository.Delete(planPointer)
 			if err != nil {
-				InternalServerErrorHandler(response, request, err)
+				internalServerErrorHandler(response, request, err)
 				return
 			}
 
 			err = WriteMessage(response, "plan deleted")
 			if err != nil {
-				InternalServerErrorHandler(response, request, err)
+				internalServerErrorHandler(response, request, err)
 			}
 			return
 		}
 	}
-	NotFoundErrorHandler(response, request, errors.New("no active plan with that name found"))
+	notFoundErrorHandler(response, request, errors.New("no active plan with that name found"))
 }

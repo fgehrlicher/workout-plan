@@ -10,7 +10,7 @@ import (
 )
 
 func NotFound(responseWriter http.ResponseWriter, request *http.Request) {
-	NotFoundErrorHandler(
+	notFoundErrorHandler(
 		responseWriter,
 		request,
 		errors.New(
@@ -20,7 +20,7 @@ func NotFound(responseWriter http.ResponseWriter, request *http.Request) {
 }
 
 func MethodNotAllowed(responseWriter http.ResponseWriter, request *http.Request) {
-	MethodNotAllowedErrorHandler(
+	methodNotAllowedErrorHandler(
 		responseWriter,
 		request,
 		errors.New(
@@ -29,23 +29,23 @@ func MethodNotAllowed(responseWriter http.ResponseWriter, request *http.Request)
 	)
 }
 
-func NotFoundErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
+func notFoundErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
 	handleError(responseWriter, request, http.StatusNotFound, err, log.WarnLevel)
 }
 
-func BadRequestErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
+func badRequestErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
 	handleError(responseWriter, request, http.StatusBadRequest, err, log.WarnLevel)
 }
 
-func ForbiddenErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
+func forbiddenErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
 	handleError(responseWriter, request, http.StatusForbidden, err, log.WarnLevel)
 }
 
-func MethodNotAllowedErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
+func methodNotAllowedErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
 	handleError(responseWriter, request, http.StatusMethodNotAllowed, err, log.WarnLevel)
 }
 
-func InternalServerErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
+func internalServerErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
 	handleError(responseWriter, request, http.StatusInternalServerError, err, log.ErrorLevel)
 }
 

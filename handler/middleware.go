@@ -9,7 +9,7 @@ func UserMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
 		userId := request.URL.Query().Get("user")
 		if userId == "" {
-			BadRequestErrorHandler(
+			badRequestErrorHandler(
 				responseWriter,
 				request,
 				errors.New("`user` parameter is required "),
