@@ -4,14 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"time"
 
 	"github.com/gorilla/mux"
 
-	"workout-plan/config"
-	"workout-plan/db"
 	"workout-plan/plan"
-	"workout-plan/plan-pointer"
 )
 
 func GetAllPlans(response http.ResponseWriter, request *http.Request) {
@@ -57,24 +53,12 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 	}
 
 	plans := plan.GetPlansInstance()
-	conf, _ := config.GetConfig()
-	database, err := db.GetDatabase(
-		conf.Database.Host,
-		conf.Database.Port,
-		conf.Database.User,
-		conf.Database.Password,
-		conf.Database.Database,
-	)
+	planPointerRepository, err := NewPlanPointerRepository()
 
 	if err != nil {
 		InternalServerErrorHandler(response, request, err)
 		return
 	}
-
-	planPointerRepository := plan_pointer.NewPlanPointerRepository(
-		database,
-		time.Duration(conf.Database.Timeout.Request)*time.Second,
-	)
 
 	planPointers, err := planPointerRepository.GetAll(userId)
 	if err != nil {
