@@ -49,8 +49,10 @@ func GetPlan(response http.ResponseWriter, request *http.Request) {
 }
 
 func GetActivePlans(response http.ResponseWriter, request *http.Request) {
-	userId, ok := mux.Vars(request)["user"]
-	if !ok {
+	queryParameter := request.URL.Query()
+	userId := queryParameter.Get("user")
+
+	if userId == "" {
 		BadRequestErrorHandler(response, request, errors.New("`user` parameter is required for this endpoint"))
 		return
 	}
@@ -81,7 +83,7 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	var returnPlans []plan.Plan
+	returnPlans := make([]plan.Plan, 0)
 
 	for _, planPointer := range planPointers {
 		existingPlan, err := plans.Get(planPointer.PlanId, planPointer.PlanVersion)
