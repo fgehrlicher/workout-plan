@@ -76,6 +76,9 @@ func main() {
 		}
 	}()
 
+	log.Info(fmt.Sprintf("Server started at %v:%v", conf.Server.Ip, conf.Server.Port))
+	log.Info("Startup finished!")
+	fmt.Println()
 	err = server.ListenAndServe()
 	if err == http.ErrServerClosed {
 		os.Exit(0)

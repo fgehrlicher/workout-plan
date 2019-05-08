@@ -52,9 +52,9 @@ func InternalServerErrorHandler(responseWriter http.ResponseWriter, request *htt
 func handleError(response http.ResponseWriter, request *http.Request, errorCode int, err error, level log.Level) {
 
 	logEntry := log.WithFields(log.Fields{
-		"Remote Adress":  request.RemoteAddr,
-		"Request Uri":    request.RequestURI,
-		"Request Method": request.Method,
+		"Adress":  request.RemoteAddr,
+		"Uri":    request.RequestURI,
+		"Method": request.Method,
 	})
 
 	logEntry.Log(level, err.Error())
