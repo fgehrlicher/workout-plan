@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"encoding/json"
+	"net/http"
 	"time"
 
 	"workout-plan/config"
@@ -36,4 +38,10 @@ func NewPlanPointerRepository() (*plan_pointer.PlanPointerRepository, error) {
 
 type ReturnMessage struct {
 	Message string `json:"message"`
+}
+
+func WriteMessage(response http.ResponseWriter, message string) error {
+	return json.NewEncoder(response).Encode(ReturnMessage{
+		Message: "plan deleted",
+	})
 }

@@ -132,11 +132,7 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	returnMessage := ReturnMessage{
-		Message: "started started",
-	}
-
-	err = json.NewEncoder(response).Encode(returnMessage)
+	err = WriteMessage(response, "plan started")
 	if err != nil {
 		InternalServerErrorHandler(response, request, err)
 	}
@@ -171,11 +167,7 @@ func StopPlan(response http.ResponseWriter, request *http.Request) {
 				return
 			}
 
-			returnMessage := ReturnMessage{
-				Message: "plan deleted",
-			}
-
-			err = json.NewEncoder(response).Encode(returnMessage)
+			err = WriteMessage(response, "plan deleted")
 			if err != nil {
 				InternalServerErrorHandler(response, request, err)
 			}
