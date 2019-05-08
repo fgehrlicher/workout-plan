@@ -4,7 +4,7 @@ import (
 	"workout-plan/plan"
 )
 
-func CreatePlanPointer(plan *plan.Plan, userId string) (PlanPointer, error) {
+func CreatePlanPointer(plan *plan.Plan, userId string) PlanPointer {
 	planPointer := PlanPointer{
 		PlanId:      plan.ID,
 		PlanVersion: plan.Version,
@@ -14,7 +14,7 @@ func CreatePlanPointer(plan *plan.Plan, userId string) (PlanPointer, error) {
 	planPointer.Position.UnitId = plan.Units[0].Id
 	planPointer.Position.ExerciseKey = 0
 
-	return planPointer, nil
+	return planPointer
 }
 
 type PlanPointer struct {
