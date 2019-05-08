@@ -66,6 +66,21 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 	return planPointerRepository.collection.InsertOne(planPointerRepository.requestContext, planPointerBson)
 }
 
+func (planPointerRepository *PlanPointerRepository) Delete(pointer PlanPointer) error {
+	planPointerBson := bsonx.Doc{
+		{planIdKey, bsonx.String(pointer.PlanId)},
+		{planVersionKey, bsonx.String(pointer.PlanVersion)},
+		{userIdKey, bsonx.String(pointer.UserId)},
+	}
+
+	singleResult := planPointerRepository.collection.FindOneAndDelete(
+		planPointerRepository.requestContext,
+		planPointerBson,
+	)
+
+	return singleResult.Decode(nil)
+}
+
 func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]PlanPointer, error) {
 	var userPlanPointers []PlanPointer
 
