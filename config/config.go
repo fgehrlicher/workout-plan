@@ -2,6 +2,7 @@ package config
 
 import (
 	"io/ioutil"
+	"sync"
 
 	"gopkg.in/yaml.v2"
 )
@@ -34,24 +35,29 @@ type Config struct {
 	} `yaml:"server"`
 }
 
-func LoadConfig(configFile ...string) (*Config, error) {
-	var configFilePath string
-	if len(configFile) != 0 {
-		configFilePath = configFile[0]
-	} else {
-		configFilePath = defaultConfigFilePath
-	}
-	config := &Config{}
+var configSingleton Config
+var configOnce sync.Once
 
+func GetConfig(configFile ...string) (*Config, error) {
+	var err error
+	configOnce.Do(func() {
+		var configFilePath string
+		if len(configFile) != 0 {
+			configFilePath = configFile[0]
+		} else {
+			configFilePath = defaultConfigFilePath
+		}
+		configSingleton = Config{}
+		err = configSingleton.loadFromFile(configFilePath)
+	})
+
+	return &configSingleton, nil
+}
+
+func (config *Config) loadFromFile(configFilePath string) error {
 	data, err := ioutil.ReadFile(configFilePath)
 	if err != nil {
-		return nil, err
+		return err
 	}
-
-	err = yaml.Unmarshal(data, config)
-	if err != nil {
-		return nil, err
-	}
-
-	return config, nil
+	return yaml.Unmarshal(data, config)
 }

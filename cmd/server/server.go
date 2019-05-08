@@ -20,7 +20,7 @@ import (
 
 func main() {
 
-	conf, err := config.LoadConfig()
+	conf, err := config.GetConfig()
 	handleError(err)
 
 	err = plan.InitializeExerciseDefinitions(conf.Plans.ExerciseDefinition)
