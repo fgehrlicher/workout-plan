@@ -37,7 +37,6 @@ func (planPointerRepository *PlanPointerRepository) InitIndices() error {
 	planPointersIndex := mongo.IndexModel{
 		Keys: bsonx.Doc{
 			{planIdKey, bsonx.Int32(1)},
-			{planVersionKey, bsonx.Int32(1)},
 			{userIdKey, bsonx.Int32(1)},
 		},
 		Options: options.Index().SetName("plan-version-user"),
