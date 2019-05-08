@@ -149,7 +149,7 @@ func (exercise *Exercise) Validate() error {
 	}
 
 	if exercise.ExerciseDefinition == nil {
-		return FieldRequiredForExerciseError("ExerciseDefinition")
+		return FieldRequiredForExerciseError("definitions-file")
 	}
 
 	if len(exercise.Sequence) == 0 {

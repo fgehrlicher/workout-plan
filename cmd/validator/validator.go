@@ -15,7 +15,7 @@ func main() {
 	conf, err := config.GetConfig()
 	handleError(err)
 
-	err = plan.InitializeExerciseDefinitions(conf.Plans.ExerciseDefinition)
+	err = plan.InitializeExerciseDefinitions(conf.Plans.DefinitionsFile)
 	handleError(err)
 
 	err = plan.InitializePlans(conf.Plans.Directory)

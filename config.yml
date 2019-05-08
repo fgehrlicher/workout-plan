@@ -1,6 +1,6 @@
 plans:
   directory: "etc/workout-plan/plans"
-  exercise-definition: "etc/workout-plan/exercise-definitions.yml"
+  definitions-file: "etc/workout-plan/definitions.yml"
 
 database:
   host: "localhost"

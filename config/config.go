@@ -11,8 +11,8 @@ const defaultConfigFilePath = "./config.yml"
 
 type Config struct {
 	Plans struct {
-		Directory          string `yaml:"directory"`
-		ExerciseDefinition string `yaml:"exercise-definition"`
+		Directory       string `yaml:"directory"`
+		DefinitionsFile string `yaml:"exercise-definition"`
 	} `yaml:"plans"`
 	Database struct {
 		Host     string `yaml:"host"`
