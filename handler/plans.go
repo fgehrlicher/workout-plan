@@ -141,3 +141,46 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 		InternalServerErrorHandler(response, request, err)
 	}
 }
+
+func StopPlan(response http.ResponseWriter, request *http.Request) {
+	userId := request.URL.Query().Get("user")
+	planId := mux.Vars(request)["planId"]
+
+	if userId == "" {
+		BadRequestErrorHandler(response, request, errors.New("`user` parameter is required for this endpoint"))
+		return
+	}
+
+	planPointerRepository, err := NewPlanPointerRepository()
+	if err != nil {
+		InternalServerErrorHandler(response, request, err)
+		return
+	}
+
+	planPointers, err := planPointerRepository.GetAll(userId)
+	if err != nil {
+		InternalServerErrorHandler(response, request, err)
+		return
+	}
+
+	for _, planPointer := range planPointers {
+		if planPointer.PlanId == planId {
+			err = planPointerRepository.Delete(planPointer)
+			if err != nil {
+				InternalServerErrorHandler(response, request, err)
+				return
+			}
+
+			returnMessage := ReturnMessage{
+				Message: "plan deleted",
+			}
+
+			err = json.NewEncoder(response).Encode(returnMessage)
+			if err != nil {
+				InternalServerErrorHandler(response, request, err)
+			}
+			return
+		}
+	}
+	NotFoundErrorHandler(response, request, errors.New("no active plan with that name found"))
+}
