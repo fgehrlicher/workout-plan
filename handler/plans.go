@@ -48,11 +48,6 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 	queryParameter := request.URL.Query()
 	userId := queryParameter.Get("user")
 
-	if userId == "" {
-		BadRequestErrorHandler(response, request, errors.New("`user` parameter is required for this endpoint"))
-		return
-	}
-
 	plans := plan.GetPlansInstance()
 	planPointerRepository, err := NewPlanPointerRepository()
 
@@ -88,11 +83,6 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 	plans := plan.GetPlansInstance()
 	userId := request.URL.Query().Get("user")
 	planId := mux.Vars(request)["planId"]
-
-	if userId == "" {
-		BadRequestErrorHandler(response, request, errors.New("`user` parameter is required for this endpoint"))
-		return
-	}
 
 	requestedPlan, err := plans.GetLatest(planId)
 	if err != nil {

@@ -49,6 +49,7 @@ func main() {
 	router := mux.NewRouter()
 	router.NotFoundHandler = http.HandlerFunc(handler.NotFound)
 	router.MethodNotAllowedHandler = http.HandlerFunc(handler.MethodNotAllowed)
+	router.Use(handler.UserMiddleware)
 
 	router.HandleFunc("/plans/", handler.GetAllPlans).Methods("GET")
 	router.HandleFunc("/plans/active/", handler.GetActivePlans).Methods("GET")
