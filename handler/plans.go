@@ -32,8 +32,7 @@ func GetAllPlans(response http.ResponseWriter, request *http.Request) {
 
 func GetPlan(response http.ResponseWriter, request *http.Request) {
 	plans := plan.GetPlansInstance()
-	vars := mux.Vars(request)
-	planId := vars["planId"]
+	planId := mux.Vars(request)["planId"]
 
 	latestPlan, err := plans.GetLatest(planId)
 	if err != nil {
