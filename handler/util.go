@@ -33,3 +33,7 @@ func NewPlanPointerRepository() (*plan_pointer.PlanPointerRepository, error) {
 
 	return planPointerRepository, nil
 }
+
+type ReturnMessage struct {
+	Message string `json:"message"`
+}

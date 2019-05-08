@@ -53,6 +53,7 @@ func main() {
 	router.HandleFunc("/plans/", handler.GetAllPlans).Methods("GET")
 	router.HandleFunc("/plans/active/", handler.GetActivePlans).Methods("GET")
 	router.HandleFunc("/plans/{planId}/", handler.GetPlan).Methods("GET")
+	router.HandleFunc("/plans/{planId}/start", handler.StartPlan).Methods("POST")
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%v:%v", conf.Server.Ip, conf.Server.Port),
