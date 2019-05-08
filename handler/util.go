@@ -42,6 +42,6 @@ type ReturnMessage struct {
 
 func WriteMessage(response http.ResponseWriter, message string) error {
 	return json.NewEncoder(response).Encode(ReturnMessage{
-		Message: "plan deleted",
+		Message: message,
 	})
 }
