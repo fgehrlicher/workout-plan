@@ -50,11 +50,11 @@ func InternalServerErrorHandler(responseWriter http.ResponseWriter, request *htt
 }
 
 func handleError(response http.ResponseWriter, request *http.Request, errorCode int, err error, level log.Level) {
-
 	logEntry := log.WithFields(log.Fields{
-		"Adress":  request.RemoteAddr,
-		"Uri":    request.RequestURI,
-		"Method": request.Method,
+		"remote_adress": request.RemoteAddr,
+		"uri":           request.RequestURI,
+		"http_method":   request.Method,
+		"status_code":   errorCode,
 	})
 
 	logEntry.Log(level, err.Error())
@@ -64,7 +64,7 @@ func handleError(response http.ResponseWriter, request *http.Request, errorCode 
 		Error      string `json:"error"`
 		StatusCode string `json:"status_code"`
 	}{
-		Error: err.Error(),
+		Error:      err.Error(),
 		StatusCode: strconv.Itoa(errorCode),
 	})
 
