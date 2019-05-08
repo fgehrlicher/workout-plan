@@ -59,6 +59,7 @@ func main() {
 
 	router.HandleFunc("/plans/", handler.GetAllPlans).Methods("GET")
 	router.HandleFunc("/plans/{planId}/", handler.GetPlan).Methods("GET")
+	router.HandleFunc("/plans/active/", handler.GetActivePlans).Methods("GET")
 
 	go func() {
 		osSignalChannel := make(chan os.Signal, 1)
