@@ -47,6 +47,13 @@ func main() {
 	handleError(err)
 
 	router := mux.NewRouter()
+	router.NotFoundHandler = http.HandlerFunc(handler.NotFound)
+	router.MethodNotAllowedHandler = http.HandlerFunc(handler.MethodNotAllowed)
+
+	router.HandleFunc("/plans/", handler.GetAllPlans).Methods("GET")
+	router.HandleFunc("/plans/active/", handler.GetActivePlans).Methods("GET")
+	router.HandleFunc("/plans/{planId}/", handler.GetPlan).Methods("GET")
+
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%v:%v", conf.Server.Ip, conf.Server.Port),
 		WriteTimeout: time.Second * time.Duration(conf.Server.Timeout.Write),
@@ -54,13 +61,6 @@ func main() {
 		IdleTimeout:  time.Second * time.Duration(conf.Server.Timeout.Idle),
 		Handler:      router,
 	}
-	router.NotFoundHandler = http.HandlerFunc(handler.NotFound)
-	router.MethodNotAllowedHandler = http.HandlerFunc(handler.MethodNotAllowed)
-
-	router.HandleFunc("/plans/", handler.GetAllPlans).Methods("GET")
-	router.HandleFunc("/plans/{planId}/", handler.GetPlan).Methods("GET")
-	router.HandleFunc("/plans/active/", handler.GetActivePlans).Methods("GET")
-
 	go func() {
 		osSignalChannel := make(chan os.Signal, 1)
 		signal.Notify(osSignalChannel, os.Interrupt)
