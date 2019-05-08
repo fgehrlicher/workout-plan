@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -24,13 +25,22 @@ func GetDatabase(host, port, user, password, databaseName string, timeout time.D
 		return nil, err
 	}
 
-	ctx, _ := context.WithTimeout(
+	ctx, cancelFunc := context.WithTimeout(
 		context.Background(),
 		timeout,
 	)
+	defer cancelFunc()
 
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
+		err = errors.New(
+			fmt.Sprintf(
+				"database connection error ( tried %v for %v ): %v",
+				connectionString,
+				timeout.String(),
+				err.Error(),
+			),
+		)
 		return nil, err
 	}
 
