@@ -22,6 +22,7 @@ type Config struct {
 		Database string `yaml:"database"`
 		Timeout  struct {
 			Request int `yaml:"request"`
+			Startup int `yaml:"startup"`
 		} `yaml:"timeout"`
 	} `yaml:"database"`
 	Server struct {
