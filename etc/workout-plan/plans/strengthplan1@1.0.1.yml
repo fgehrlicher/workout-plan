@@ -4,7 +4,7 @@ name: Kraft Plan
 version: 1.0.1
 description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam"
 units:
-  - id: Einheit 1
+  - name: Einheit 1
     exercises:
         # Types: main-exercise, special-exercise, additional-exercise
       - type: main-exercise

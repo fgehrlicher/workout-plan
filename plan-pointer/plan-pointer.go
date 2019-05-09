@@ -11,7 +11,7 @@ func CreatePlanPointer(plan *plan.Plan, userId string) PlanPointer {
 		UserId:      userId,
 	}
 
-	planPointer.Position.UnitId = plan.Units[0].Id
+	planPointer.Position.UnitKey = 0
 	planPointer.Position.ExerciseKey = 0
 
 	return planPointer
@@ -22,7 +22,7 @@ type PlanPointer struct {
 	PlanVersion string `bson:"plan_version"`
 	UserId      string `bson:"user_id"`
 	Position    struct {
-		UnitId      string `bson:"unit_id"`
-		ExerciseKey int    `bson:"exercise_key"`
+		UnitKey     int `bson:"unit_key"`
+		ExerciseKey int `bson:"exercise_key"`
 	} `bson:"position"`
 }

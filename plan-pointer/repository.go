@@ -16,7 +16,7 @@ const (
 	planVersionKey = "plan_version"
 	userIdKey      = "user_id"
 	positionKey    = "position"
-	unitIdKey      = "unit_id"
+	unitKeyKey     = "unit_key"
 	exerciseKeyKey = "exercise_key"
 )
 
@@ -62,7 +62,7 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 		{userIdKey, bsonx.String(pointer.UserId)},
 		{positionKey, bsonx.Document(
 			bsonx.Doc{
-				{unitIdKey, bsonx.String(pointer.Position.UnitId)},
+				{unitKeyKey, bsonx.Int32(int32(pointer.Position.UnitKey))},
 				{exerciseKeyKey, bsonx.Int32(int32(pointer.Position.ExerciseKey))},
 			}),
 		},
