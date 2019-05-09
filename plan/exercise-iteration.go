@@ -14,11 +14,11 @@ var possibleExerciseIterationsTypes = map[string]ExerciseIterationValidator{
 
 type ExerciseIteration struct {
 	Type      string `yaml:"type" json:"type"`
-	MinWeight string `yaml:"min-weight" json:"min-weight"`
-	MaxWeight string `yaml:"max-weight" json:"max-weight"`
-	Percent   string `yaml:"percent" json:"percent"`
-	Sets      string `yaml:"sets" json:"sets"`
-	Reps      string `yaml:"reps" json:"reps"`
+	MinWeight string `yaml:"min-weight" json:"min-weight,omitempty"`
+	MaxWeight string `yaml:"max-weight" json:"max-weight,omitempty"`
+	Percent   string `yaml:"percent" json:"percent,omitempty"`
+	Sets      string `yaml:"sets" json:"sets,omitempty"`
+	Reps      string `yaml:"reps" json:"reps,omitempty"`
 }
 
 func (exerciseIteration *ExerciseIteration) Validate() error {
