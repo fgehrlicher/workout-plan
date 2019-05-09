@@ -17,9 +17,9 @@ var possibleExerciseTypes = map[string]ExerciseValidator{
 }
 
 type Exercise struct {
-	ExerciseDefinition *ExerciseDefinition
-	Type               string
-	Sequence           []ExerciseIteration
+	ExerciseDefinition *ExerciseDefinition `json:"exercise_definition"`
+	Type               string              `json:"type"`
+	Sequence           []ExerciseIteration `json:"sequence"`
 }
 
 func (exercise *Exercise) UnmarshalJSON(data []byte) error {
