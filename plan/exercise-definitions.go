@@ -63,7 +63,13 @@ func InitializeExerciseDefinitions(exerciseDefinitionFile string) error {
 	fileExtension := filepath.Ext(exerciseDefinitionFile)
 	fileData, err := ioutil.ReadFile(exerciseDefinitionFile)
 	if err != nil {
-		return err
+		return  errors.New(
+			fmt.Sprintf(
+				"can´t load exercise definition file (tried: '%v'): %v",
+				exerciseDefinitionFile,
+				err,
+			),
+		)
 	}
 
 	var exerciseDefinitionsSlice []ExerciseDefinition

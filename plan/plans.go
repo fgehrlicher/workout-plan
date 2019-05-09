@@ -208,7 +208,13 @@ func loadPlan(path string, unmarshalMethod func([]byte, interface{}) error) (*Pl
 
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(
+			fmt.Sprintf(
+				"can´t load plan file (tried: '%v'): %v",
+				path,
+				err,
+			),
+		)
 	}
 
 	err = unmarshalMethod([]byte(data), plan)
