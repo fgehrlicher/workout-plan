@@ -2,6 +2,7 @@ package plan_pointer
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -17,6 +18,10 @@ const (
 	positionKey    = "position"
 	unitIdKey      = "unit_id"
 	exerciseKeyKey = "exercise_key"
+)
+
+var (
+	NoPlanFoundError = errors.New("no active plan for that id and user found")
 )
 
 func NewPlanPointerRepository(database *mongo.Database, requestTimeout time.Duration) *PlanPointerRepository {
@@ -123,6 +128,9 @@ func (planPointerRepository *PlanPointerRepository) GetByPlan(userId string, pla
 
 	planPointer := PlanPointer{}
 	err := singleResult.Decode(&planPointer)
+	if err == mongo.ErrNoDocuments {
+		err = NoPlanFoundError
+	}
 
 	return planPointer, err
 }
