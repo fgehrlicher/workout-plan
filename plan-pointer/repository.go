@@ -112,3 +112,17 @@ func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]Pla
 
 	return userPlanPointers, nil
 }
+
+func (planPointerRepository *PlanPointerRepository) GetByPlan(userId string, planId string) (PlanPointer, error) {
+	singleResult := planPointerRepository.collection.FindOne(
+		planPointerRepository.requestContext, bsonx.Doc{
+			{userIdKey, bsonx.String(userId)},
+			{planIdKey, bsonx.String(planId)},
+		},
+	)
+
+	planPointer := PlanPointer{}
+	err := singleResult.Decode(&planPointer)
+
+	return planPointer, err
+}
