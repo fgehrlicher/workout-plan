@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -58,7 +59,7 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	currentUnit := userPlan.Units[planPointer.Position.Unit - 1]
+	currentUnit := userPlan.Units[planPointer.Position.Unit-1]
 	err = json.NewEncoder(response).Encode(currentUnit)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)
@@ -90,6 +91,23 @@ func FinishCurrentUnit(response http.ResponseWriter, request *http.Request) {
 	userPlan, err := plans.Get(planPointer.PlanId, planPointer.PlanVersion)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)
+	}
+
+	currentUnit := userPlan.Units[planPointer.Position.Unit-1]
+	requiredVariables := currentUnit.GetRequiredVariables()
+
+	for _, requiredVariable := range requiredVariables {
+		variableInForm := request.FormValue(requiredVariable)
+		if variableInForm == "" {
+			badRequestErrorHandler(
+				response, request,
+				errors.New(
+					fmt.Sprintf("the variable `%v` must be sent when finishing this unit", requiredVariable),
+				),
+			)
+			return
+		}
+		planPointer.Data[requiredVariable] = variableInForm
 	}
 
 	if hasPlanUnitsLeft(planPointer, userPlan) {
