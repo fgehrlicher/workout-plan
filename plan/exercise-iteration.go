@@ -10,6 +10,7 @@ type ExerciseIterationValidator func(*ExerciseIteration) error
 var possibleExerciseIterationsTypes = map[string]ExerciseIterationValidator{
 	"sets-reps":              SetsRepsExerciseIterationValidator,
 	"sets-reps-weight-range": SetsRepsWeightRangeExerciseIterationValidator,
+	"max-out-register":       MaxOutRegisterExerciseIterationValidator,
 }
 
 type ExerciseIteration struct {
@@ -19,6 +20,7 @@ type ExerciseIteration struct {
 	Percent   string `yaml:"percent" json:"percent,omitempty"`
 	Sets      string `yaml:"sets" json:"sets,omitempty"`
 	Reps      string `yaml:"reps" json:"reps,omitempty"`
+	Variable  string `yaml:"variable" json:"variable,omitempty"`
 }
 
 func (exerciseIteration *ExerciseIteration) Validate() error {
@@ -68,6 +70,19 @@ func SetsRepsWeightRangeExerciseIterationValidator(exerciseIteration *ExerciseIt
 				),
 			)
 		}
+	}
+
+	return nil
+}
+
+func MaxOutRegisterExerciseIterationValidator(exerciseIteration *ExerciseIteration) error {
+	if exerciseIteration.Variable == "" {
+		return errors.New(
+			fmt.Sprintf(
+				"variable must be set if the type is set to max-out-register.\nFull element: %+v",
+				exerciseIteration,
+			),
+		)
 	}
 
 	return nil
