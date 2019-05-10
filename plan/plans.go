@@ -54,7 +54,7 @@ func (plans *Plans) GetLatest(planId string) (*Plan, error) {
 		}
 
 		if isBigger {
-			returnPlan = &plan
+			returnPlan = &plans.underlyingSlice[key]
 		}
 	}
 
