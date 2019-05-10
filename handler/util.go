@@ -37,9 +37,13 @@ func NewPlanPointerRepository() (*plan_pointer.PlanPointerRepository, error) {
 }
 
 func hasPlanEnded(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {
-	unitKey := pointer.Position.UnitKey
-	exerciseKey := pointer.Position.UnitKey
+	unitKey := pointer.Position.Unit
+	exerciseKey := pointer.Position.Exercise
 
 	return unitKey > len(userPlan.Units) ||
-		(unitKey == len(userPlan.Units) && exerciseKey >= len(userPlan.Units[unitKey].Exercises))
+		(unitKey == len(userPlan.Units) && exerciseKey >= len(userPlan.Units[unitKey -1].Exercises))
+}
+
+func hasPlanUnitsLeft(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {
+	return len(userPlan.Units) > pointer.Position.Unit
 }
