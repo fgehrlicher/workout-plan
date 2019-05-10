@@ -38,3 +38,17 @@ func (unit *Unit) Validate() error {
 
 	return nil
 }
+
+func (unit *Unit) GetRequiredVariables() []string {
+	var variables []string
+
+	for _, exercise := range unit.Exercises {
+		for _, iteration := range exercise.Sequence {
+			if iteration.Type == MaxOutRegisterExerciseIterationType {
+				variables = append(variables, iteration.Variable)
+			}
+		}
+	}
+
+	return variables
+}
