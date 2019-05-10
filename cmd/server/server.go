@@ -51,6 +51,7 @@ func main() {
 	router.NotFoundHandler = http.HandlerFunc(handler.NotFound)
 	router.MethodNotAllowedHandler = http.HandlerFunc(handler.MethodNotAllowed)
 	router.Use(handler.UserMiddleware)
+	router.Use(handler.HeaderMiddleware)
 
 	router.HandleFunc("/plans/", handler.GetAllPlans).Methods("GET")
 	router.HandleFunc("/plans/active/", handler.GetActivePlans).Methods("GET")
