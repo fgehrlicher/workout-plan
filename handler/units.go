@@ -58,7 +58,7 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	currentUnit := userPlan.Units[planPointer.Position.UnitKey]
+	currentUnit := userPlan.Units[planPointer.Position.Unit - 1]
 	err = json.NewEncoder(response).Encode(currentUnit)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)
