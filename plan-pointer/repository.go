@@ -71,6 +71,26 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 	return planPointerRepository.collection.InsertOne(planPointerRepository.requestContext, planPointerBson)
 }
 
+func (planPointerRepository *PlanPointerRepository) Update(pointer PlanPointer) error {
+	filter := bsonx.Doc{
+		{planIdKey, bsonx.String(pointer.PlanId)},
+		{planVersionKey, bsonx.String(pointer.PlanVersion)},
+		{userIdKey, bsonx.String(pointer.UserId)},
+	}
+
+	update := bsonx.Doc{
+		{positionKey, bsonx.Document(
+			bsonx.Doc{
+				{unitKeyKey, bsonx.Int32(int32(pointer.Position.UnitKey))},
+				{exerciseKeyKey, bsonx.Int32(int32(pointer.Position.ExerciseKey))},
+			}),
+		},
+	}
+
+	_, err := planPointerRepository.collection.UpdateOne(planPointerRepository.requestContext, filter, update)
+	return err
+}
+
 func (planPointerRepository *PlanPointerRepository) Delete(pointer PlanPointer) error {
 	planPointerBson := bsonx.Doc{
 		{planIdKey, bsonx.String(pointer.PlanId)},
