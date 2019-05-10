@@ -72,9 +72,9 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 	var dataElems bsonx.Doc
 	if len(pointer.Data) > 0 {
 		for key, data := range pointer.Data {
-			dataElems.Append(key, bsonx.String(data))
+			dataElems = dataElems.Append(key, bsonx.String(data))
 		}
-		planPointerBson.Append(dataKey, bsonx.Document(dataElems))
+		planPointerBson = planPointerBson.Append(dataKey, bsonx.Document(dataElems))
 	}
 
 	return planPointerRepository.collection.InsertOne(planPointerRepository.requestContext, planPointerBson)
@@ -99,9 +99,9 @@ func (planPointerRepository *PlanPointerRepository) Update(pointer PlanPointer) 
 	var dataElems bsonx.Doc
 	if len(pointer.Data) > 0 {
 		for key, data := range pointer.Data {
-			dataElems.Append(key, bsonx.String(data))
+			dataElems = dataElems.Append(key, bsonx.String(data))
 		}
-		updateDoc.Append(dataKey, bsonx.Document(dataElems))
+		updateDoc = updateDoc.Append(dataKey, bsonx.Document(dataElems))
 	}
 
 	update := bsonx.Doc{
@@ -167,7 +167,7 @@ func (planPointerRepository *PlanPointerRepository) GetByPlan(userId string, pla
 		},
 	)
 
-	planPointer := PlanPointer{}
+	planPointer := PlanPointer{Data:make(map[string]string)}
 	err := singleResult.Decode(&planPointer)
 	if err == mongo.ErrNoDocuments {
 		err = NoPlanFoundError
