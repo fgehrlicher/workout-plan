@@ -79,12 +79,16 @@ func (planPointerRepository *PlanPointerRepository) Update(pointer PlanPointer) 
 	}
 
 	update := bsonx.Doc{
-		{positionKey, bsonx.Document(
+		{"$set", bsonx.Document(
 			bsonx.Doc{
-				{unitKey, bsonx.Int32(int32(pointer.Position.Unit))},
-				{exerciseKey, bsonx.Int32(int32(pointer.Position.Exercise))},
-			}),
-		},
+				{positionKey, bsonx.Document(
+					bsonx.Doc{
+						{unitKey, bsonx.Int32(int32(pointer.Position.Unit))},
+						{exerciseKey, bsonx.Int32(int32(pointer.Position.Exercise))},
+					}),
+				},
+			},
+		)},
 	}
 
 	_, err := planPointerRepository.collection.UpdateOne(planPointerRepository.requestContext, filter, update)
