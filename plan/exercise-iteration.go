@@ -7,10 +7,16 @@ import (
 
 type ExerciseIterationValidator func(*ExerciseIteration) error
 
+const (
+	SetsRepsExerciseIterationType            = "sets-reps"
+	SetsRepsWeightRangeExerciseIterationType = "sets-reps-weight-range"
+	MaxOutRegisterExerciseIterationType      = "max-out-register"
+)
+
 var possibleExerciseIterationsTypes = map[string]ExerciseIterationValidator{
-	"sets-reps":              SetsRepsExerciseIterationValidator,
-	"sets-reps-weight-range": SetsRepsWeightRangeExerciseIterationValidator,
-	"max-out-register":       MaxOutRegisterExerciseIterationValidator,
+	SetsRepsExerciseIterationType:            SetsRepsExerciseIterationValidator,
+	SetsRepsWeightRangeExerciseIterationType: SetsRepsWeightRangeExerciseIterationValidator,
+	MaxOutRegisterExerciseIterationType:      MaxOutRegisterExerciseIterationValidator,
 }
 
 type ExerciseIteration struct {

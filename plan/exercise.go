@@ -10,14 +10,20 @@ import (
 
 type ExerciseValidator func(*Exercise) error
 
+const (
+	MainExerciseType       = "main-exercise"
+	SpecialExerciseType    = "special-exercise"
+	AdditionalExerciseType = "additional-exercise"
+)
+
 var possibleExerciseTypes = map[string]ExerciseValidator{
-	"main-exercise":       nil,
-	"special-exercise":    nil,
-	"additional-exercise": nil,
+	MainExerciseType:       nil,
+	SpecialExerciseType:    nil,
+	AdditionalExerciseType: nil,
 }
 
 type Exercise struct {
-	ExerciseDefinition *ExerciseDefinition `json:"exercise_definition"`
+	ExerciseDefinition *ExerciseDefinition `json:"exercise-definition"`
 	Type               string              `json:"type"`
 	Sequence           []ExerciseIteration `json:"sequence"`
 }
