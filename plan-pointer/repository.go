@@ -16,8 +16,8 @@ const (
 	planVersionKey = "plan_version"
 	userIdKey      = "user_id"
 	positionKey    = "position"
-	unitKeyKey     = "unit_key"
-	exerciseKeyKey = "exercise_key"
+	unitKey        = "unit"
+	exerciseKey    = "exercise"
 )
 
 var (
@@ -62,8 +62,8 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 		{userIdKey, bsonx.String(pointer.UserId)},
 		{positionKey, bsonx.Document(
 			bsonx.Doc{
-				{unitKeyKey, bsonx.Int32(int32(pointer.Position.UnitKey))},
-				{exerciseKeyKey, bsonx.Int32(int32(pointer.Position.ExerciseKey))},
+				{unitKey, bsonx.Int32(int32(pointer.Position.Unit))},
+				{exerciseKey, bsonx.Int32(int32(pointer.Position.Exercise))},
 			}),
 		},
 	}
@@ -81,8 +81,8 @@ func (planPointerRepository *PlanPointerRepository) Update(pointer PlanPointer) 
 	update := bsonx.Doc{
 		{positionKey, bsonx.Document(
 			bsonx.Doc{
-				{unitKeyKey, bsonx.Int32(int32(pointer.Position.UnitKey))},
-				{exerciseKeyKey, bsonx.Int32(int32(pointer.Position.ExerciseKey))},
+				{unitKey, bsonx.Int32(int32(pointer.Position.Unit))},
+				{exerciseKey, bsonx.Int32(int32(pointer.Position.Exercise))},
 			}),
 		},
 	}
