@@ -38,14 +38,11 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 		internalServerErrorHandler(response, request, err)
 	}
 
-	unitKey := planPointer.Position.UnitKey
-	exerciseKey := planPointer.Position.UnitKey
-
-	if len(userPlan.Units) < unitKey ||
-		(len(userPlan.Units) == unitKey && len(userPlan.Units[unitKey].Exercises) <= exerciseKey) {
-		err = planPointerRepository.Delete(planPointer)
+	if hasPlanEnded(planPointer, userPlan) {
+		err := planPointerRepository.Delete(planPointer)
 		if err != nil {
 			internalServerErrorHandler(response, request, err)
+			return
 		}
 
 		notFoundErrorHandler(
@@ -53,9 +50,10 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 			request,
 			errors.New("the requested plan has already been finished"),
 		)
+		return
 	}
 
-	currentUnit := userPlan.Units[unitKey]
+	currentUnit := userPlan.Units[planPointer.Position.UnitKey]
 	err = json.NewEncoder(response).Encode(currentUnit)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)

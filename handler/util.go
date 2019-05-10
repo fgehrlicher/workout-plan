@@ -1,12 +1,11 @@
 package handler
 
 import (
-	"encoding/json"
-	"net/http"
 	"time"
 
 	"workout-plan/config"
 	"workout-plan/db"
+	"workout-plan/plan"
 	"workout-plan/plan-pointer"
 )
 
@@ -37,12 +36,10 @@ func NewPlanPointerRepository() (*plan_pointer.PlanPointerRepository, error) {
 	return planPointerRepository, nil
 }
 
-type ReturnMessage struct {
-	Message string `json:"message"`
-}
+func hasPlanEnded(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {
+	unitKey := pointer.Position.UnitKey
+	exerciseKey := pointer.Position.UnitKey
 
-func WriteMessage(response http.ResponseWriter, message string) error {
-	return json.NewEncoder(response).Encode(ReturnMessage{
-		Message: message,
-	})
+	return unitKey > len(userPlan.Units) ||
+		(unitKey == len(userPlan.Units) && exerciseKey >= len(userPlan.Units[unitKey].Exercises))
 }
