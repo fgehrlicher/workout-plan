@@ -8,6 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"workout-plan/template"
 	"workout-plan/plan"
 	"workout-plan/plan-pointer"
 )
@@ -60,6 +61,9 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 	}
 
 	currentUnit := userPlan.Units[planPointer.Position.Unit-1]
+
+	err = template.EvaluateTemplate(&currentUnit, planPointer.Data)
+
 	err = json.NewEncoder(response).Encode(currentUnit)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)
