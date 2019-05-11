@@ -10,29 +10,48 @@ type Evaluator struct {
 
 func EvaluateTemplate(element interface{}, data map[string]string) error {
 	evaluator := Evaluator{data: data}
-	evaluator.resolveForType(element)
+	element = evaluator.resolve(element)
 	return nil
 }
 
-func (evaluator *Evaluator) resolveForType(element interface{}) {
-	switch reflect.TypeOf(element).Kind() {
+func (evaluator *Evaluator) resolve(element interface{}) interface{} {
+	kind := reflect.Indirect(reflect.ValueOf(element)).Kind()
+	value := reflect.ValueOf(element).Elem()
+	evaluator.resolveForKind(kind, &value)
+	return element
+}
+
+func (evaluator *Evaluator) resolveForKind(kind reflect.Kind, value *reflect.Value) {
+	switch kind {
 	case reflect.Struct:
-		evaluator.resolveSlice(element)
+		evaluator.resolveStruct(value)
 	case reflect.Slice:
-		evaluator.resolveSlice(element)
+		evaluator.resolveSlice(value)
 	case reflect.String:
-		evaluator.resolveString(element)
+		evaluator.resolveString(value)
 	}
 }
 
-func (evaluator *Evaluator) resolveStruct(element interface{}) {
-
+func (evaluator *Evaluator) resolveStruct(value *reflect.Value) {
+	for i := 0; i < value.NumField(); i++ {
+		field := value.Field(i)
+		if field.IsValid() && field.CanSet() {
+			kind := field.Kind()
+			evaluator.resolveForKind(kind, &field)
+		}
+	}
 }
 
-func (evaluator *Evaluator) resolveSlice(element interface{}) {
-
+func (evaluator *Evaluator) resolveSlice(value *reflect.Value) {
+	for i := 0; i < value.Len(); i++ {
+		sliceElement := value.Index(i)
+		kind := sliceElement.Kind()
+		evaluator.resolveForKind(kind, &sliceElement)
+	}
 }
 
-func (evaluator *Evaluator) resolveString(element interface{}) {
-
+func (evaluator *Evaluator) resolveString(value *reflect.Value) {
+	if value.CanSet() {
+		value.SetString("TEST STRING")
+	}
 }
