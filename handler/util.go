@@ -41,7 +41,7 @@ func hasPlanEnded(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {
 	exerciseKey := pointer.Position.Exercise
 
 	return unitKey > len(userPlan.Units) ||
-		(unitKey == len(userPlan.Units) && exerciseKey >= len(userPlan.Units[unitKey -1].Exercises))
+		(unitKey == len(userPlan.Units) && exerciseKey >= len(userPlan.Units[unitKey-1].Exercises))
 }
 
 func hasPlanUnitsLeft(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {

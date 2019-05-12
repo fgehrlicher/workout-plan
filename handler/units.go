@@ -8,9 +8,9 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"workout-plan/template"
 	"workout-plan/plan"
 	"workout-plan/plan-pointer"
+	"workout-plan/template"
 )
 
 const (
