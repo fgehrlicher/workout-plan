@@ -44,7 +44,7 @@ func (unit *Unit) GetRequiredVariables() []string {
 
 	for _, exercise := range unit.Exercises {
 		for _, iteration := range exercise.Sequence {
-			if iteration.Type == MaxOutRegisterExerciseIterationType {
+			if iteration.Variable != "" {
 				variables = append(variables, iteration.Variable)
 			}
 		}
