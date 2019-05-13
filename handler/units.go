@@ -15,8 +15,9 @@ import (
 )
 
 const (
-	PlanFinishedState = "PLAN_FINISHED"
-	PlanOkState       = "OK"
+	PlanFinishedState  = "PLAN_FINISHED"
+	PlanOkState        = "OK"
+	UnitIdQuerySegment = "unitId"
 )
 
 func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
@@ -146,5 +147,65 @@ func FinishCurrentUnit(response http.ResponseWriter, request *http.Request) {
 			internalServerErrorHandler(response, request, err)
 			return
 		}
+	}
+}
+
+func GetUnit(response http.ResponseWriter, request *http.Request) {
+	userId := request.URL.Query().Get(UserQuerySegment)
+	muxVars := mux.Vars(request)
+	planId := muxVars[PlanIdQuerySegment]
+	rawUnitId := muxVars[UnitIdQuerySegment]
+
+	unitId, err := strconv.Atoi(rawUnitId)
+	if err != nil {
+		badRequestErrorHandler(response, request, err)
+	}
+
+	plans := plan.GetPlansInstance()
+	planPointerRepository, err := NewPlanPointerRepository()
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+		return
+	}
+
+	planPointer, err := planPointerRepository.GetByPlan(userId, planId)
+	if err != nil {
+		if err == plan_pointer.NoPlanFoundError {
+			notFoundErrorHandler(response, request, err)
+		} else {
+			internalServerErrorHandler(response, request, err)
+		}
+		return
+	}
+
+	userPlan, err := plans.Get(planPointer.PlanId, planPointer.PlanVersion)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+	}
+
+	if len(userPlan.Units) < unitId {
+		badRequestErrorHandler(
+			response,
+			request,
+			errors.New(
+				fmt.Sprintf(
+					"Plan has no unit with id: `%v`. (Plan length = %v)",
+					unitId,
+					len(userPlan.Units),
+				),
+			),
+		)
+	}
+
+	requestedUnit := userPlan.Units[unitId]
+
+	err = template.EvaluateTemplate(&requestedUnit, planPointer.Data)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+	}
+
+	err = json.NewEncoder(response).Encode(requestedUnit)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
 	}
 }
