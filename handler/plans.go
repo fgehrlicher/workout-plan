@@ -11,6 +11,8 @@ import (
 	"workout-plan/plan-pointer"
 )
 
+const PlanIdQuerySegment  = "planId"
+
 func GetAllPlans(response http.ResponseWriter, request *http.Request) {
 	plans := plan.GetPlansInstance()
 
@@ -29,7 +31,7 @@ func GetAllPlans(response http.ResponseWriter, request *http.Request) {
 
 func GetPlan(response http.ResponseWriter, request *http.Request) {
 	plans := plan.GetPlansInstance()
-	planId := mux.Vars(request)["planId"]
+	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	latestPlan, err := plans.GetLatest(planId)
 	if err != nil {
@@ -46,7 +48,7 @@ func GetPlan(response http.ResponseWriter, request *http.Request) {
 
 func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 	queryParameter := request.URL.Query()
-	userId := queryParameter.Get("user")
+	userId := queryParameter.Get(UserQuerySegment)
 
 	plans := plan.GetPlansInstance()
 	planPointerRepository, err := NewPlanPointerRepository()
@@ -81,8 +83,8 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 
 func StartPlan(response http.ResponseWriter, request *http.Request) {
 	plans := plan.GetPlansInstance()
-	userId := request.URL.Query().Get("user")
-	planId := mux.Vars(request)["planId"]
+	userId := request.URL.Query().Get(UserQuerySegment)
+	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	requestedPlan, err := plans.GetLatest(planId)
 	if err != nil {
@@ -129,8 +131,8 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 }
 
 func StopPlan(response http.ResponseWriter, request *http.Request) {
-	userId := request.URL.Query().Get("user")
-	planId := mux.Vars(request)["planId"]
+	userId := request.URL.Query().Get(UserQuerySegment)
+	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	if userId == "" {
 		badRequestErrorHandler(response, request, errors.New("`user` parameter is required for this endpoint"))

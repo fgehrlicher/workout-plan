@@ -2,17 +2,20 @@ package handler
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 )
 
+const UserQuerySegment = "user"
+
 func UserMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
-		userId := request.URL.Query().Get("user")
+		userId := request.URL.Query().Get(UserQuerySegment)
 		if userId == "" {
 			badRequestErrorHandler(
 				responseWriter,
 				request,
-				errors.New("`user` parameter is required "),
+				errors.New(fmt.Sprintf("`%v` parameter is required ", UserQuerySegment)),
 			)
 			return
 		}

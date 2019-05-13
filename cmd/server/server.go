@@ -53,14 +53,34 @@ func main() {
 	router.Use(handler.UserMiddleware)
 	router.Use(handler.HeaderMiddleware)
 
-	router.HandleFunc("/plans/", handler.GetAllPlans).Methods("GET")
-	router.HandleFunc("/plans/active/", handler.GetActivePlans).Methods("GET")
-	router.HandleFunc("/plans/{planId}/", handler.GetPlan).Methods("GET")
-	router.HandleFunc("/plans/{planId}/start/", handler.StartPlan).Methods("POST")
-	router.HandleFunc("/plans/{planId}/stop/", handler.StopPlan).Methods("POST")
-
-	router.HandleFunc("/plans/{planId}/units/current/", handler.GetCurrentUnit).Methods("GET")
-	router.HandleFunc("/plans/{planId}/units/current/finish/", handler.FinishCurrentUnit).Methods("POST")
+	router.HandleFunc(
+		"/plans/",
+		handler.GetAllPlans,
+	).Methods("GET")
+	router.HandleFunc(
+		"/plans/active/",
+		handler.GetActivePlans,
+	).Methods("GET")
+	router.HandleFunc(
+		fmt.Sprintf("/plans/{%v}/", handler.PlanIdQuerySegment),
+		handler.GetPlan,
+	).Methods("GET")
+	router.HandleFunc(
+		fmt.Sprintf("/plans/{%v}/start/", handler.PlanIdQuerySegment),
+		handler.StartPlan,
+	).Methods("POST")
+	router.HandleFunc(
+		fmt.Sprintf("/plans/{%v}/stop/", handler.PlanIdQuerySegment),
+		handler.StopPlan,
+	).Methods("POST")
+	router.HandleFunc(
+		fmt.Sprintf("/plans/{%v}/units/current/", handler.PlanIdQuerySegment),
+		handler.GetCurrentUnit,
+	).Methods("GET")
+	router.HandleFunc(
+		fmt.Sprintf("/plans/{%v}/units/current/finish/", handler.PlanIdQuerySegment),
+		handler.FinishCurrentUnit,
+	).Methods("POST")
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%v:%v", conf.Server.Ip, conf.Server.Port),

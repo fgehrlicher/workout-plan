@@ -21,8 +21,8 @@ const (
 
 func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 	queryParameter := request.URL.Query()
-	userId := queryParameter.Get("user")
-	planId := mux.Vars(request)["planId"]
+	userId := queryParameter.Get(UserQuerySegment)
+	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	plans := plan.GetPlansInstance()
 	planPointerRepository, err := NewPlanPointerRepository()
@@ -76,8 +76,8 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 
 func FinishCurrentUnit(response http.ResponseWriter, request *http.Request) {
 	queryParameter := request.URL.Query()
-	userId := queryParameter.Get("user")
-	planId := mux.Vars(request)["planId"]
+	userId := queryParameter.Get(UserQuerySegment)
+	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	plans := plan.GetPlansInstance()
 	planPointerRepository, err := NewPlanPointerRepository()
