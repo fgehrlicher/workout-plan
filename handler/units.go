@@ -209,3 +209,85 @@ func GetUnit(response http.ResponseWriter, request *http.Request) {
 		internalServerErrorHandler(response, request, err)
 	}
 }
+
+func FinishUnit(response http.ResponseWriter, request *http.Request) {
+	userId := request.URL.Query().Get(UserQuerySegment)
+	muxVars := mux.Vars(request)
+	planId := muxVars[PlanIdQuerySegment]
+	rawUnitId := muxVars[UnitIdQuerySegment]
+
+	unitId, err := strconv.Atoi(rawUnitId)
+	if err != nil {
+		badRequestErrorHandler(response, request, err)
+	}
+
+	plans := plan.GetPlansInstance()
+	planPointerRepository, err := NewPlanPointerRepository()
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+		return
+	}
+
+	planPointer, err := planPointerRepository.GetByPlan(userId, planId)
+	if err != nil {
+		if err == plan_pointer.NoPlanFoundError {
+			notFoundErrorHandler(response, request, err)
+		} else {
+			internalServerErrorHandler(response, request, err)
+		}
+		return
+	}
+
+	userPlan, err := plans.Get(planPointer.PlanId, planPointer.PlanVersion)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+	}
+
+	if len(userPlan.Units) < unitId {
+		badRequestErrorHandler(
+			response,
+			request,
+			errors.New(
+				fmt.Sprintf(
+					"Plan has no unit with id: `%v`. (Plan length = %v)",
+					unitId,
+					len(userPlan.Units),
+				),
+			),
+		)
+	}
+
+	currentUnit := userPlan.Units[unitId]
+	requiredVariables := currentUnit.GetRequiredVariables()
+
+	for _, requiredVariable := range requiredVariables {
+		variableInForm := request.FormValue(requiredVariable)
+		if variableInForm == "" {
+			badRequestErrorHandler(
+				response, request,
+				errors.New(
+					fmt.Sprintf("the variable `%v` must be sent when finishing this unit", requiredVariable),
+				),
+			)
+			return
+		}
+		intValue, err := strconv.Atoi(variableInForm)
+		if err != nil {
+			badRequestErrorHandler(response, request, err)
+		}
+
+		planPointer.Data[requiredVariable] = intValue
+	}
+
+	err = planPointerRepository.Update(planPointer)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+		return
+	}
+
+	err = WriteStateMessage(response, "unit finished", PlanOkState)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+		return
+	}
+}
