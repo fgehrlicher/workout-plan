@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 
@@ -111,7 +112,12 @@ func FinishCurrentUnit(response http.ResponseWriter, request *http.Request) {
 			)
 			return
 		}
-		planPointer.Data[requiredVariable] = variableInForm
+		intValue, err := strconv.Atoi(variableInForm)
+		if err != nil {
+			badRequestErrorHandler(response, request, err)
+		}
+
+		planPointer.Data[requiredVariable] = intValue
 	}
 
 	if hasPlanUnitsLeft(planPointer, userPlan) {

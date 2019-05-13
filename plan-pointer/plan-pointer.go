@@ -25,5 +25,5 @@ type PlanPointer struct {
 		Unit     int `bson:"unit"`
 		Exercise int `bson:"exercise"`
 	} `bson:"position"`
-	Data map[string]string `bson:"data"`
+	Data map[string]int `bson:"data"`
 }
