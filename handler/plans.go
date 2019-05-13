@@ -3,7 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -12,7 +11,7 @@ import (
 	"workout-plan/plan-pointer"
 )
 
-const PlanIdQuerySegment  = "planId"
+const PlanIdQuerySegment = "planId"
 
 func GetAllPlans(response http.ResponseWriter, request *http.Request) {
 	plans := plan.GetPlansInstance()
