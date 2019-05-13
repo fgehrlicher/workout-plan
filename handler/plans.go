@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -133,11 +134,6 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 func StopPlan(response http.ResponseWriter, request *http.Request) {
 	userId := request.URL.Query().Get(UserQuerySegment)
 	planId := mux.Vars(request)[PlanIdQuerySegment]
-
-	if userId == "" {
-		badRequestErrorHandler(response, request, errors.New("`user` parameter is required for this endpoint"))
-		return
-	}
 
 	planPointerRepository, err := NewPlanPointerRepository()
 	if err != nil {

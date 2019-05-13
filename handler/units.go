@@ -20,8 +20,7 @@ const (
 )
 
 func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
-	queryParameter := request.URL.Query()
-	userId := queryParameter.Get(UserQuerySegment)
+	userId := request.URL.Query().Get(UserQuerySegment)
 	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	plans := plan.GetPlansInstance()
