@@ -64,6 +64,9 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 	currentUnit := userPlan.Units[planPointer.Position.Unit-1]
 
 	err = template.EvaluateTemplate(&currentUnit, planPointer.Data)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+	}
 
 	err = json.NewEncoder(response).Encode(currentUnit)
 	if err != nil {
