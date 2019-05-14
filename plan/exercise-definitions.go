@@ -47,6 +47,15 @@ func (exerciseDefinitions *ExerciseDefinitions) Get(name string) (*ExerciseDefin
 	)
 }
 
+func (exerciseDefinitions *ExerciseDefinitions) GetAll() []*ExerciseDefinition {
+	var returnDefinitions []*ExerciseDefinition
+	for key := range exerciseDefinitions.underlyingSlice {
+		returnDefinitions = append(returnDefinitions, &exerciseDefinitions.underlyingSlice[key])
+	}
+
+	return returnDefinitions
+}
+
 var exerciseDefinitionsSingleton *ExerciseDefinitions
 var exerciseDefinitionsOnce sync.Once
 
