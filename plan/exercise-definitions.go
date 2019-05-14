@@ -41,7 +41,7 @@ func (exerciseDefinitions *ExerciseDefinitions) Get(name string) (*ExerciseDefin
 
 	return nil, errors.New(
 		fmt.Sprintf(
-			"exercise definition with name`%v` was not found.",
+			"exercise definition with name `%v` was not found.",
 			name,
 		),
 	)
