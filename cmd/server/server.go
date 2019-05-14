@@ -89,6 +89,11 @@ func main() {
 		fmt.Sprintf("/plans/{%v}/units/{%v}/finish/", handler.PlanIdQuerySegment, handler.UnitIdQuerySegment),
 		handler.FinishUnit,
 	).Methods("POST")
+	router.HandleFunc(
+		"/exercises/",
+		handler.GetAllExercises,
+	).Methods("GET")
+
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%v:%v", conf.Server.Ip, conf.Server.Port),
