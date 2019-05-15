@@ -50,6 +50,7 @@ func main() {
 	router := mux.NewRouter()
 	router.NotFoundHandler = http.HandlerFunc(handler.NotFound)
 	router.MethodNotAllowedHandler = http.HandlerFunc(handler.MethodNotAllowed)
+	router.Use(handler.AuthMiddleware)
 	router.Use(handler.HeaderMiddleware)
 
 	router.HandleFunc(
