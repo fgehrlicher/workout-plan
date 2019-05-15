@@ -19,3 +19,8 @@ server:
     write: 60
     read: 360
     idle: 60
+
+auth:
+  token:
+    issuer: "auth.fge.cloud"
+    service: ""
