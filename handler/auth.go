@@ -21,11 +21,20 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 		err := auth.ParseAuth(authorizationHeader)
 		if err != nil {
-			forbiddenErrorHandler(
-				responseWriter,
-				request,
-				err,
-			)
+			_, ok := err.(*auth.BadRequestError)
+			if ok {
+				badRequestErrorHandler(
+					responseWriter,
+					request,
+					err,
+				)
+			} else {
+				forbiddenErrorHandler(
+					responseWriter,
+					request,
+					err,
+				)
+			}
 		}
 
 		next.ServeHTTP(responseWriter, request)

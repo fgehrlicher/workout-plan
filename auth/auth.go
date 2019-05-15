@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 )
@@ -12,10 +11,22 @@ const (
 	Separator               = " "
 )
 
+func NewBadRequestError(text string) error {
+	return &BadRequestError{text}
+}
+
+type BadRequestError struct {
+	text string
+}
+
+func (badRequestError *BadRequestError) Error() string {
+	return badRequestError.text
+}
+
 func ParseAuth(authorizationHeader string) error {
 	authorizationHeaderParts := strings.Split(authorizationHeader, Separator)
 	if len(authorizationHeaderParts) <= 1 {
-		return errors.New("invalid authorization header format. expected '<type> <credentials>'")
+		return NewBadRequestError("invalid authorization header format. expected '<type> <credentials>'")
 	}
 
 	authorizationType := authorizationHeaderParts[0]
@@ -26,5 +37,7 @@ func ParseAuth(authorizationHeader string) error {
 		return DecodeToken(authorizationString)
 	}
 
-	return fmt.Errorf("invalid authorization type: `%v`", authorizationType)
+	return NewBadRequestError(
+		fmt.Sprintf("invalid authorization type: `%v`", authorizationType),
+	)
 }
