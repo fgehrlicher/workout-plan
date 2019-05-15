@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"net/http"
 	"time"
 
 	"workout-plan/config"
@@ -46,4 +47,11 @@ func hasPlanEnded(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {
 
 func hasPlanUnitsLeft(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {
 	return len(userPlan.Units) > pointer.Position.Unit
+}
+
+func HeaderMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+		responseWriter.Header().Set("Content-Type", "application/json")
+		next.ServeHTTP(responseWriter, request)
+	})
 }
