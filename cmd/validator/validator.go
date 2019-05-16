@@ -7,18 +7,21 @@ import (
 	"workout-plan/db"
 	"workout-plan/plan"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
-func main() {
+var log = logrus.New()
 
+func main() {
 	conf, err := config.GetConfig()
 	handleError(err)
 
-	err = plan.InitializeExerciseDefinitions(conf.Plans.DefinitionsFile)
+	log.SetLevel(logrus.InfoLevel)
+
+	err = plan.InitializeExerciseDefinitions(conf.Plans.DefinitionsFile, log)
 	handleError(err)
 
-	err = plan.InitializePlans(conf.Plans.Directory)
+	err = plan.InitializePlans(conf.Plans.Directory, log)
 	handleError(err)
 
 	_, err = db.GetDatabase(

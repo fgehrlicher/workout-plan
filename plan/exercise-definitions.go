@@ -8,16 +8,18 @@ import (
 	"path/filepath"
 	"sync"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
+
+var exerciseLogger *logrus.Logger
 
 type ExerciseDefinitions struct {
 	underlyingSlice []ExerciseDefinition
 }
 
 func (exerciseDefinitions *ExerciseDefinitions) Add(exerciseDefinition ExerciseDefinition) {
-	logEntry := log.WithFields(log.Fields{
+	logEntry := exerciseLogger.WithFields(logrus.Fields{
 		"Id": exerciseDefinition.Name,
 	})
 
@@ -66,7 +68,8 @@ func GetExerciseDefinitionsInstance() *ExerciseDefinitions {
 	return exerciseDefinitionsSingleton
 }
 
-func InitializeExerciseDefinitions(exerciseDefinitionFile string) error {
+func InitializeExerciseDefinitions(exerciseDefinitionFile string, logger *logrus.Logger) error {
+	exerciseLogger = logger
 	exerciseDefinitions := GetExerciseDefinitionsInstance()
 
 	fileExtension := filepath.Ext(exerciseDefinitionFile)

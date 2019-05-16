@@ -8,18 +8,20 @@ import (
 	"path/filepath"
 	"sync"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 
 	"workout-plan/version"
 )
+
+var plansLogger *logrus.Logger
 
 type Plans struct {
 	underlyingSlice []Plan
 }
 
 func (plans *Plans) Add(plan Plan) {
-	logEntry := log.WithFields(log.Fields{
+	logEntry := plansLogger.WithFields(logrus.Fields{
 		"Id":      plan.ID,
 		"Version": plan.Version,
 	})
@@ -139,7 +141,8 @@ func GetPlansInstance() *Plans {
 	return plansSingleton
 }
 
-func InitializePlans(planDirectory string) error {
+func InitializePlans(planDirectory string, logger *logrus.Logger) error {
+	plansLogger = logger
 	plans := GetPlansInstance()
 
 	fileInfos, err := ioutil.ReadDir(planDirectory)
@@ -187,7 +190,7 @@ func InitializePlans(planDirectory string) error {
 func validatePlan(plan *Plan) error {
 	err := plan.Validate()
 	if err != nil {
-		log.WithFields(log.Fields{
+		plansLogger.WithFields(logrus.Fields{
 			"Id": plan.ID,
 		}).Error("plan validation error")
 		return err

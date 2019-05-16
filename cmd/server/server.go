@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 
 	"workout-plan/config"
 	"workout-plan/db"
@@ -18,15 +18,18 @@ import (
 	"workout-plan/plan-pointer"
 )
 
-func main() {
+var log = logrus.New()
 
+func main() {
 	conf, err := config.GetConfig()
 	handleError(err)
 
-	err = plan.InitializeExerciseDefinitions(conf.Plans.DefinitionsFile)
+	log.SetLevel(logrus.InfoLevel)
+
+	err = plan.InitializeExerciseDefinitions(conf.Plans.DefinitionsFile, log)
 	handleError(err)
 
-	err = plan.InitializePlans(conf.Plans.Directory)
+	err = plan.InitializePlans(conf.Plans.Directory, log)
 	handleError(err)
 
 	database, err := db.GetDatabase(
