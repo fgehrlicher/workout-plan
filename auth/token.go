@@ -33,13 +33,14 @@ func DecodeToken(rawToken string, config config.TokenConfig) (*Grant, error) {
 		return nil, err
 	}
 
-	claims, ok := parsedToken.Claims.(*UserAccessClaim)
+	claim, ok := parsedToken.Claims.(*UserAccessClaim)
 	if !ok || !parsedToken.Valid {
 		return nil, fmt.Errorf("invalid token: %v", parsedToken)
 	}
 
-	err = claims.Validate(config)
-	return &claims.Grant, err
+	claim.UserName = claim.Subject
+	err = claim.Validate(config)
+	return &claim.Grant, err
 }
 
 func (claim *UserAccessClaim) Validate(config config.TokenConfig) error {
