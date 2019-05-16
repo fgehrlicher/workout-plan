@@ -9,7 +9,7 @@ database:
   password: "secret"
   database: "admin"
   timeout:
-    startup: 20
+    startup: 5
     request: 10
 
 server:
