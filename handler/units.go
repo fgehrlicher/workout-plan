@@ -9,6 +9,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"workout-plan/auth"
 	"workout-plan/plan"
 	"workout-plan/plan-pointer"
 	"workout-plan/template"
@@ -21,7 +22,12 @@ const (
 )
 
 func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
-	userId := request.URL.Query().Get(UserQuerySegment)
+	rawUserGrant := request.Context().Value(UserGrantCtxKey)
+	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
+	if !ok {
+		internalServerErrorHandler(response, request, nil)
+	}
+	userId := userGrant.UserName
 	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	plans := plan.GetPlansInstance()
@@ -75,8 +81,12 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 }
 
 func FinishCurrentUnit(response http.ResponseWriter, request *http.Request) {
-	queryParameter := request.URL.Query()
-	userId := queryParameter.Get(UserQuerySegment)
+	rawUserGrant := request.Context().Value(UserGrantCtxKey)
+	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
+	if !ok {
+		internalServerErrorHandler(response, request, nil)
+	}
+	userId := userGrant.UserName
 	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	plans := plan.GetPlansInstance()
@@ -151,7 +161,12 @@ func FinishCurrentUnit(response http.ResponseWriter, request *http.Request) {
 }
 
 func GetUnit(response http.ResponseWriter, request *http.Request) {
-	userId := request.URL.Query().Get(UserQuerySegment)
+	rawUserGrant := request.Context().Value(UserGrantCtxKey)
+	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
+	if !ok {
+		internalServerErrorHandler(response, request, nil)
+	}
+	userId := userGrant.UserName
 	muxVars := mux.Vars(request)
 	planId := muxVars[PlanIdQuerySegment]
 	rawUnitId := muxVars[UnitIdQuerySegment]
@@ -211,7 +226,12 @@ func GetUnit(response http.ResponseWriter, request *http.Request) {
 }
 
 func FinishUnit(response http.ResponseWriter, request *http.Request) {
-	userId := request.URL.Query().Get(UserQuerySegment)
+	rawUserGrant := request.Context().Value(UserGrantCtxKey)
+	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
+	if !ok {
+		internalServerErrorHandler(response, request, nil)
+	}
+	userId := userGrant.UserName
 	muxVars := mux.Vars(request)
 	planId := muxVars[PlanIdQuerySegment]
 	rawUnitId := muxVars[UnitIdQuerySegment]

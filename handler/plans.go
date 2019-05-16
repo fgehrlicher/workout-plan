@@ -7,6 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"workout-plan/auth"
 	"workout-plan/plan"
 	"workout-plan/plan-pointer"
 )
@@ -47,8 +48,12 @@ func GetPlan(response http.ResponseWriter, request *http.Request) {
 }
 
 func GetActivePlans(response http.ResponseWriter, request *http.Request) {
-	queryParameter := request.URL.Query()
-	userId := queryParameter.Get(UserQuerySegment)
+	rawUserGrant := request.Context().Value(UserGrantCtxKey)
+	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
+	if !ok {
+		internalServerErrorHandler(response, request, nil)
+	}
+	userId := userGrant.UserName
 
 	plans := plan.GetPlansInstance()
 	planPointerRepository, err := NewPlanPointerRepository()
@@ -82,8 +87,13 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 }
 
 func StartPlan(response http.ResponseWriter, request *http.Request) {
+	rawUserGrant := request.Context().Value(UserGrantCtxKey)
+	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
+	if !ok {
+		internalServerErrorHandler(response, request, nil)
+	}
+	userId := userGrant.UserName
 	plans := plan.GetPlansInstance()
-	userId := request.URL.Query().Get(UserQuerySegment)
 	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	requestedPlan, err := plans.GetLatest(planId)
@@ -131,7 +141,12 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 }
 
 func StopPlan(response http.ResponseWriter, request *http.Request) {
-	userId := request.URL.Query().Get(UserQuerySegment)
+	rawUserGrant := request.Context().Value(UserGrantCtxKey)
+	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
+	if !ok {
+		internalServerErrorHandler(response, request, nil)
+	}
+	userId := userGrant.UserName
 	planId := mux.Vars(request)[PlanIdQuerySegment]
 
 	planPointerRepository, err := NewPlanPointerRepository()
