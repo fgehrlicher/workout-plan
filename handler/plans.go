@@ -7,7 +7,6 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"workout-plan/auth"
 	"workout-plan/plan"
 	"workout-plan/plan-pointer"
 )
@@ -15,16 +14,15 @@ import (
 const PlanIdQuerySegment = "planId"
 
 func GetAllPlans(response http.ResponseWriter, request *http.Request) {
-	rawUserGrant := request.Context().Value(UserGrantCtxKey)
-	userGrant, ok := rawUserGrant.(auth.UserAccessClaim)
-	if !ok {
-		internalServerErrorHandler(response, request, nil)
+	userGrant, err := GetUserGrant(request)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
 		return
 	}
 
 	plans := plan.GetPlansInstance()
 
-	var sanitizedPlans []plan.Plan
+	sanitizedPlans := make([]plan.Plan, 0)
 	latestPlans, err := plans.GetAllLatest()
 
 	for _, rawPlan := range latestPlans {
@@ -57,14 +55,13 @@ func GetPlan(response http.ResponseWriter, request *http.Request) {
 }
 
 func GetActivePlans(response http.ResponseWriter, request *http.Request) {
-	rawUserGrant := request.Context().Value(UserGrantCtxKey)
-	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
-	if !ok {
-		internalServerErrorHandler(response, request, nil)
+	userGrant, err := GetUserGrant(request)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
 		return
 	}
-	userId := userGrant.UserName
 
+	userId := userGrant.UserName
 	plans := plan.GetPlansInstance()
 	planPointerRepository, err := NewPlanPointerRepository()
 
@@ -99,12 +96,12 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 }
 
 func StartPlan(response http.ResponseWriter, request *http.Request) {
-	rawUserGrant := request.Context().Value(UserGrantCtxKey)
-	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
-	if !ok {
-		internalServerErrorHandler(response, request, nil)
+	userGrant, err := GetUserGrant(request)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
 		return
 	}
+
 	userId := userGrant.UserName
 	plans := plan.GetPlansInstance()
 	planId := mux.Vars(request)[PlanIdQuerySegment]
@@ -154,12 +151,12 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 }
 
 func StopPlan(response http.ResponseWriter, request *http.Request) {
-	rawUserGrant := request.Context().Value(UserGrantCtxKey)
-	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
-	if !ok {
-		internalServerErrorHandler(response, request, nil)
+	userGrant, err := GetUserGrant(request)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
 		return
 	}
+
 	userId := userGrant.UserName
 	planId := mux.Vars(request)[PlanIdQuerySegment]
 

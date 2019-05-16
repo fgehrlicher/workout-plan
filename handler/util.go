@@ -1,8 +1,11 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"time"
+
+	"workout-plan/auth"
 
 	"workout-plan/config"
 	"workout-plan/db"
@@ -54,4 +57,13 @@ func HeaderMiddleware(next http.Handler) http.Handler {
 		responseWriter.Header().Set("Content-Type", "application/json")
 		next.ServeHTTP(responseWriter, request)
 	})
+}
+
+func GetUserGrant(request *http.Request) (*auth.Grant, error) {
+	rawUserGrant := request.Context().Value(UserGrantCtxKey)
+	userGrant, ok := rawUserGrant.(*auth.Grant)
+	if !ok {
+		return nil, fmt.Errorf("invalid user grant")
+	}
+	return userGrant, nil
 }
