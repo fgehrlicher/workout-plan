@@ -23,4 +23,5 @@ server:
 auth:
   token:
     issuer: "auth.fge.cloud"
-    service: ""
+    service: "workout-plan.fge.cloud"
+    secret: "1234567890"
