@@ -36,12 +36,16 @@ type Config struct {
 			Idle  int `yaml:"idle"`
 		} `yaml:"timeout"`
 	} `yaml:"server"`
-	Auth struct {
-		Token struct {
-			Issuer  string `yaml:"issuer"`
-			Service string `yaml:"service"`
-		}
-	}
+	Auth AuthConfig `yaml:"auth"`
+}
+
+type AuthConfig struct {
+	Token TokenConfig `yaml:"token"`
+}
+
+type TokenConfig struct {
+	Issuer  string `yaml:"issuer"`
+	Service string `yaml:"service"`
 }
 
 var configSingleton Config
