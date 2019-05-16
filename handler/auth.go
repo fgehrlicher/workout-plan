@@ -43,6 +43,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 					err,
 				)
 			}
+			return
 		}
 
 		planId := mux.Vars(request)[PlanIdQuerySegment]
