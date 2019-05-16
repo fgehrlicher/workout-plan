@@ -9,12 +9,12 @@ import (
 
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
-		authorizationHeader := request.Header.Get(auth.AuthorizationHeader)
+		authorizationHeader := request.Header.Get(auth.Header)
 		if authorizationHeader == "" {
 			badRequestErrorHandler(
 				responseWriter,
 				request,
-				fmt.Errorf("authorization header `%v` missing", auth.AuthorizationHeader),
+				fmt.Errorf("authorization header `%v` missing", auth.Header),
 			)
 			return
 		}

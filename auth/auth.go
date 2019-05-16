@@ -6,9 +6,8 @@ import (
 )
 
 const (
-	AuthHeader     = "Authorization"
-	BearerAuthType = "Bearer"
-	Separator      = " "
+	Header     = "Authorization"
+	BearerType = "Bearer"
 )
 
 func NewBadRequestError(text string) error {
@@ -24,16 +23,16 @@ func (badRequestError *BadRequestError) Error() string {
 }
 
 func ParseAuth(authHeader string) error {
-	authHeaderParts := strings.Split(authHeader, Separator)
-	if len(authHeaderParts) <= 1 {
+	authParts := strings.Split(authHeader, " ")
+	if len(authParts) <= 1 {
 		return NewBadRequestError("invalid auth header format. expected '<type> <credentials>'")
 	}
 
-	authType := authHeaderParts[0]
-	authString := strings.Join(authHeaderParts[1:], Separator)
+	authType := authParts[0]
+	authString := strings.Join(authParts[1:], " ")
 
 	switch authType {
-	case BearerAuthType:
+	case BearerType:
 		return DecodeToken(authString)
 	}
 
