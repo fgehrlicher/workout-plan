@@ -3,6 +3,8 @@ package auth
 import (
 	"fmt"
 	"strings"
+
+	"workout-plan/config"
 )
 
 const (
@@ -22,10 +24,10 @@ func (badRequestError *BadRequestError) Error() string {
 	return badRequestError.text
 }
 
-func ParseAuth(authHeader string) error {
+func ParseAuth(authHeader string, authConfig config.AuthConfig) (*Grant, error) {
 	authParts := strings.Split(authHeader, " ")
 	if len(authParts) <= 1 {
-		return NewBadRequestError("invalid auth header format. expected '<type> <credentials>'")
+		return nil, NewBadRequestError("invalid auth header format. expected '<type> <credentials>'")
 	}
 
 	authType := authParts[0]
@@ -33,10 +35,10 @@ func ParseAuth(authHeader string) error {
 
 	switch authType {
 	case BearerType:
-		return DecodeToken(authString)
+		return DecodeToken(authString, authConfig.Token)
 	}
 
-	return NewBadRequestError(
+	return nil, NewBadRequestError(
 		fmt.Sprintf("invalid auth type: `%v`", authType),
 	)
 }

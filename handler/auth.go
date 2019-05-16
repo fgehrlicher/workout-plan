@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"workout-plan/auth"
+	"workout-plan/config"
 )
 
 func AuthMiddleware(next http.Handler) http.Handler {
@@ -19,7 +20,9 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		err := auth.ParseAuth(authorizationHeader)
+		conf, _ := config.GetConfig()
+
+		_, err := auth.ParseAuth(authorizationHeader, conf.Auth)
 		if err != nil {
 			_, ok := err.(*auth.BadRequestError)
 			if ok {
