@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/mux"
+
 	"workout-plan/auth"
 	"workout-plan/config"
 )
@@ -41,6 +43,12 @@ func AuthMiddleware(next http.Handler) http.Handler {
 					err,
 				)
 			}
+		}
+
+		planId := mux.Vars(request)[PlanIdQuerySegment]
+		if planId != "" && !userGrant.IsAuthorizedForPlan(planId) {
+			forbiddenErrorHandler(responseWriter, request, fmt.Errorf("not authorized for '%v'", planId))
+			return
 		}
 
 		ctx := context.WithValue(request.Context(), UserGrantCtxKey, userGrant)

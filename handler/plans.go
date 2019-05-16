@@ -15,13 +15,22 @@ import (
 const PlanIdQuerySegment = "planId"
 
 func GetAllPlans(response http.ResponseWriter, request *http.Request) {
+	rawUserGrant := request.Context().Value(UserGrantCtxKey)
+	userGrant, ok := rawUserGrant.(auth.UserAccessClaim)
+	if !ok {
+		internalServerErrorHandler(response, request, nil)
+		return
+	}
+
 	plans := plan.GetPlansInstance()
 
 	var sanitizedPlans []plan.Plan
 	latestPlans, err := plans.GetAllLatest()
 
 	for _, rawPlan := range latestPlans {
-		sanitizedPlans = append(sanitizedPlans, rawPlan.GetSanitizedCopy())
+		if userGrant.IsAuthorizedForPlan(rawPlan.Name) {
+			sanitizedPlans = append(sanitizedPlans, rawPlan.GetSanitizedCopy())
+		}
 	}
 
 	err = json.NewEncoder(response).Encode(sanitizedPlans)
@@ -52,6 +61,7 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
 	if !ok {
 		internalServerErrorHandler(response, request, nil)
+		return
 	}
 	userId := userGrant.UserName
 
@@ -77,7 +87,9 @@ func GetActivePlans(response http.ResponseWriter, request *http.Request) {
 			internalServerErrorHandler(response, request, err)
 			return
 		}
-		returnPlans = append(returnPlans, existingPlan.GetSanitizedCopy())
+		if userGrant.IsAuthorizedForPlan(planPointer.PlanId) {
+			returnPlans = append(returnPlans, existingPlan.GetSanitizedCopy())
+		}
 	}
 
 	err = json.NewEncoder(response).Encode(returnPlans)
@@ -91,6 +103,7 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
 	if !ok {
 		internalServerErrorHandler(response, request, nil)
+		return
 	}
 	userId := userGrant.UserName
 	plans := plan.GetPlansInstance()
@@ -145,6 +158,7 @@ func StopPlan(response http.ResponseWriter, request *http.Request) {
 	userGrant, ok := rawUserGrant.(*auth.UserAccessClaim)
 	if !ok {
 		internalServerErrorHandler(response, request, nil)
+		return
 	}
 	userId := userGrant.UserName
 	planId := mux.Vars(request)[PlanIdQuerySegment]
