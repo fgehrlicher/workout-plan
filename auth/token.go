@@ -57,5 +57,9 @@ func (claim *UserAccessClaim) Validate(config config.TokenConfig) error {
 		return fmt.Errorf("invalid token issuer")
 	}
 
+	if claim.UserName == "" {
+		return fmt.Errorf("invalid token subject")
+	}
+
 	return nil
 }
