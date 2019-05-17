@@ -1,9 +1,9 @@
 plans:
-  directory: "etc/workout-plan/plans"
-  definitions-file: "etc/workout-plan/definitions.yml"
+  directory: "/etc/workout-plan/plans"
+  definitions-file: "/etc/workout-plan/definitions.yml"
 
 database:
-  host: "localhost"
+  host: "mongodb"
   port: "27017"
   user: "mongoadmin"
   password: "secret"
