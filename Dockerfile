@@ -9,7 +9,6 @@ COPY go.sum .
 RUN go mod download
 
 COPY . .
-RUN ls -lah
 RUN make
 
 FROM alpine:3.9
