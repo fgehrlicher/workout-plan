@@ -1,7 +1,6 @@
 package version
 
 import (
-	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -12,11 +11,9 @@ func NewVersion(rawVersion string) (Version, error) {
 
 	versionSlice := strings.Split(rawVersion, ".")
 	if len(versionSlice) != 3 {
-		return version, errors.New(
-			fmt.Sprintf(
-				"invalid version format: `%v` ( should be x.x.x )",
-				rawVersion,
-			),
+		return version, fmt.Errorf(
+			"invalid version format: `%v` ( should be x.x.x )",
+			rawVersion,
 		)
 	}
 
@@ -68,11 +65,9 @@ func IsGreater(baseVersion string, comparatorVersion string) (bool, error) {
 	PatchEqual := comparatorVersionStrict.Patch == baseVersionStruct.Patch
 
 	if MajorEqual && MinorEqual && PatchEqual {
-		return false, errors.New(
-			fmt.Sprintf(
-				"can´t compare. versions are identical: %v",
-				baseVersion,
-			),
+		return false, fmt.Errorf(
+			"can´t compare. versions are identical: %v",
+			baseVersion,
 		)
 	}
 

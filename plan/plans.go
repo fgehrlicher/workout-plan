@@ -2,7 +2,6 @@ package plan
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
@@ -61,11 +60,9 @@ func (plans *Plans) GetLatest(planId string) (*Plan, error) {
 	}
 
 	if returnPlan == nil {
-		return nil, errors.New(
-			fmt.Sprintf(
-				"no plan with id `%v` found.",
-				planId,
-			),
+		return nil, fmt.Errorf(
+			"no plan with id `%v` found",
+			planId,
 		)
 	}
 
@@ -122,12 +119,10 @@ func (plans *Plans) Get(planId string, version string) (*Plan, error) {
 		}
 	}
 
-	return nil, errors.New(
-		fmt.Sprintf(
-			"no plan with id `%v` and version `%v` found.",
-			planId,
-			version,
-		),
+	return nil, fmt.Errorf(
+		"no plan with id `%v` and version `%v` found",
+		planId,
+		version,
 	)
 }
 
@@ -211,12 +206,10 @@ func loadPlan(path string, unmarshalMethod func([]byte, interface{}) error) (*Pl
 
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
-		return nil, errors.New(
-			fmt.Sprintf(
-				"can´t load plan file (tried: '%v'): %v",
-				path,
-				err,
-			),
+		return nil, fmt.Errorf(
+			"can´t load plan file (tried: '%v'): %v",
+			path,
+			err,
 		)
 	}
 

@@ -1,7 +1,6 @@
 package plan
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 )
@@ -14,11 +13,9 @@ func GetTypeField(element interface{}) (string, error) {
 		kind = elementValue.Kind()
 	}
 	if kind != reflect.Struct {
-		return "", errors.New(
-			fmt.Sprintf("element is no struct. Got %T, value: %v",
-				element,
-				element,
-			),
+		return "", fmt.Errorf("element is no struct. Got %T, value: %v",
+			kind,
+			element,
 		)
 	}
 
@@ -31,13 +28,11 @@ func TypeNotAllowedError(element interface{}) error {
 		return err
 	}
 
-	return errors.New(
-		fmt.Sprintf(
-			"type field `%v` is not allowed for %T.\nFull element: %+v",
-			typeField,
-			reflect.ValueOf(element).Type().Name(),
-			element,
-		),
+	return fmt.Errorf(
+		"type field `%v` is not allowed for %T.\nFull element: %+v",
+		typeField,
+		reflect.ValueOf(element).Type().Name(),
+		element,
 	)
 }
 
@@ -48,12 +43,10 @@ func TypeNotEmptyValidator(element interface{}) error {
 	}
 
 	if typeField == "" {
-		return errors.New(
-			fmt.Sprintf(
-				"type field musnt be empty for `%v`.\nFull element: %+v",
-				reflect.ValueOf(element).Type().Name(),
-				element,
-			),
+		return fmt.Errorf(
+			"type field musnt be empty for `%v`.\nFull element: %+v",
+			reflect.ValueOf(element).Type().Name(),
+			element,
 		)
 	}
 

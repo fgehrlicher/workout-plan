@@ -2,7 +2,6 @@ package plan
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 
 	"gopkg.in/yaml.v2"
@@ -140,11 +139,9 @@ func (exercise *Exercise) UnmarshalYAML(unmarshal func(interface{}) error) error
 }
 
 func FieldRequiredForExerciseError(fieldName string) error {
-	return errors.New(
-		fmt.Sprintf(
-			"`%v` is not set, but required for Exercise elements",
-			fieldName,
-		),
+	return fmt.Errorf(
+		"`%v` is not set, but required for Exercise elements",
+		fieldName,
 	)
 }
 
@@ -159,11 +156,9 @@ func (exercise *Exercise) Validate() error {
 	}
 
 	if len(exercise.Sequence) == 0 {
-		return errors.New(
-			fmt.Sprintf(
-				"exercises must have an sequence with at least one item.\nFull element: %+v",
-				exercise,
-			),
+		return fmt.Errorf(
+			"exercises must have an sequence with at least one item.\nFull element: %+v",
+			exercise,
 		)
 	}
 

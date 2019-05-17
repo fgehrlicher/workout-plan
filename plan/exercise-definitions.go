@@ -2,7 +2,6 @@ package plan
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
@@ -41,12 +40,11 @@ func (exerciseDefinitions *ExerciseDefinitions) Get(name string) (*ExerciseDefin
 		}
 	}
 
-	return nil, errors.New(
-		fmt.Sprintf(
-			"exercise definition with name `%v` was not found.",
-			name,
-		),
+	return nil, fmt.Errorf(
+		"exercise definition with name `%v` was not found",
+		name,
 	)
+
 }
 
 func (exerciseDefinitions *ExerciseDefinitions) GetAll() []*ExerciseDefinition {
@@ -75,12 +73,10 @@ func InitializeExerciseDefinitions(exerciseDefinitionFile string, logger *logrus
 	fileExtension := filepath.Ext(exerciseDefinitionFile)
 	fileData, err := ioutil.ReadFile(exerciseDefinitionFile)
 	if err != nil {
-		return errors.New(
-			fmt.Sprintf(
-				"can´t load exercise definition file (tried: '%v'): %v",
-				exerciseDefinitionFile,
-				err,
-			),
+		return fmt.Errorf(
+			"can´t load exercise definition file (tried: '%v'): %v",
+			exerciseDefinitionFile,
+			err,
 		)
 	}
 
@@ -98,11 +94,9 @@ func InitializeExerciseDefinitions(exerciseDefinitionFile string, logger *logrus
 			return err
 		}
 	default:
-		return errors.New(
-			fmt.Sprintf(
-				"Invalid file extension: `%v",
-				fileExtension,
-			),
+		return fmt.Errorf(
+			"invalid file extension: `%v",
+			fileExtension,
 		)
 	}
 

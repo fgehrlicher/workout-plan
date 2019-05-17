@@ -1,7 +1,6 @@
 package plan
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -12,11 +11,9 @@ type ExerciseDefinition struct {
 
 func (exerciseDefinition *ExerciseDefinition) Validate() error {
 	if exerciseDefinition.Name == "" {
-		return errors.New(
-			fmt.Sprintf(
-				"Id is required for exercise definitions. \nFull element: %+v",
-				exerciseDefinition,
-			),
+		return fmt.Errorf(
+			"Id is required for exercise definitions. \nFull element: %+v",
+			exerciseDefinition,
 		)
 	}
 

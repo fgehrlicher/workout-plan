@@ -1,7 +1,6 @@
 package plan
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -12,20 +11,16 @@ type Unit struct {
 
 func (unit *Unit) Validate() error {
 	if unit.Name == "" {
-		return errors.New(
-			fmt.Sprintf(
-				"the name field of units musn´t be empty.\nFull element: %+v",
-				unit,
-			),
+		return fmt.Errorf(
+			"the name field of units musn´t be empty.\nFull element: %+v",
+			unit,
 		)
 	}
 
 	if len(unit.Exercises) == 0 {
-		return errors.New(
-			fmt.Sprintf(
-				"the unit with name %v does not have any exercises",
-				unit.Name,
-			),
+		return fmt.Errorf(
+			"the unit with name %v does not have any exercises",
+			unit.Name,
 		)
 	}
 

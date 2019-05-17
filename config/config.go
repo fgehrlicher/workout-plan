@@ -1,7 +1,6 @@
 package config
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"sync"
@@ -71,12 +70,7 @@ func GetConfig(configFile ...string) (*Config, error) {
 func (config *Config) loadFromFile(configFilePath string) error {
 	data, err := ioutil.ReadFile(configFilePath)
 	if err != nil {
-		return errors.New(
-			fmt.Sprintf(
-				"can´t load config file: %v",
-				err,
-			),
-		)
+		return fmt.Errorf("can´t load config file: %v", err)
 	}
 	return yaml.Unmarshal(data, config)
 }

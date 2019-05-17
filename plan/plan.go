@@ -1,7 +1,6 @@
 package plan
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -15,20 +14,16 @@ type Plan struct {
 
 func (plan *Plan) Validate() error {
 	if plan.ID == "" || plan.Name == "" || plan.Version == "" {
-		return errors.New(
-			fmt.Sprintf(
-				"the plan id, name and version must be set.\nFull element: %+v",
-				plan,
-			),
+		return fmt.Errorf(
+			"the plan id, name and version must be set.\nFull element: %+v",
+			plan,
 		)
 	}
 
 	if len(plan.Units) == 0 {
-		return errors.New(
-			fmt.Sprintf(
-				"the plan with id %v does not have any units",
-				plan.ID,
-			),
+		return fmt.Errorf(
+			"the plan with id %v does not have any units",
+			plan.ID,
 		)
 	}
 

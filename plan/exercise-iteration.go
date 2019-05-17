@@ -1,7 +1,6 @@
 package plan
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -50,11 +49,9 @@ func (exerciseIteration *ExerciseIteration) Validate() error {
 func SetsRepsExerciseIterationValidator(exerciseIteration *ExerciseIteration) error {
 	if exerciseIteration.Reps == "" || exerciseIteration.Sets == "" {
 		if exerciseIteration.Type == "" {
-			return errors.New(
-				fmt.Sprintf(
-					"reps and sets must be set if the type is set to sets-reps.\nFull element: %+v",
-					exerciseIteration,
-				),
+			return fmt.Errorf(
+				"reps and sets must be set if the type is set to sets-reps.\nFull element: %+v",
+				exerciseIteration,
 			)
 		}
 	}
@@ -68,12 +65,10 @@ func SetsRepsWeightRangeExerciseIterationValidator(exerciseIteration *ExerciseIt
 		exerciseIteration.MaxWeight == "" ||
 		exerciseIteration.MinWeight == "" {
 		if exerciseIteration.Type == "" {
-			return errors.New(
-				fmt.Sprintf(
-					"reps, sets, min-weight and max-weight must be set if the "+
-						"type is set to sets-reps-weight-range.\nFull element: %+v",
-					exerciseIteration,
-				),
+			return fmt.Errorf(
+				"reps, sets, min-weight and max-weight must be set if the "+
+					"type is set to sets-reps-weight-range.\nFull element: %+v",
+				exerciseIteration,
 			)
 		}
 	}

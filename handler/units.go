@@ -119,10 +119,9 @@ func FinishCurrentUnit(response http.ResponseWriter, request *http.Request) {
 		variableInForm := request.FormValue(requiredVariable)
 		if variableInForm == "" {
 			badRequestErrorHandler(
-				response, request,
-				errors.New(
-					fmt.Sprintf("the variable `%v` must be sent when finishing this unit", requiredVariable),
-				),
+				response,
+				request,
+				fmt.Errorf("the variable `%v` must be sent when finishing this unit", requiredVariable),
 			)
 			return
 		}
@@ -204,12 +203,10 @@ func GetUnit(response http.ResponseWriter, request *http.Request) {
 		badRequestErrorHandler(
 			response,
 			request,
-			errors.New(
-				fmt.Sprintf(
-					"Plan has no unit with id: `%v`. (Plan length = %v)",
-					unitId,
-					len(userPlan.Units),
-				),
+			fmt.Errorf(
+				"plan has no unit with id: `%v`. (plan length = %v)",
+				unitId,
+				len(userPlan.Units),
 			),
 		)
 	}
@@ -270,12 +267,10 @@ func FinishUnit(response http.ResponseWriter, request *http.Request) {
 		badRequestErrorHandler(
 			response,
 			request,
-			errors.New(
-				fmt.Sprintf(
-					"Plan has no unit with id: `%v`. (Plan length = %v)",
-					unitId,
-					len(userPlan.Units),
-				),
+			fmt.Errorf(
+				"plan has no unit with id: `%v`. (plan length = %v)",
+				unitId,
+				len(userPlan.Units),
 			),
 		)
 	}
@@ -288,9 +283,7 @@ func FinishUnit(response http.ResponseWriter, request *http.Request) {
 		if variableInForm == "" {
 			badRequestErrorHandler(
 				response, request,
-				errors.New(
-					fmt.Sprintf("the variable `%v` must be sent when finishing this unit", requiredVariable),
-				),
+				fmt.Errorf("the variable `%v` must be sent when finishing this unit", requiredVariable),
 			)
 			return
 		}
