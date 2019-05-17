@@ -40,12 +40,12 @@ func badRequestErrorHandler(responseWriter http.ResponseWriter, request *http.Re
 }
 
 func forbiddenErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
-	conf, err := GetConfig(request)
-	if err != nil {
+	conf, configErr := GetConfig(request)
+	if configErr != nil {
 		internalServerErrorHandler(
 			responseWriter,
 			request,
-			err,
+			configErr,
 		)
 		return
 	}
