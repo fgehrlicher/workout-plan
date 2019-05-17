@@ -89,7 +89,7 @@ func GetUserGrant(request *http.Request) (*auth.Grant, error) {
 }
 
 func GetConfig(request *http.Request) (*config.Config, error) {
-	rawConfig := request.Context().Value(UserGrantCtxKey)
+	rawConfig := request.Context().Value(ConfigCtxKey)
 	conf, ok := rawConfig.(*config.Config)
 	if !ok {
 		return nil, fmt.Errorf("invalid ctx config")
