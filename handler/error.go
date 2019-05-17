@@ -7,6 +7,9 @@ import (
 	"strconv"
 
 	log "github.com/sirupsen/logrus"
+
+	"workout-plan/auth"
+	"workout-plan/config"
 )
 
 func NotFound(responseWriter http.ResponseWriter, request *http.Request) {
@@ -38,6 +41,10 @@ func badRequestErrorHandler(responseWriter http.ResponseWriter, request *http.Re
 }
 
 func forbiddenErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
+	conf, _ := config.GetConfig()
+	responseWriter.Header().Set(
+		auth.GetTokenAuthenticateHeader(conf.Auth.Token),
+	)
 	handleError(responseWriter, request, http.StatusForbidden, err, log.WarnLevel)
 }
 

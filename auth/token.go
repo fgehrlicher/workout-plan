@@ -8,7 +8,10 @@ import (
 	"workout-plan/config"
 )
 
-const algHeader = "alg"
+const (
+	algHeader          = "alg"
+	authenticateHeader = "WWW-Authenticate"
+)
 
 type UserAccessClaim struct {
 	Grant
@@ -62,4 +65,15 @@ func (claim *UserAccessClaim) Validate(config config.TokenConfig) error {
 	}
 
 	return nil
+}
+
+func GetTokenAuthenticateHeader(config config.TokenConfig) (headerName string, headerValue string) {
+	headerName = authenticateHeader
+	headerValue = fmt.Sprintf(
+		"%v realm=\"%v\",service=\"%v\"",
+		BearerType,
+		config.Issuer,
+		config.Service,
+	)
+	return
 }
