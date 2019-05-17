@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"time"
@@ -12,6 +13,8 @@ import (
 	"workout-plan/plan"
 	"workout-plan/plan-pointer"
 )
+
+const ConfigCtxKey = "usergrant"
 
 func NewPlanPointerRepository() (*plan_pointer.PlanPointerRepository, error) {
 	conf, err := config.GetConfig()
@@ -59,6 +62,23 @@ func HeaderMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+func ConfigMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+		conf, err := config.GetConfig()
+		if err != nil {
+			internalServerErrorHandler(
+				responseWriter,
+				request,
+				err,
+			)
+			return
+		}
+
+		ctx := context.WithValue(request.Context(), ConfigCtxKey, conf)
+		next.ServeHTTP(responseWriter, request.WithContext(ctx))
+	})
+}
+
 func GetUserGrant(request *http.Request) (*auth.Grant, error) {
 	rawUserGrant := request.Context().Value(UserGrantCtxKey)
 	userGrant, ok := rawUserGrant.(*auth.Grant)
@@ -66,4 +86,13 @@ func GetUserGrant(request *http.Request) (*auth.Grant, error) {
 		return nil, fmt.Errorf("invalid user grant")
 	}
 	return userGrant, nil
+}
+
+func GetConfig(request *http.Request) (*config.Config, error) {
+	rawConfig := request.Context().Value(UserGrantCtxKey)
+	conf, ok := rawConfig.(*config.Config)
+	if !ok {
+		return nil, fmt.Errorf("invalid ctx config")
+	}
+	return conf, nil
 }

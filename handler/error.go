@@ -9,7 +9,6 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"workout-plan/auth"
-	"workout-plan/config"
 )
 
 func NotFound(responseWriter http.ResponseWriter, request *http.Request) {
@@ -41,7 +40,15 @@ func badRequestErrorHandler(responseWriter http.ResponseWriter, request *http.Re
 }
 
 func forbiddenErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
-	conf, _ := config.GetConfig()
+	conf, err := GetConfig(request)
+	if err != nil {
+		internalServerErrorHandler(
+			responseWriter,
+			request,
+			err,
+		)
+		return
+	}
 	responseWriter.Header().Set(
 		auth.GetTokenAuthenticateHeader(conf.Auth.Token),
 	)
@@ -59,9 +66,9 @@ func internalServerErrorHandler(responseWriter http.ResponseWriter, request *htt
 func handleError(response http.ResponseWriter, request *http.Request, errorCode int, err error, level log.Level) {
 	logEntry := log.WithFields(log.Fields{
 		"remote_address": request.RemoteAddr,
-		"uri":           request.RequestURI,
-		"http_method":   request.Method,
-		"status_code":   errorCode,
+		"uri":            request.RequestURI,
+		"http_method":    request.Method,
+		"status_code":    errorCode,
 	})
 
 	logEntry.Log(level, err.Error())

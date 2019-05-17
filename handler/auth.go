@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/mux"
 
 	"workout-plan/auth"
-	"workout-plan/config"
 )
 
 const UserGrantCtxKey = "usergrant"
@@ -25,7 +24,15 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		conf, _ := config.GetConfig()
+		conf, err := GetConfig(request)
+		if err != nil {
+			internalServerErrorHandler(
+				responseWriter,
+				request,
+				err,
+			)
+			return
+		}
 
 		userGrant, err := auth.ParseAuth(authorizationHeader, conf.Auth)
 		if err != nil {
