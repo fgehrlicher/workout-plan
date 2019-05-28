@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/mux"
 
 	"workout-plan/plan"
-	"workout-plan/plan-pointer"
 )
 
 const PlanIdQuerySegment = "planId"
@@ -137,7 +136,7 @@ func StartPlan(response http.ResponseWriter, request *http.Request) {
 		}
 	}
 
-	userPlanPointer := plan_pointer.CreatePlanPointer(requestedPlan, userId)
+	userPlanPointer := plan.CreatePointer(requestedPlan, userId)
 	_, err = planPointerRepository.Insert(userPlanPointer)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)

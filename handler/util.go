@@ -11,12 +11,11 @@ import (
 	"workout-plan/config"
 	"workout-plan/db"
 	"workout-plan/plan"
-	"workout-plan/plan-pointer"
 )
 
 const ConfigCtxKey = "usergrant"
 
-func NewPlanPointerRepository() (*plan_pointer.PlanPointerRepository, error) {
+func NewPlanPointerRepository() (*db.PlanPointerRepository, error) {
 	conf, err := config.GetConfig()
 	if err != nil {
 		return nil, err
@@ -35,7 +34,7 @@ func NewPlanPointerRepository() (*plan_pointer.PlanPointerRepository, error) {
 		return nil, err
 	}
 
-	planPointerRepository := plan_pointer.NewPlanPointerRepository(
+	planPointerRepository := db.NewPlanPointerRepository(
 		database,
 		time.Duration(conf.Database.Timeout.Request)*time.Second,
 	)
@@ -43,7 +42,7 @@ func NewPlanPointerRepository() (*plan_pointer.PlanPointerRepository, error) {
 	return planPointerRepository, nil
 }
 
-func hasPlanEnded(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {
+func hasPlanEnded(pointer plan.Pointer, userPlan *plan.Plan) bool {
 	unitKey := pointer.Position.Unit
 	exerciseKey := pointer.Position.Exercise
 
@@ -51,7 +50,7 @@ func hasPlanEnded(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {
 		(unitKey == len(userPlan.Units) && exerciseKey >= len(userPlan.Units[unitKey-1].Exercises))
 }
 
-func hasPlanUnitsLeft(pointer plan_pointer.PlanPointer, userPlan *plan.Plan) bool {
+func hasPlanUnitsLeft(pointer plan.Pointer, userPlan *plan.Plan) bool {
 	return len(userPlan.Units) > pointer.Position.Unit
 }
 

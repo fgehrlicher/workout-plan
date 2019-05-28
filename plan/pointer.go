@@ -1,11 +1,7 @@
-package plan_pointer
+package plan
 
-import (
-	"workout-plan/plan"
-)
-
-func CreatePlanPointer(plan *plan.Plan, userId string) PlanPointer {
-	planPointer := PlanPointer{
+func CreatePointer(plan *Plan, userId string) Pointer {
+	planPointer := Pointer{
 		PlanId:      plan.ID,
 		PlanVersion: plan.Version,
 		UserId:      userId,
@@ -17,7 +13,7 @@ func CreatePlanPointer(plan *plan.Plan, userId string) PlanPointer {
 	return planPointer
 }
 
-type PlanPointer struct {
+type Pointer struct {
 	PlanId      string `bson:"plan_id"`
 	PlanVersion string `bson:"plan_version"`
 	UserId      string `bson:"user_id"`

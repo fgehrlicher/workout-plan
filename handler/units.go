@@ -9,8 +9,8 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"workout-plan/db"
 	"workout-plan/plan"
-	"workout-plan/plan-pointer"
 	"workout-plan/template"
 )
 
@@ -39,7 +39,7 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 
 	planPointer, err := planPointerRepository.GetByPlan(userId, planId)
 	if err != nil {
-		if err == plan_pointer.NoPlanFoundError {
+		if err == db.NoPlanFoundError {
 			notFoundErrorHandler(response, request, err)
 		} else {
 			internalServerErrorHandler(response, request, err)

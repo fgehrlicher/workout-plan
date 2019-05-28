@@ -1,4 +1,4 @@
-package plan_pointer
+package db
 
 import (
 	"context"
@@ -8,6 +8,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/x/bsonx"
+
+	"workout-plan/plan"
 )
 
 const (
@@ -56,7 +58,7 @@ func (planPointerRepository *PlanPointerRepository) InitIndices() error {
 	return err
 }
 
-func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) (*mongo.InsertOneResult, error) {
+func (planPointerRepository *PlanPointerRepository) Insert(pointer plan.Pointer) (*mongo.InsertOneResult, error) {
 	planPointerBson := bsonx.Doc{
 		{planIdKey, bsonx.String(pointer.PlanId)},
 		{planVersionKey, bsonx.String(pointer.PlanVersion)},
@@ -80,7 +82,7 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer PlanPointer) 
 	return planPointerRepository.collection.InsertOne(planPointerRepository.requestContext, planPointerBson)
 }
 
-func (planPointerRepository *PlanPointerRepository) Update(pointer PlanPointer) error {
+func (planPointerRepository *PlanPointerRepository) Update(pointer plan.Pointer) error {
 	filter := bsonx.Doc{
 		{planIdKey, bsonx.String(pointer.PlanId)},
 		{planVersionKey, bsonx.String(pointer.PlanVersion)},
@@ -112,7 +114,7 @@ func (planPointerRepository *PlanPointerRepository) Update(pointer PlanPointer) 
 	return err
 }
 
-func (planPointerRepository *PlanPointerRepository) Delete(pointer PlanPointer) error {
+func (planPointerRepository *PlanPointerRepository) Delete(pointer plan.Pointer) error {
 	planPointerBson := bsonx.Doc{
 		{planIdKey, bsonx.String(pointer.PlanId)},
 		{planVersionKey, bsonx.String(pointer.PlanVersion)},
@@ -127,8 +129,8 @@ func (planPointerRepository *PlanPointerRepository) Delete(pointer PlanPointer) 
 	return singleResult.Decode(nil)
 }
 
-func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]PlanPointer, error) {
-	var userPlanPointers []PlanPointer
+func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]plan.Pointer, error) {
+	var userPlanPointers []plan.Pointer
 
 	cursor, err := planPointerRepository.collection.Find(
 		planPointerRepository.requestContext, bsonx.Doc{
@@ -142,7 +144,7 @@ func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]Pla
 	defer cursor.Close(context.Background())
 
 	for cursor.Next(context.Background()) {
-		planPointer := &PlanPointer{}
+		planPointer := &plan.Pointer{}
 		err = cursor.Decode(planPointer)
 		if err != nil {
 			return nil, err
@@ -159,7 +161,7 @@ func (planPointerRepository *PlanPointerRepository) GetAll(userId string) ([]Pla
 	return userPlanPointers, nil
 }
 
-func (planPointerRepository *PlanPointerRepository) GetByPlan(userId string, planId string) (PlanPointer, error) {
+func (planPointerRepository *PlanPointerRepository) GetByPlan(userId string, planId string) (plan.Pointer, error) {
 	singleResult := planPointerRepository.collection.FindOne(
 		planPointerRepository.requestContext, bsonx.Doc{
 			{userIdKey, bsonx.String(userId)},
@@ -167,7 +169,7 @@ func (planPointerRepository *PlanPointerRepository) GetByPlan(userId string, pla
 		},
 	)
 
-	planPointer := PlanPointer{Data:make(map[string]int)}
+	planPointer := plan.Pointer{Data: make(map[string]int)}
 	err := singleResult.Decode(&planPointer)
 	if err == mongo.ErrNoDocuments {
 		err = NoPlanFoundError
