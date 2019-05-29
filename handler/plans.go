@@ -25,7 +25,7 @@ func GetAllPlans(response http.ResponseWriter, request *http.Request) {
 	latestPlans, err := plans.GetAllLatest()
 
 	for _, rawPlan := range latestPlans {
-		if userGrant.IsAuthorizedForPlan(rawPlan.Name) {
+		if userGrant.IsAuthorizedForPlan(rawPlan.ID) {
 			sanitizedPlans = append(sanitizedPlans, rawPlan.GetSanitizedCopy())
 		}
 	}
