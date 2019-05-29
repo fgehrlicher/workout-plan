@@ -1,9 +1,9 @@
 plans:
-  directory: "/etc/workout-plan/plans"
-  definitions-file: "/etc/workout-plan/definitions.yml"
+  directory: "./etc/workout-plan/plans"
+  definitions-file: "./etc/workout-plan/definitions.yml"
 
 database:
-  host: "mongodb"
+  host: "127.0.0.1"
   port: "27017"
   user: "mongoadmin"
   password: "secret"
@@ -22,6 +22,6 @@ server:
 
 auth:
   token:
-    issuer: "auth.fge.cloud"
-    service: "workout-plan.fge.cloud"
-    secret: "1234567890"
+    issuer: "issuer.domain"
+    service: "self.domain"
+    secret: "examplesecret"

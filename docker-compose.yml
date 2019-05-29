@@ -14,5 +14,5 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "./config.yml:/usr/local/bin/config.yml"
+      - "./etc/config.yml:/usr/local/bin/config.yml"
       - "./etc/workout-plan/:/etc/workout-plan"
