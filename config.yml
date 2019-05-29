@@ -24,4 +24,5 @@ auth:
   token:
     issuer: "issuer.domain"
     service: "self.domain"
+    token-endpoint: "/token"
     secret: "examplesecret"

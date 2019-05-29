@@ -73,7 +73,7 @@ func GetTokenAuthenticateHeader(config config.TokenConfig) (headerName string, h
 		"%v realm=\"%v\",service=\"%v\"",
 		BearerType,
 		config.Issuer,
-		config.Service,
+		config.Service + config.TokenEndpoint,
 	)
 	return
 }

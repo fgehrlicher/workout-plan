@@ -43,9 +43,10 @@ type AuthConfig struct {
 }
 
 type TokenConfig struct {
-	Issuer  string `yaml:"issuer"`
-	Service string `yaml:"service"`
-	Secret  string `yaml:"secret"`
+	Issuer        string `yaml:"issuer"`
+	Service       string `yaml:"service"`
+	TokenEndpoint string `yaml:"token-endpoint"`
+	Secret        string `yaml:"secret"`
 }
 
 var configSingleton Config
