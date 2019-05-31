@@ -15,7 +15,6 @@ import (
 	"workout-plan/db"
 	"workout-plan/handler"
 	"workout-plan/plan"
-	"workout-plan/plan-pointer"
 )
 
 var log = logrus.New()
@@ -42,7 +41,7 @@ func main() {
 	)
 	handleError(err)
 
-	planPointerRepository := plan_pointer.NewPlanPointerRepository(
+	planPointerRepository := db.NewPlanPointerRepository(
 		database,
 		time.Duration(conf.Database.Timeout.Request)*time.Second,
 	)

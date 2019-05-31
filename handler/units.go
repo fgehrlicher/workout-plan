@@ -99,7 +99,7 @@ func FinishCurrentUnit(response http.ResponseWriter, request *http.Request) {
 
 	planPointer, err := planPointerRepository.GetByPlan(userId, planId)
 	if err != nil {
-		if err == plan_pointer.NoPlanFoundError {
+		if err == db.NoPlanFoundError {
 			notFoundErrorHandler(response, request, err)
 		} else {
 			internalServerErrorHandler(response, request, err)
@@ -186,7 +186,7 @@ func GetUnit(response http.ResponseWriter, request *http.Request) {
 
 	planPointer, err := planPointerRepository.GetByPlan(userId, planId)
 	if err != nil {
-		if err == plan_pointer.NoPlanFoundError {
+		if err == db.NoPlanFoundError {
 			notFoundErrorHandler(response, request, err)
 		} else {
 			internalServerErrorHandler(response, request, err)
@@ -250,7 +250,7 @@ func FinishUnit(response http.ResponseWriter, request *http.Request) {
 
 	planPointer, err := planPointerRepository.GetByPlan(userId, planId)
 	if err != nil {
-		if err == plan_pointer.NoPlanFoundError {
+		if err == db.NoPlanFoundError {
 			notFoundErrorHandler(response, request, err)
 		} else {
 			internalServerErrorHandler(response, request, err)
