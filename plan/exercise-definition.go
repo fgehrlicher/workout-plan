@@ -5,12 +5,12 @@ import (
 )
 
 type ExerciseDefinition struct {
-	Name        string `yaml:"name" json:"name"`
+	Id          string `yaml:"id" json:"id"`
 	Description string `yaml:"description" json:"description"`
 }
 
 func (exerciseDefinition *ExerciseDefinition) Validate() error {
-	if exerciseDefinition.Name == "" {
+	if exerciseDefinition.Id == "" {
 		return fmt.Errorf(
 			"Id is required for exercise definitions. \nFull element: %+v",
 			exerciseDefinition,

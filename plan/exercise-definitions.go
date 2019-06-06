@@ -19,11 +19,11 @@ type ExerciseDefinitions struct {
 
 func (exerciseDefinitions *ExerciseDefinitions) Add(exerciseDefinition ExerciseDefinition) {
 	logEntry := exerciseLogger.WithFields(logrus.Fields{
-		"Id": exerciseDefinition.Name,
+		"Id": exerciseDefinition.Id,
 	})
 
 	for _, existingExerciseDefinition := range exerciseDefinitions.underlyingSlice {
-		if existingExerciseDefinition.Name == exerciseDefinition.Name {
+		if existingExerciseDefinition.Id == exerciseDefinition.Id {
 			logEntry.Warning("Exercise definition already exists")
 			return
 		}
@@ -35,7 +35,7 @@ func (exerciseDefinitions *ExerciseDefinitions) Add(exerciseDefinition ExerciseD
 
 func (exerciseDefinitions *ExerciseDefinitions) Get(name string) (*ExerciseDefinition, error) {
 	for _, exerciseDefinition := range exerciseDefinitions.underlyingSlice {
-		if exerciseDefinition.Name == name {
+		if exerciseDefinition.Id == name {
 			return &exerciseDefinition, nil
 		}
 	}
