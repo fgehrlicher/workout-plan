@@ -11,7 +11,7 @@ type ExerciseDefinition struct {
 		Video struct {
 			Id string `yaml:"id" json:"id"`
 		} `yaml:"video" json:"video"`
-		Description string
+		Description string `yaml:"description" json:"description"`
 	} `yaml:"definition" json:"definition"`
 }
 
