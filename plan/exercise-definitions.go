@@ -33,16 +33,16 @@ func (exerciseDefinitions *ExerciseDefinitions) Add(exerciseDefinition ExerciseD
 	logEntry.Info("Exercise definition added")
 }
 
-func (exerciseDefinitions *ExerciseDefinitions) Get(name string) (*ExerciseDefinition, error) {
+func (exerciseDefinitions *ExerciseDefinitions) Get(id string) (*ExerciseDefinition, error) {
 	for _, exerciseDefinition := range exerciseDefinitions.underlyingSlice {
-		if exerciseDefinition.Id == name {
+		if exerciseDefinition.Id == id {
 			return &exerciseDefinition, nil
 		}
 	}
 
 	return nil, fmt.Errorf(
-		"exercise definition with name `%v` was not found",
-		name,
+		"exercise definition with id `%v` was not found",
+		id,
 	)
 
 }
