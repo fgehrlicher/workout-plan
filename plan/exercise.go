@@ -7,20 +7,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type ExerciseValidator func(*Exercise) error
-
-const (
-	MainExerciseType       = "main-exercise"
-	SpecialExerciseType    = "special-exercise"
-	AdditionalExerciseType = "additional-exercise"
-)
-
-var possibleExerciseTypes = map[string]ExerciseValidator{
-	MainExerciseType:       nil,
-	SpecialExerciseType:    nil,
-	AdditionalExerciseType: nil,
-}
-
 type Exercise struct {
 	ExerciseDefinition *ExerciseDefinition `json:"exercise-definition"`
 	Type               string              `json:"type"`
@@ -152,7 +138,7 @@ func (exercise *Exercise) Validate() error {
 	}
 
 	if exercise.ExerciseDefinition == nil {
-		return FieldRequiredForExerciseError("definitions-file")
+		return FieldRequiredForExerciseError("exercise-definition")
 	}
 
 	if len(exercise.Sequence) == 0 {
@@ -169,14 +155,5 @@ func (exercise *Exercise) Validate() error {
 		}
 	}
 
-	for possibleExerciseTypes, validator := range possibleExerciseTypes {
-		if possibleExerciseTypes == exercise.Type {
-			if validator != nil {
-				return validator(exercise)
-			}
-			return nil
-		}
-	}
-
-	return TypeNotAllowedError(*exercise)
+	return nil
 }
