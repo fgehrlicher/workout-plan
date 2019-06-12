@@ -10,6 +10,7 @@ type ExerciseIteration struct {
 	Time      string `yaml:"time" json:"time,omitempty"`
 	EmomTime  string `yaml:"emom-time" json:"emom-time,omitempty"`
 	Variable  string `yaml:"variable" json:"variable,omitempty"`
+	MaxOut    string `yaml:"max-out" json:"max-out,omitempty"`
 }
 
 func (exerciseIteration *ExerciseIteration) Validate() error {
