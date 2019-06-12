@@ -5,8 +5,9 @@ import (
 )
 
 type Unit struct {
-	Name      string     `yaml:"name" json:"name"`
-	Exercises []Exercise `yaml:"exercises" json:"exercises"`
+	Name        string     `yaml:"name" json:"name"`
+	Description string     `yaml:"description" json:"description"`
+	Exercises   []Exercise `yaml:"exercises" json:"exercises"`
 }
 
 func (unit *Unit) Validate() error {
