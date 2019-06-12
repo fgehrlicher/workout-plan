@@ -8,9 +8,9 @@ import (
 )
 
 type Exercise struct {
-	ExerciseDefinition *ExerciseDefinition `json:"exercise-definition"`
-	Type               string              `json:"type"`
-	Sequence           []ExerciseIteration `json:"sequence"`
+	Definition *ExerciseDefinition `json:"definition"`
+	Type       string              `json:"type"`
+	Sequence   []ExerciseIteration `json:"sequence"`
 }
 
 func (exercise *Exercise) UnmarshalJSON(data []byte) error {
@@ -18,7 +18,7 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 		jsonData                       map[string]*json.RawMessage
 		err                            error
 		exerciseDefinitionResultString string
-		exerciseDefinitionString       = "exercise-definition"
+		exerciseDefinitionString       = "definition"
 		sequenceString                 = "sequence"
 		typeString                     = "type"
 	)
@@ -67,7 +67,7 @@ func (exercise *Exercise) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	exercise.ExerciseDefinition = exerciseDefinition
+	exercise.Definition = exerciseDefinition
 	return nil
 }
 
@@ -76,7 +76,7 @@ func (exercise *Exercise) UnmarshalYAML(unmarshal func(interface{}) error) error
 		yamlData                       map[string]interface{}
 		err                            error
 		exerciseDefinitionResultString string
-		exerciseDefinitionString       = "exercise-definition"
+		exerciseDefinitionString       = "definition"
 
 		// That temp struct is needed because there is no way (to my knowledge)
 		// to unmarshal the whole Exercise to something like a slice of
@@ -120,7 +120,7 @@ func (exercise *Exercise) UnmarshalYAML(unmarshal func(interface{}) error) error
 		return err
 	}
 
-	exercise.ExerciseDefinition = exerciseDefinition
+	exercise.Definition = exerciseDefinition
 	return nil
 }
 
@@ -137,8 +137,8 @@ func (exercise *Exercise) Validate() error {
 		return err
 	}
 
-	if exercise.ExerciseDefinition == nil {
-		return FieldRequiredForExerciseError("exercise-definition")
+	if exercise.Definition == nil {
+		return FieldRequiredForExerciseError("definition")
 	}
 
 	if len(exercise.Sequence) == 0 {
