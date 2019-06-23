@@ -9,10 +9,15 @@ services:
       MONGO_INITDB_ROOT_USERNAME: "mongoadmin"
       MONGO_INITDB_ROOT_PASSWORD: "secret"
 
-  server:
+  planserver:
     build: .
     ports:
       - "8080:8080"
     volumes:
       - "./etc/config.yml:/usr/local/bin/config.yml"
       - "./etc/workout-plan/:/etc/workout-plan"
+
+networks:
+  default:
+    external:
+      name: wf-frontend
