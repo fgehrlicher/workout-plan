@@ -29,31 +29,27 @@ func RetrieveStats(plan plan.Plan, pointer plan.Pointer) (Stats, error) {
 		stats.LastWorkout = pointer.Moved.Format(time.RFC1123)
 	}
 
-	exerciseMap := make(map[string]bool, 0)
-
-	for unitIndex := 0; unitIndex < currentUnit; unitIndex ++ {
-		currentUnit := plan.Units[unitIndex]
-		for _, exercise := range currentUnit.Exercises {
-			exerciseId := exercise.Definition.Id
-			if !exerciseMap[exerciseId] {
-				exerciseMap[exerciseId] = true
-			}
-		}
-	}
-
+	exerciseMap := getExercises(plan.Units[0:currentUnit])
 	stats.ExercisesUsed = len(exerciseMap)
 
-	for unitIndex := currentUnit; unitIndex < stats.TotalUnitCount; unitIndex ++ {
-		currentUnit := plan.Units[unitIndex]
-		for _, exercise := range currentUnit.Exercises {
-			exerciseId := exercise.Definition.Id
-			if !exerciseMap[exerciseId] {
-				exerciseMap[exerciseId] = true
-			}
-		}
-	}
-
+	exerciseMap = getExercises(plan.Units[currentUnit:stats.TotalUnitCount])
 	stats.TotalExerciseCount = len(exerciseMap)
 
 	return stats, nil
+}
+
+func getExercises(units []plan.Unit) map[string]bool {
+	exerciseMap := make(map[string]bool, 0)
+
+	for unitIndex := 0; unitIndex < len(units); unitIndex ++ {
+		currentUnit := units[unitIndex]
+		for _, exercise := range currentUnit.Exercises {
+			exerciseId := exercise.Definition.Id
+			if !exerciseMap[exerciseId] {
+				exerciseMap[exerciseId] = true
+			}
+		}
+	}
+
+	return exerciseMap
 }
