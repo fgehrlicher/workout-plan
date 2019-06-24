@@ -3,16 +3,13 @@ package handler
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/gorilla/mux"
-	"workout-plan/stats"
 
 	"workout-plan/db"
-
 	"workout-plan/plan"
+	"workout-plan/stats"
 )
 
 const PlanIdQuerySegment = "planId"
