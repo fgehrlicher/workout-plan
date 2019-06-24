@@ -29,11 +29,13 @@ func RetrieveStats(plan plan.Plan, pointer plan.Pointer) (Stats, error) {
 		stats.LastWorkout = pointer.Moved.Format(time.RFC1123)
 	}
 
-	exerciseMap := getExercises(plan.Units[0:currentUnit])
-	stats.ExercisesUsed = len(exerciseMap)
+	usedExercises := getExercises(plan.Units[0:currentUnit])
+	stats.ExercisesUsed = len(usedExercises)
 
-	exerciseMap = getExercises(plan.Units[currentUnit:stats.TotalUnitCount])
-	stats.TotalExerciseCount = len(exerciseMap)
+	unusedExercises := getExercises(plan.Units[currentUnit:stats.TotalUnitCount])
+
+	allExercises := mergeUniqueExercises(usedExercises, unusedExercises)
+	stats.TotalExerciseCount = len(allExercises)
 
 	return stats, nil
 }
@@ -52,4 +54,17 @@ func getExercises(units []plan.Unit) map[string]bool {
 	}
 
 	return exerciseMap
+}
+
+func mergeUniqueExercises(exerciseMaps ...map[string]bool) map[string]bool {
+	returnMap := make(map[string]bool, 0)
+	for _, exerciseMap := range exerciseMaps {
+		for exercise := range exerciseMap {
+			if !returnMap[exercise] {
+				returnMap[exercise] = true
+			}
+		}
+	}
+
+	return returnMap
 }
