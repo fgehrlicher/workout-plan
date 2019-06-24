@@ -1,10 +1,15 @@
 package plan
 
+import (
+	"time"
+)
+
 func CreatePointer(plan *Plan, userId string) Pointer {
 	planPointer := Pointer{
 		PlanId:      plan.ID,
 		PlanVersion: plan.Version,
 		UserId:      userId,
+		Started:     time.Now(),
 	}
 
 	planPointer.Position.Unit = 1
@@ -14,9 +19,11 @@ func CreatePointer(plan *Plan, userId string) Pointer {
 }
 
 type Pointer struct {
-	PlanId      string `bson:"plan_id"`
-	PlanVersion string `bson:"plan_version"`
-	UserId      string `bson:"user_id"`
+	PlanId      string    `bson:"plan_id"`
+	PlanVersion string    `bson:"plan_version"`
+	UserId      string    `bson:"user_id"`
+	Started     time.Time `bson:"started"`
+	Moved       time.Time `bson:"moved"`
 	Position    struct {
 		Unit     int `bson:"unit"`
 		Exercise int `bson:"exercise"`
