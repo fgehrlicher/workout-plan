@@ -50,6 +50,7 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 	userPlan, err := plans.Get(planPointer.PlanId, planPointer.PlanVersion)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)
+		return
 	}
 
 	if hasPlanEnded(planPointer, userPlan) {
@@ -72,6 +73,7 @@ func GetCurrentUnit(response http.ResponseWriter, request *http.Request) {
 	err = template.EvaluateTemplate(&currentUnit, planPointer.Data)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)
+		return
 	}
 
 	err = json.NewEncoder(response).Encode(currentUnit)
@@ -110,6 +112,7 @@ func FinishCurrentUnit(response http.ResponseWriter, request *http.Request) {
 	userPlan, err := plans.Get(planPointer.PlanId, planPointer.PlanVersion)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)
+		return
 	}
 
 	currentUnit := userPlan.Units[planPointer.Position.Unit-1]
@@ -175,6 +178,7 @@ func GetUnit(response http.ResponseWriter, request *http.Request) {
 	unitId, err := strconv.Atoi(rawUnitId)
 	if err != nil {
 		badRequestErrorHandler(response, request, err)
+		return
 	}
 
 	plans := plan.GetPlansInstance()
@@ -239,6 +243,7 @@ func FinishUnit(response http.ResponseWriter, request *http.Request) {
 	unitId, err := strconv.Atoi(rawUnitId)
 	if err != nil {
 		badRequestErrorHandler(response, request, err)
+		return
 	}
 
 	plans := plan.GetPlansInstance()
@@ -261,6 +266,7 @@ func FinishUnit(response http.ResponseWriter, request *http.Request) {
 	userPlan, err := plans.Get(planPointer.PlanId, planPointer.PlanVersion)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)
+		return
 	}
 
 	if len(userPlan.Units) < unitId {
@@ -290,6 +296,7 @@ func FinishUnit(response http.ResponseWriter, request *http.Request) {
 		intValue, err := strconv.Atoi(variableInForm)
 		if err != nil {
 			badRequestErrorHandler(response, request, err)
+			return
 		}
 
 		planPointer.Data[requiredVariable] = intValue

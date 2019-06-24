@@ -33,6 +33,5 @@ func GetExercise(response http.ResponseWriter, request *http.Request) {
 	err = json.NewEncoder(response).Encode(exerciseDefinition)
 	if err != nil {
 		internalServerErrorHandler(response, request, err)
-		return
 	}
 }
