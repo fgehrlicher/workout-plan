@@ -59,51 +59,51 @@ func main() {
 	router.HandleFunc(
 		"/plans/",
 		handler.GetAllPlans,
-	).Methods("GET")
+	).Methods(http.MethodGet)
 	router.HandleFunc(
 		"/plans/active/",
 		handler.GetActivePlans,
-	).Methods("GET")
+	).Methods(http.MethodGet)
 	router.HandleFunc(
 		fmt.Sprintf("/plans/{%v}/", handler.PlanIdQuerySegment),
 		handler.GetPlan,
-	).Methods("GET")
+	).Methods(http.MethodGet)
 	router.HandleFunc(
 		fmt.Sprintf("/plans/{%v}/start/", handler.PlanIdQuerySegment),
 		handler.StartPlan,
-	).Methods("POST")
+	).Methods(http.MethodPost)
 	router.HandleFunc(
 		fmt.Sprintf("/plans/{%v}/stop/", handler.PlanIdQuerySegment),
 		handler.StopPlan,
-	).Methods("POST")
+	).Methods(http.MethodPost)
 	router.HandleFunc(
 		fmt.Sprintf("/plans/{%v}/stats/", handler.PlanIdQuerySegment),
 		handler.GetStats,
-	).Methods("GET")
+	).Methods(http.MethodGet)
 	router.HandleFunc(
 		fmt.Sprintf("/plans/{%v}/units/current/", handler.PlanIdQuerySegment),
 		handler.GetCurrentUnit,
-	).Methods("GET")
+	).Methods(http.MethodGet)
 	router.HandleFunc(
 		fmt.Sprintf("/plans/{%v}/units/current/finish/", handler.PlanIdQuerySegment),
 		handler.FinishCurrentUnit,
-	).Methods("POST")
+	).Methods(http.MethodPost)
 	router.HandleFunc(
 		fmt.Sprintf("/plans/{%v}/units/{%v}/", handler.PlanIdQuerySegment, handler.UnitIdQuerySegment),
 		handler.GetUnit,
-	).Methods("GET")
+	).Methods(http.MethodGet)
 	router.HandleFunc(
 		fmt.Sprintf("/plans/{%v}/units/{%v}/finish/", handler.PlanIdQuerySegment, handler.UnitIdQuerySegment),
 		handler.FinishUnit,
-	).Methods("POST")
+	).Methods(http.MethodPost)
 	router.HandleFunc(
 		"/exercises/",
 		handler.GetAllExercises,
-	).Methods("GET")
+	).Methods(http.MethodGet)
 	router.HandleFunc(
 		fmt.Sprintf("/exercises/{%v}/", handler.ExerciseIdQuerySegment),
 		handler.GetExercise,
-	).Methods("GET")
+	).Methods(http.MethodGet)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%v:%v", conf.Server.Ip, conf.Server.Port),
