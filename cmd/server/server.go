@@ -77,6 +77,10 @@ func main() {
 		handler.StopPlan,
 	).Methods("POST")
 	router.HandleFunc(
+		fmt.Sprintf("/plans/{%v}/stats/", handler.PlanIdQuerySegment),
+		handler.GetStats,
+	).Methods("GET")
+	router.HandleFunc(
 		fmt.Sprintf("/plans/{%v}/units/current/", handler.PlanIdQuerySegment),
 		handler.GetCurrentUnit,
 	).Methods("GET")
