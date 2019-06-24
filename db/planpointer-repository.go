@@ -21,6 +21,8 @@ const (
 	dataKey        = "data"
 	unitKey        = "unit"
 	exerciseKey    = "exercise"
+	startedKey     = "started"
+	movedKey       = "moved"
 )
 
 var (
@@ -69,6 +71,7 @@ func (planPointerRepository *PlanPointerRepository) Insert(pointer plan.Pointer)
 				{exerciseKey, bsonx.Int32(int32(pointer.Position.Exercise))},
 			}),
 		},
+		{startedKey, bsonx.Time(pointer.Started)},
 	}
 
 	var dataElems bsonx.Doc
@@ -96,6 +99,7 @@ func (planPointerRepository *PlanPointerRepository) Update(pointer plan.Pointer)
 				{exerciseKey, bsonx.Int32(int32(pointer.Position.Exercise))},
 			}),
 		},
+		{movedKey, bsonx.Time(time.Now())},
 	}
 
 	var dataElems bsonx.Doc
