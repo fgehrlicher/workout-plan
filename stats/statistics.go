@@ -11,4 +11,5 @@ type Stats struct {
 	ExercisesUsed      int `json:"exercises_used"`
 	PlanStarted        time.Time `json:"plan_started"`
 	LastWorkout        time.Time `json:"last_workout"`
+	Variables map[string]string `json:"variables"`
 }
