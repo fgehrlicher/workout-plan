@@ -3,9 +3,14 @@ package handler
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
+	"workout-plan/stats"
+
+	"workout-plan/db"
 
 	"workout-plan/plan"
 )
@@ -187,4 +192,48 @@ func StopPlan(response http.ResponseWriter, request *http.Request) {
 		}
 	}
 	notFoundErrorHandler(response, request, errors.New("no active plan with that name found"))
+}
+
+func GetStats(response http.ResponseWriter, request *http.Request) {
+	userGrant, err := GetUserGrant(request)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+		return
+	}
+
+	userId := userGrant.UserName
+	planId := mux.Vars(request)[PlanIdQuerySegment]
+
+	plans := plan.GetPlansInstance()
+	planPointerRepository, err := NewPlanPointerRepository()
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+		return
+	}
+
+	planPointer, err := planPointerRepository.GetByPlan(userId, planId)
+	if err != nil {
+		if err == db.NoPlanFoundError {
+			notFoundErrorHandler(response, request, err)
+		} else {
+			internalServerErrorHandler(response, request, err)
+		}
+		return
+	}
+
+	userPlan, err := plans.Get(planPointer.PlanId, planPointer.PlanVersion)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+	}
+
+	userPlanStats, err := stats.RetrieveStats(*userPlan, planPointer)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+		return
+	}
+
+	err = json.NewEncoder(response).Encode(userPlanStats)
+	if err != nil {
+		internalServerErrorHandler(response, request, err)
+	}
 }
