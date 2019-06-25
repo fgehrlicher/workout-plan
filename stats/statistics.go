@@ -7,6 +7,7 @@ import (
 )
 
 type Stats struct {
+	PlanName           string         `json:"plan_name"`
 	TotalUnitCount     int            `json:"total_unit_count"`
 	UnitsDone          int            `json:"units_done"`
 	TotalExerciseCount int            `json:"total_exercise_count"`
@@ -19,6 +20,7 @@ type Stats struct {
 func RetrieveStats(plan plan.Plan, pointer plan.Pointer) (Stats, error) {
 	currentUnit := pointer.Position.Unit - 1
 	stats := Stats{
+		PlanName:       plan.Name,
 		TotalUnitCount: len(plan.Units),
 		UnitsDone:      currentUnit,
 		Variables:      pointer.Data,
