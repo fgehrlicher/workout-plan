@@ -39,7 +39,7 @@ func badRequestErrorHandler(responseWriter http.ResponseWriter, request *http.Re
 	handleError(responseWriter, request, http.StatusBadRequest, err, log.WarnLevel)
 }
 
-func forbiddenErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
+func unauthorizedErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {
 	conf, configErr := GetConfig(request)
 	if configErr != nil {
 		internalServerErrorHandler(
@@ -52,7 +52,7 @@ func forbiddenErrorHandler(responseWriter http.ResponseWriter, request *http.Req
 	responseWriter.Header().Set(
 		auth.GetTokenAuthenticateHeader(conf.Auth.Token),
 	)
-	handleError(responseWriter, request, http.StatusForbidden, err, log.WarnLevel)
+	handleError(responseWriter, request, http.StatusUnauthorized, err, log.WarnLevel)
 }
 
 func methodNotAllowedErrorHandler(responseWriter http.ResponseWriter, request *http.Request, err error) {

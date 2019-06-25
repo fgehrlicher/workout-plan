@@ -44,7 +44,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 					err,
 				)
 			} else {
-				forbiddenErrorHandler(
+				unauthorizedErrorHandler(
 					responseWriter,
 					request,
 					err,
@@ -55,7 +55,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 		planId := mux.Vars(request)[PlanIdQuerySegment]
 		if planId != "" && !userGrant.IsAuthorizedForPlan(planId) {
-			forbiddenErrorHandler(responseWriter, request, fmt.Errorf("not authorized for '%v'", planId))
+			unauthorizedErrorHandler(responseWriter, request, fmt.Errorf("not authorized for '%v'", planId))
 			return
 		}
 
