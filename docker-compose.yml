@@ -3,8 +3,8 @@ version: '3.7'
 services:
   mongodb:
     image: "mongo:4.0"
-    ports:
-      - "27017:27017"
+    networks:
+      - workout-plan
     environment:
       MONGO_INITDB_ROOT_USERNAME: "mongoadmin"
       MONGO_INITDB_ROOT_PASSWORD: "secret"
@@ -13,11 +13,15 @@ services:
     build: .
     ports:
       - "8080:8080"
+    networks:
+      - workout-plan
+      - wf-frontend
     volumes:
       - "./etc/config.yml:/usr/local/bin/config.yml"
       - "./etc/workout-plan/:/etc/workout-plan"
 
 networks:
-  default:
+  workout-plan:
+  wf-frontend:
     external:
       name: wf-frontend
