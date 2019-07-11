@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: etc/config.yml
+  checksum: 17af1d8b54ac558040344b5801f439bb351778ba9f3c7d49d938558a6f305d85
+  ignore_detectors: []
