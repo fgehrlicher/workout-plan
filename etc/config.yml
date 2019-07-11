@@ -1,0 +1,28 @@
+plans:
+  directory: "/etc/workout-plan/plans"
+  definitions-file: "/etc/workout-plan/definitions.yml"
+
+database:
+  host: "mongodb"
+  port: "27017"
+  user: "mongoadmin"
+  password: "secret"
+  database: "admin"
+  timeout:
+    startup: 5
+    request: 10
+
+server:
+  ip: "0.0.0.0"
+  port: "8080"
+  timeout:
+    write: 60
+    read: 360
+    idle: 60
+
+auth:
+  token:
+    issuer: "revelfit.fge.cloud/api/user"
+    service: "revelfit.fge.cloud/api/plan"
+    token-endpoint: "/token"
+    secret: "1234567890"

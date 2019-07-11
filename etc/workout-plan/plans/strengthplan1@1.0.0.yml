@@ -1,0 +1,133 @@
+---
+id: strengthplan1
+name: Kraft Plan
+version: 1.0.0
+description: >-
+  Lorem Plan ipsum dolor sit amet, consetetur sadipscing
+  elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+  magna aliquyam erat, sed diam voluptua. At vero eos et
+  accusam et justo duo dolores et ea rebum. Stet clita
+units:
+  - name: Basiswerte
+    description: >-
+      Lorem Basiswerte ipsum dolor sit amet, consetetur sadipscing
+      elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+      magna aliquyam erat, sed diam voluptua. At vero eos et
+      accusam et justo duo dolores et ea rebum. Stet clita
+      kasd gubergren, no sea takimata sanctus est Lorem ipsum
+      dolor sit amet.
+    exercises:
+      - type: main-exercise
+        definition: strict-press
+        sequence:
+          - type: max-out
+            max-out: 1
+            variable: strict_press_base
+      - type: main-exercise
+        definition: bench-press
+        sequence:
+          - type: max-out
+            max-out: 1
+            variable: bench_press_base
+      - type: main-exercise
+        definition: front-squat
+        sequence:
+          - type: max-out
+            max-out: 1
+            variable: front_squat_base
+      - type: main-exercise
+        definition: back-squat
+        sequence:
+          - type: max-out
+            max-out: 1
+            variable: back_squat_base
+      - type: main-exercise
+        definition: deadlift
+        sequence:
+          - type: max-out
+            max-out: 1
+            variable: deadlift_base
+  - name: Einheit 1
+    exercises:
+      - type: main-exercise
+        definition: front-squat
+        sequence:
+          - type: sets-reps
+            weight: "{{ 0.45 * front_squat_base }}"
+            sets: "2"
+            reps: "12"
+          - type: sets-reps
+            weight: "{{ 0.5 * front_squat_base }}"
+            sets: "2"
+            reps: "10"
+          - type: sets-reps
+            weight: "{{ 0.55 * front_squat_base }}"
+            sets: "2"
+            reps: "8"
+          - type: sets-reps
+            weight: "{{ 0.6 * front_squat_base }}"
+            sets: "3"
+            reps: "6"
+      - type: main-exercise
+        definition: deadlift
+        sequence:
+          - type: sets-reps
+            weight: "{{ 0.3 * deadlift_base }}"
+            sets: "1"
+            reps: "20"
+          - type: sets-reps
+            weight: "{{ 0.4 * deadlift_base }}"
+            sets: "2"
+            reps: "18"
+          - type: sets-reps
+            weight: "{{ 0.45 * deadlift_base }}"
+            sets: "2"
+            reps: "14"
+      - type: additional-exercise
+        definition: sit-ups
+        sequence:
+          - type: sets-reps
+            sets: "1"
+            reps: "100"
+  - name: Einheit 2
+    exercises:
+      - type: main-exercise
+        definition: strict-press
+        sequence:
+          - type: sets-reps
+            weight: "{{ 0.45 * strict_press_base }}"
+            sets: "2"
+            reps: "12"
+          - type: sets-reps
+            weight: "{{ 0.5 * strict_press_base }}"
+            sets: "2"
+            reps: "10"
+          - type: sets-reps
+            weight: "{{ 0.55 * strict_press_base }}"
+            sets: "2"
+            reps: "8"
+          - type: sets-reps
+            weight: "{{ 0.6 * strict_press_base }}"
+            sets: "3"
+            reps: "6"
+      - type: main-exercise
+        definition: back-squat
+        sequence:
+          - type: sets-reps
+            weight: "{{ 0.2 * back_squat_base }}"
+            sets: "2"
+            reps: "21"
+          - type: sets-reps
+            weight: "{{ 0.3 * back_squat_base }}"
+            sets: "2"
+            reps: "18"
+          - type: sets-reps
+            weight: "{{ 0.35 * back_squat_base }}"
+            sets: "2"
+            reps: "14"
+      - type: additional-exercise
+        definition: sit-ups
+        sequence:
+          - type: sets-reps
+            sets: "1"
+            reps: "100"
