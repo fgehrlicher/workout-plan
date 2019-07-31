@@ -85,7 +85,7 @@ func main() {
 		handler.GetCurrentUnit,
 	).Methods(http.MethodGet)
 	router.HandleFunc(
-		fmt.Sprintf("/plans/{%v}/units/current/finish/", handler.PlanIdQuerySegment),
+		fmt.Sprintf("/plans/{%v}/units/current/", handler.PlanIdQuerySegment),
 		handler.FinishCurrentUnit,
 	).Methods(http.MethodPost)
 	router.HandleFunc(
