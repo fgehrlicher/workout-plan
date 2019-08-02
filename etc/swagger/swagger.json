@@ -23,7 +23,8 @@
             "in": "header",
             "name": "authorization",
             "type": "string",
-            "description": "jwt bearer token"
+            "description": "jwt bearer token",
+            "required": true
           }
         ],
         "responses": {
@@ -71,7 +72,8 @@
             "in": "header",
             "name": "authorization",
             "type": "string",
-            "description": "jwt bearer token"
+            "description": "jwt bearer token",
+            "required": true
           }
         ],
         "responses": {
@@ -113,7 +115,55 @@
         "summary": "starts an allowed plan",
         "produces": [
           "application/json"
-        ]
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "jwt bearer token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "planId",
+            "type": "string",
+            "description": "The plan name",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "400": {
+            "description": "Plan already started",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Not authorized for Plan",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Plan authorized but not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
       }
     },
     "/plans/{planId}/stop/": {
@@ -124,7 +174,49 @@
         "summary": "stops and deletes a running plan",
         "produces": [
           "application/json"
-        ]
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "jwt bearer token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "planId",
+            "type": "string",
+            "description": "The plan name",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "401": {
+            "description": "Not authorized for Plan",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "No running plan with that name found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
       }
     },
     "/plans/{planId}/stats/": {
@@ -135,7 +227,49 @@
         "summary": "returns the stats of a running plan",
         "produces": [
           "application/json"
-        ]
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "jwt bearer token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "planId",
+            "type": "string",
+            "description": "The plan name",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Stats"
+            }
+          },
+          "401": {
+            "description": "Not authorized for Plan",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "No running plan with that name found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
       }
     },
     "/plans/{planId}/units/{unitId}/": {
@@ -146,7 +280,124 @@
         "summary": "returns one unit of a running plan",
         "produces": [
           "application/json"
-        ]
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "jwt bearer token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "planId",
+            "type": "string",
+            "description": "The plan name",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "unitId",
+            "type": "string",
+            "description": "The unit id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Unit"
+            }
+          },
+          "401": {
+            "description": "Not authorized for Plan",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "No running plan with that name found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "finishes one unit of a running plan",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "jwt bearer token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "planId",
+            "type": "string",
+            "description": "The plan name",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "unitId",
+            "type": "string",
+            "description": "The unit id",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "variable name",
+            "type": "string",
+            "description": "Dynamic variable",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/StateMessage"
+            }
+          },
+          "401": {
+            "description": "Not authorized for Plan",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "No running plan with that name found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
       }
     },
     "/plans/{planId}/units/current/": {
@@ -157,16 +408,124 @@
         "summary": "returns the current unit of a running plan",
         "produces": [
           "application/json"
-        ]
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "jwt bearer token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "planId",
+            "type": "string",
+            "description": "The plan name",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "unitId",
+            "type": "string",
+            "description": "The unit id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/Unit"
+            }
+          },
+          "401": {
+            "description": "Not authorized for Plan",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "No running plan with that name found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
       },
       "post": {
         "tags": [
           "plan"
         ],
         "summary": "finishes the current unit of a running plan",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
         "produces": [
           "application/json"
-        ]
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "jwt bearer token",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "planId",
+            "type": "string",
+            "description": "The plan name",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "unitId",
+            "type": "string",
+            "description": "The unit id",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "variable name",
+            "type": "string",
+            "description": "Dynamic variable",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "$ref": "#/definitions/StateMessage"
+            }
+          },
+          "401": {
+            "description": "Not authorized for Plan",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "No running plan with that name found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
       }
     }
   },
@@ -197,9 +556,150 @@
         "version"
       ]
     },
+    "Stats": {
+      "properties": {
+        "plan_name": {
+          "type": "string",
+          "example": "Kraft Plan"
+        },
+        "total_unit_count": {
+          "type": "int",
+          "example": 3
+        },
+        "units_done": {
+          "type": "int",
+          "example": 1
+        },
+        "total_exercise_count": {
+          "type": "int",
+          "example": 13
+        },
+        "exercises_used": {
+          "type": "int",
+          "example": 4
+        },
+        "plan_started": {
+          "type": "string",
+          "example": "Do, 01 Aug 2019 12:55:23 UTC"
+        },
+        "last_workout": {
+          "type": "string",
+          "example": "Fri, 02 Aug 2019 15:00:00 UTC"
+        }
+      },
+      "required": [
+        "plan_name",
+        "total_unit_count",
+        "units_done",
+        "total_exercise_count",
+        "exercises_used",
+        "plan_started",
+        "last_workout"
+      ]
+    },
+    "Unit": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Basiswerte"
+        },
+        "description": {
+          "type": "string",
+          "example": "Lorem Basiswerte ipsum dolor sit amet, consetetur sadipscing elitr...."
+        },
+        "exercises": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "main-exercise"
+              },
+              "definition": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "strict-press"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Strict Press"
+                  },
+                  "definition": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor..."
+                      },
+                      "video": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "1234567"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "sequence": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "sets-reps"
+                    },
+                    "variable": {
+                      "type": "string",
+                      "example": "strict_press_base"
+                    },
+                    "max-out": {
+                      "type": "string",
+                      "example": "1"
+                    },
+                    "weight": {
+                      "type": "string",
+                      "example": "5.50"
+                    },
+                    "sets": {
+                      "type": "string",
+                      "example": "4"
+                    },
+                    "reps": {
+                      "type": "string",
+                      "example": "5"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Message": {
       "properties": {
         "message": {
+          "type": "string"
+        },
+        "required": [
+          "message"
+        ]
+      }
+    },
+    "StateMessage": {
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "state": {
           "type": "string"
         },
         "required": [
