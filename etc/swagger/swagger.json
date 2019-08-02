@@ -1,0 +1,225 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Workout Plan definition",
+    "version": "1.0.0",
+    "title": "Workout Plan"
+  },
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/plans/": {
+      "get": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "returns all allowed plans",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "jwt bearer token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Plan"
+              }
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Missing auth header",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/plans/active/": {
+      "get": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "returns all active plans",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "type": "string",
+            "description": "jwt bearer token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Plan"
+              }
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Missing auth header",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/plans/{planId}/start/": {
+      "post": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "starts an allowed plan",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/plans/{planId}/stop/": {
+      "post": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "stops and deletes a running plan",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/plans/{planId}/stats/": {
+      "get": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "returns the stats of a running plan",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/plans/{planId}/units/{unitId}/": {
+      "get": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "returns one unit of a running plan",
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/plans/{planId}/units/current/": {
+      "get": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "returns the current unit of a running plan",
+        "produces": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "finishes the current unit of a running plan",
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Plan": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "strengthplan1"
+        },
+        "name": {
+          "type": "string",
+          "example": "Kraft Plan"
+        },
+        "description": {
+          "type": "string",
+          "example": "Lorem Plan ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore"
+        },
+        "version": {
+          "type": "string",
+          "example": "1.0.0"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "version"
+      ]
+    },
+    "Message": {
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "required": [
+          "message"
+        ]
+      }
+    },
+    "ErrorResponse": {
+      "properties": {
+        "status_code": {
+          "type": "integer"
+        },
+        "error": {
+          "type": "string"
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      }
+    }
+  }
+}

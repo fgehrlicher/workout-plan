@@ -20,6 +20,15 @@ services:
       - "./etc/config.yml:/usr/local/bin/config.yml"
       - "./etc/workout-plan/:/etc/workout-plan"
 
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+      - 3000:8080
+    volumes:
+      - "./etc/swagger:/foo"
+    environment:
+      SWAGGER_JSON: "/foo/swagger.json"
+
 networks:
   workout-plan:
   wf-frontend:
