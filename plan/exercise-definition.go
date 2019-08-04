@@ -5,14 +5,15 @@ import (
 )
 
 type ExerciseDefinition struct {
-	Id         string `yaml:"id" json:"id"`
-	Name       string `yaml:"name" json:"name"`
-	Definition struct {
-		Video struct {
-			Id string `yaml:"id" json:"id"`
-		} `yaml:"video" json:"video"`
-		Description string `yaml:"description" json:"description"`
-	} `yaml:"definition" json:"definition"`
+	Id          string `yaml:"id" json:"id"`
+	Name        string `yaml:"name" json:"name"`
+	Description string `yaml:"description" json:"description"`
+	Video       struct {
+		Id string `yaml:"id" json:"id"`
+	} `yaml:"video" json:"video"`
+	Image struct {
+		Url string `yaml:"url" json:"url"`
+	} `yaml:"video" json:"video"`
 }
 
 func (exerciseDefinition *ExerciseDefinition) Validate() error {
