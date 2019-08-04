@@ -15,6 +15,9 @@ type ExerciseDefinition struct {
 		Image struct {
 			Url string `yaml:"url" json:"url"`
 		} `yaml:"video" json:"video"`
+		Icon struct {
+			Url string `yaml:"url" json:"url"`
+		} `yaml:"icon" json:"icon"`
 	} `yaml:"media" json:"media"`
 }
 

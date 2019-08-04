@@ -10,6 +10,8 @@
   media:
     image:
       url: https://dummyimage.com/600x400/000/fff
+    icon:
+      url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
     video:
       id: 1234567
 
@@ -25,6 +27,8 @@
   media:
     image:
       url: https://dummyimage.com/600x400/000/fff
+    icon:
+      url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
     video:
       id: 1234567
 
@@ -40,6 +44,8 @@
   media:
     image:
       url: https://dummyimage.com/600x400/000/fff
+    icon:
+      url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
     video:
       id: 1234567
 
@@ -55,6 +61,8 @@
   media:
     image:
       url: https://dummyimage.com/600x400/000/fff
+    icon:
+      url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
     video:
       id: 1234567
 
@@ -70,6 +78,8 @@
   media:
     image:
       url: https://dummyimage.com/600x400/000/fff
+    icon:
+      url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
     video:
       id: 1234567
 
@@ -85,6 +95,8 @@
   media:
     image:
       url: https://dummyimage.com/600x400/000/fff
+    icon:
+      url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
     video:
       id: 1234567
 
@@ -100,5 +112,7 @@
   media:
     image:
       url: https://dummyimage.com/600x400/000/fff
+    icon:
+      url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
     video:
       id: 1234567
