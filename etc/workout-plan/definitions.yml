@@ -1,90 +1,97 @@
 - id: front-squat
   name: Front Squat
-  definition:
-    video:
-      id: 1234567
-    description: >-
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-      magna aliquyam erat, sed diam voluptua. At vero eos et
-      accusam et justo duo dolores et ea rebum. Stet clita
-      kasd gubergren, no sea takimata sanctus est Lorem ipsum
-      dolor sit amet. Front Squat
+  image:
+    url: https://dummyimage.com/600x400/000/fff
+  video:
+    id: 1234567
+  description: >-
+    Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+    sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et
+    accusam et justo duo dolores et ea rebum. Stet clita
+    kasd gubergren, no sea takimata sanctus est Lorem ipsum
+    dolor sit amet. Front Squat
 
 - id: deadlift
   name: Deadlift
-  definition:
-    video:
-      id: 1234567
-    description: >-
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-      magna aliquyam erat, sed diam voluptua. At vero eos et
-      accusam et justo duo dolores et ea rebum. Stet clita
-      kasd gubergren, no sea takimata sanctus est Lorem ipsum
-      dolor sit amet. Front Squat
+  image:
+    url: https://dummyimage.com/600x400/000/fff
+  video:
+    id: 1234567
+  description: >-
+    Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+    sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et
+    accusam et justo duo dolores et ea rebum. Stet clita
+    kasd gubergren, no sea takimata sanctus est Lorem ipsum
+    dolor sit amet. Front Squat
 
 - id: lunges
   name: Lunges
-  definition:
-    video:
-      id: 1234567
-    description: >-
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-      magna aliquyam erat, sed diam voluptua. At vero eos et
-      accusam et justo duo dolores et ea rebum. Stet clita
-      kasd gubergren, no sea takimata sanctus est Lorem ipsum
-      dolor sit amet. Front Squat
+  image:
+    url: https://dummyimage.com/600x400/000/fff
+  video:
+    id: 1234567
+  description: >-
+    Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+    sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et
+    accusam et justo duo dolores et ea rebum. Stet clita
+    kasd gubergren, no sea takimata sanctus est Lorem ipsum
+    dolor sit amet. Front Squat
 
 - id: sit-ups
   name: Sit Ups
-  definition:
-    video:
-      id: 1234567
-    description: >-
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-      magna aliquyam erat, sed diam voluptua. At vero eos et
-      accusam et justo duo dolores et ea rebum. Stet clita
-      kasd gubergren, no sea takimata sanctus est Lorem ipsum
-      dolor sit amet. Front Squat
+  image:
+    url: https://dummyimage.com/600x400/000/fff
+  video:
+    id: 1234567
+  description: >-
+    Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+    sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et
+    accusam et justo duo dolores et ea rebum. Stet clita
+    kasd gubergren, no sea takimata sanctus est Lorem ipsum
+    dolor sit amet. Front Squat
 
 - id: strict-press
   name: Strict Press
-  definition:
-    video:
-      id: 1234567
-    description: >-
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-      magna aliquyam erat, sed diam voluptua. At vero eos et
-      accusam et justo duo dolores et ea rebum. Stet clita
-      kasd gubergren, no sea takimata sanctus est Lorem ipsum
-      dolor sit amet. Front Squat
+  image:
+    url: https://dummyimage.com/600x400/000/fff
+  video:
+    id: 1234567
+  description: >-
+    Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+    sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et
+    accusam et justo duo dolores et ea rebum. Stet clita
+    kasd gubergren, no sea takimata sanctus est Lorem ipsum
+    dolor sit amet. Front Squat
 
 - id: bench-press
   name: Bench Press
-  definition:
-    video:
-      id: 1234567
-    description: >-
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-      magna aliquyam erat, sed diam voluptua. At vero eos et
-      accusam et justo duo dolores et ea rebum. Stet clita
-      kasd gubergren, no sea takimata sanctus est Lorem ipsum
-      dolor sit amet. Front Squat
+  image:
+    url: https://dummyimage.com/600x400/000/fff
+  video:
+    id: 1234567
+  description: >-
+    Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+    sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et
+    accusam et justo duo dolores et ea rebum. Stet clita
+    kasd gubergren, no sea takimata sanctus est Lorem ipsum
+    dolor sit amet. Front Squat
 
 - id: back-squat
   name: Back Squats
-  definition:
-    video:
-      id: 1234567
-    description: >-
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-      magna aliquyam erat, sed diam voluptua. At vero eos et
-      accusam et justo duo dolores et ea rebum. Stet clita
-      kasd gubergren, no sea takimata sanctus est Lorem ipsum
-      dolor sit amet. Front Squat
+  image:
+    url: https://dummyimage.com/600x400/000/fff
+  video:
+    id: 1234567
+  description: >-
+    Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+    sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et
+    accusam et justo duo dolores et ea rebum. Stet clita
+    kasd gubergren, no sea takimata sanctus est Lorem ipsum
+    dolor sit amet. Front Squat
