@@ -1,9 +1,5 @@
 - id: front-squat
   name: Front Squat
-  image:
-    url: https://dummyimage.com/600x400/000/fff
-  video:
-    id: 1234567
   description: >-
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
     sed diam nonumy eirmod tempor invidunt ut labore et dolore
@@ -11,13 +7,14 @@
     accusam et justo duo dolores et ea rebum. Stet clita
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
+  media:
+    image:
+      url: https://dummyimage.com/600x400/000/fff
+    video:
+      id: 1234567
 
 - id: deadlift
   name: Deadlift
-  image:
-    url: https://dummyimage.com/600x400/000/fff
-  video:
-    id: 1234567
   description: >-
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
     sed diam nonumy eirmod tempor invidunt ut labore et dolore
@@ -25,13 +22,14 @@
     accusam et justo duo dolores et ea rebum. Stet clita
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
+  media:
+    image:
+      url: https://dummyimage.com/600x400/000/fff
+    video:
+      id: 1234567
 
 - id: lunges
   name: Lunges
-  image:
-    url: https://dummyimage.com/600x400/000/fff
-  video:
-    id: 1234567
   description: >-
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
     sed diam nonumy eirmod tempor invidunt ut labore et dolore
@@ -39,13 +37,14 @@
     accusam et justo duo dolores et ea rebum. Stet clita
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
+  media:
+    image:
+      url: https://dummyimage.com/600x400/000/fff
+    video:
+      id: 1234567
 
 - id: sit-ups
   name: Sit Ups
-  image:
-    url: https://dummyimage.com/600x400/000/fff
-  video:
-    id: 1234567
   description: >-
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
     sed diam nonumy eirmod tempor invidunt ut labore et dolore
@@ -53,13 +52,14 @@
     accusam et justo duo dolores et ea rebum. Stet clita
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
+  media:
+    image:
+      url: https://dummyimage.com/600x400/000/fff
+    video:
+      id: 1234567
 
 - id: strict-press
   name: Strict Press
-  image:
-    url: https://dummyimage.com/600x400/000/fff
-  video:
-    id: 1234567
   description: >-
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
     sed diam nonumy eirmod tempor invidunt ut labore et dolore
@@ -67,13 +67,14 @@
     accusam et justo duo dolores et ea rebum. Stet clita
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
+  media:
+    image:
+      url: https://dummyimage.com/600x400/000/fff
+    video:
+      id: 1234567
 
 - id: bench-press
   name: Bench Press
-  image:
-    url: https://dummyimage.com/600x400/000/fff
-  video:
-    id: 1234567
   description: >-
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
     sed diam nonumy eirmod tempor invidunt ut labore et dolore
@@ -81,13 +82,14 @@
     accusam et justo duo dolores et ea rebum. Stet clita
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
+  media:
+    image:
+      url: https://dummyimage.com/600x400/000/fff
+    video:
+      id: 1234567
 
 - id: back-squat
   name: Back Squats
-  image:
-    url: https://dummyimage.com/600x400/000/fff
-  video:
-    id: 1234567
   description: >-
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
     sed diam nonumy eirmod tempor invidunt ut labore et dolore
@@ -95,3 +97,8 @@
     accusam et justo duo dolores et ea rebum. Stet clita
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
+  media:
+    image:
+      url: https://dummyimage.com/600x400/000/fff
+    video:
+      id: 1234567
