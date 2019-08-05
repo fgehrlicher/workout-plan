@@ -25,9 +25,9 @@ services:
     ports:
       - 3000:8080
     volumes:
-      - "./etc/swagger:/foo"
+      - "./swagger.json:/apiconf/swagger.json"
     environment:
-      SWAGGER_JSON: "/foo/swagger.json"
+      SWAGGER_JSON: "/apiconf/swagger.json"
 
 networks:
   workout-plan:
