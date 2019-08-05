@@ -627,20 +627,26 @@
                     "type": "string",
                     "example": "Strict Press"
                   },
-                  "definition": {
-                    "type": "object",
-                    "properties": {
-                      "description": {
-                        "type": "string",
-                        "example": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor..."
-                      },
-                      "video": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "example": "1234567"
-                          }
+                  "description": {
+                    "type": "string",
+                    "example": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor..."
+                  },
+                  "media": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "image"
+                        },
+                        "url": {
+                          "type": "string",
+                          "example": "https://placeholder.pics/svg/300/DEDEDE/555555/icon"
+                        },
+                        "id": {
+                          "type": "string",
+                          "example": "12323422"
                         }
                       }
                     }
