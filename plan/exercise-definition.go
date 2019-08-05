@@ -12,8 +12,9 @@ type ExerciseDefinition struct {
 }
 
 type Media struct {
-	Id  string `yaml:"id" json:"id,omitempty"`
-	Url string `yaml:"url" json:"url,omitempty"`
+	Type string `yaml:"type" json:"type"`
+	Id   string `yaml:"id" json:"id,omitempty"`
+	Url  string `yaml:"url" json:"url,omitempty"`
 }
 
 func (exerciseDefinition *ExerciseDefinition) Validate() error {
