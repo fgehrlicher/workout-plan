@@ -8,11 +8,11 @@
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
   media:
-    image:
+    - type: image
       url: https://dummyimage.com/600x400/000/fff
-    icon:
+    - type: icon
       url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
-    video:
+    - type: vimeo
       id: 1234567
 
 - id: deadlift
@@ -25,11 +25,11 @@
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
   media:
-    image:
+    - type: image
       url: https://dummyimage.com/600x400/000/fff
-    icon:
+    - type: icon
       url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
-    video:
+    - type: vimeo
       id: 1234567
 
 - id: lunges
@@ -42,11 +42,11 @@
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
   media:
-    image:
+    - type: image
       url: https://dummyimage.com/600x400/000/fff
-    icon:
+    - type: icon
       url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
-    video:
+    - type: vimeo
       id: 1234567
 
 - id: sit-ups
@@ -59,11 +59,11 @@
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
   media:
-    image:
+    - type: image
       url: https://dummyimage.com/600x400/000/fff
-    icon:
+    - type: icon
       url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
-    video:
+    - type: vimeo
       id: 1234567
 
 - id: strict-press
@@ -76,11 +76,11 @@
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
   media:
-    image:
+    - type: image
       url: https://dummyimage.com/600x400/000/fff
-    icon:
+    - type: icon
       url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
-    video:
+    - type: vimeo
       id: 1234567
 
 - id: bench-press
@@ -93,11 +93,11 @@
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
   media:
-    image:
+    - type: image
       url: https://dummyimage.com/600x400/000/fff
-    icon:
+    - type: icon
       url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
-    video:
+    - type: vimeo
       id: 1234567
 
 - id: back-squat
@@ -110,9 +110,9 @@
     kasd gubergren, no sea takimata sanctus est Lorem ipsum
     dolor sit amet. Front Squat
   media:
-    image:
+    - type: image
       url: https://dummyimage.com/600x400/000/fff
-    icon:
+    - type: icon
       url: https://placeholder.pics/svg/300/DEDEDE/555555/icon
-    video:
+    - type: vimeo
       id: 1234567
