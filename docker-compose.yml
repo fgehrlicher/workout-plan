@@ -3,8 +3,6 @@ version: '3.7'
 services:
   mongodb:
     image: "mongo:4.0"
-    networks:
-      - workout-plan
     environment:
       MONGO_INITDB_ROOT_USERNAME: "mongoadmin"
       MONGO_INITDB_ROOT_PASSWORD: "secret"
@@ -13,9 +11,6 @@ services:
     build: .
     ports:
       - "8080:8080"
-    networks:
-      - workout-plan
-      - wf-frontend
     volumes:
       - "./etc/config.yml:/usr/local/bin/config.yml"
       - "./etc/workout-plan/:/etc/workout-plan"
@@ -28,9 +23,3 @@ services:
       - "./swagger.json:/apiconf/swagger.json"
     environment:
       SWAGGER_JSON: "/apiconf/swagger.json"
-
-networks:
-  workout-plan:
-  wf-frontend:
-    external:
-      name: wf-frontend
