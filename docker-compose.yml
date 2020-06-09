@@ -15,10 +15,17 @@ services:
       - "./etc/config.yml:/usr/local/bin/config.yml"
       - "./etc/workout-plan/:/etc/workout-plan"
 
+  claim-generator:
+    build: .
+    volumes:
+      - "./etc/config.yml:/usr/local/bin/config.yml"
+      - "./etc/workout-plan/:/etc/workout-plan"
+    entrypoint: "claim-generator"
+
   swagger:
     image: swaggerapi/swagger-ui
     ports:
-      - 3000:8080
+      - 5000:8080
     volumes:
       - "./swagger.json:/apiconf/swagger.json"
     environment:
